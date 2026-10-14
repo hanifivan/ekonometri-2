@@ -277,6 +277,52 @@
   .karar { font-size: 14px; font-weight: 700; padding: .55rem .9rem; border-radius: 6px; margin-top: .6rem; }
   .karar.red { background: #FDECEC; color: #8a2020; }
   .karar.kabul { background: #E6F7F0; color: #0d5c43; }
+  /* RESET adım adım: pano + adım çubuğu; renkler: R²eski mavi, R²yeni turuncu, m mor, n − k lacivert */
+  .rs-pano { display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem; margin: .4rem 0 .7rem; }
+  .rs-hucre { border: 2px dashed #cfd8e3; border-radius: 10px; padding: .35rem .5rem; text-align: center; background: #fafbfc; transition: all .4s; }
+  .rs-hucre span { display: block; font-size: 12px; color: var(--gray); }
+  .rs-hucre b { display: block; font-size: 22px; color: #b8c2cf; font-family: "SF Mono", Menlo, monospace; }
+  .rs-hucre i { display: block; font-size: 11px; color: #b8c2cf; font-style: normal; }
+  .rs-hucre.dolu { border-style: solid; background: #fff; }
+  .rs-hucre.dolu i { visibility: hidden; }
+  .rs-hucre.eski.dolu { border-color: #378ADD; } .rs-hucre.eski.dolu b, .rs-eski { color: #378ADD; }
+  .rs-hucre.yeni.dolu { border-color: #EF9F27; } .rs-hucre.yeni.dolu b, .rs-yeni { color: #d4860f; }
+  .rs-hucre.m.dolu { border-color: #7F77DD; } .rs-hucre.m.dolu b, .rs-m { color: #7F77DD; }
+  .rs-hucre.sd.dolu { border-color: #1E2D5E; } .rs-hucre.sd.dolu b, .rs-sd { color: #1E2D5E; }
+  .rs-hucre.yanip { animation: rsYan 1.2s ease; }
+  @keyframes rsYan { 0% { transform: scale(1.12); box-shadow: 0 0 0 6px rgba(239,159,39,.35); } 100% { transform: none; box-shadow: none; } }
+  .rs-eski, .rs-yeni, .rs-m, .rs-sd { font-weight: 700; }
+  .rs-adimlar { display: flex; gap: .3rem; flex-wrap: wrap; margin-bottom: .5rem; }
+  .rs-adimlar button { font-size: 12.5px; padding: 4px 10px; border-radius: 16px; }
+  .rs-adimlar button.gecti { background: #E6F7F0; border-color: #1D9E75; color: #0d5c43; }
+  .rs-adimlar button.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .rs-icerik h5 { margin: .2rem 0 .4rem; font-size: 15px; color: var(--navy); }
+  .rs-icerik .out { font-size: 12px; }
+  .rs-gez { display: flex; justify-content: space-between; margin-top: .6rem; }
+  .rs-yaz { background: #F3F7FB; border-radius: 8px; padding: .5rem .8rem; margin-top: .5rem; }
+  .rs-f { font-size: 18px; text-align: center; line-height: 2.1; }
+  .rs-sd-kutu { background: #F7F5FF; border: 1px solid #d9d4f7; border-radius: 8px; padding: .5rem .8rem; margin-top: .5rem; }
+  .rs-sd-kutu label { margin-right: .8rem; white-space: nowrap; }
+  .rs-sd-kutu input { width: 4.2em; font-size: inherit; padding: 2px 6px; border: 1px solid #b9b2ee; border-radius: 6px; }
+  .rs-sd-kutu button { margin: .3rem .3rem 0 0; }
+  .rs-kat { display: inline-block; background: #fff; border: 1px solid #1D9E75; border-radius: 12px; padding: 0 .5em; margin: 0 .15em; font-weight: 400; }
+  body.sunum .rs-sd-kutu { font-size: 20px; }
+  .rs-f .frac > span:first-child { padding: 0 .4em .1em; }
+  @media(max-width:700px) { .rs-pano { grid-template-columns: repeat(2, 1fr); } }
+  body.sunum .rs-hucre span { font-size: 17px; } body.sunum .rs-hucre b { font-size: 30px; } body.sunum .rs-hucre i { font-size: 14px; }
+  body.sunum .rs-adimlar button { font-size: 17px; padding: 4px 14px; }
+  body.sunum .rs-icerik h5 { font-size: 24px; } body.sunum .rs-icerik .out { font-size: 18px; }
+  body.sunum .rs-f { font-size: 27px; }
+  /* sunumda adımlar ok tuşu/kumandayla gezilir: düğmeler gizli, yer açılır */
+  body.sunum .rs-gez { display: none; }
+  body.sunum .rs-pano { margin: .2rem 0 .4rem; } body.sunum .rs-hucre { padding: .2rem .5rem; }
+  body.sunum .rs-hucre span { font-size: 15px; } body.sunum .rs-hucre b { font-size: 25px; } body.sunum .rs-hucre i { display: none; }
+  body.sunum .rs-adimlar { margin-bottom: .3rem; }
+  body.sunum .rs-icerik .out { font-size: 16px; padding: .4rem .8rem; }
+  body.sunum .rs-yaz { font-size: 21px; padding: .35rem .7rem; margin-top: .35rem; }
+  body.sunum .rs-grafik { height: 250px; }
+  body.sunum .rs-kutu > .controls { margin-bottom: .2rem; }
+  body.sunum #s6 details.kd { display: none; }
   .adim { display: none; }
   .adim.on { display: block; animation: belir .35s ease; }
   @keyframes belir { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
@@ -523,22 +569,26 @@
 <section class="section" id="s6">
   <div class="section-header"><span class="num">6</span>Ramsey'in RESET Testi</div>
   <div class="section-body">
-    <p>Fikir: Kalıntılar Ŷ ile eğrisel bir ilişki gösteriyorsa, Ŷ'nin kuvvetlerini (Ŷ², Ŷ³) modele ekleyip anlamlı olup olmadıklarına bakarız.</p>
-    <div class="eq c">F<sub>hes</sub> = <span class="frac"><span>(R²<sub>yeni</sub> − R²<sub>eski</sub>) / f<sub>1</sub></span><span>(1 − R²<sub>yeni</sub>) / f<sub>2</sub></span></span><span class="lbl">f₁: eklenen değişken sayısı, f₂: n − yeni modeldeki katsayı sayısı</span></div>
-    <div class="controls">
-      <label>Uygulama</label>
-      <button data-v="ihr" class="rs-v active">İhracat (1984-2003)</button><button data-v="ith" class="rs-v">İthalat (1990-2002)</button>
-      <label style="margin-left:.8rem">Eklenen</label>
-      <label><input type="checkbox" id="rs-2" checked> Ŷ²</label><label><input type="checkbox" id="rs-3" checked> Ŷ³</label>
-    </div>
-    <div class="grid2">
-      <div>
-        <div class="out" id="rs-out"></div>
-        <div class="karar" id="rs-karar"></div>
+    <p>Soru: Model doğru tanımlanmış mı, yoksa bir eğriselliği ya da dışlanmış bir değişkeni mi kaçırıyor? RESET bunu altı adımda sınar; her adımda üstteki panoya bir değer yazılır ve son adımda bu değerler F formülünde buluşur.</p>
+    <div class="rs-kutu" data-adimli>
+      <div class="controls">
+        <label>Uygulama</label>
+        <button data-v="ihr" class="rs-v active">İhracat (1984-2003)</button><button data-v="ith" class="rs-v">İthalat (1990-2002)</button>
+        <label style="margin-left:.8rem">Eklenen</label>
+        <label><input type="checkbox" id="rs-2" checked> Ŷ²</label><label><input type="checkbox" id="rs-3" checked> Ŷ³</label>
       </div>
-      <div class="chart-wrap-sm"><canvas id="c-rs"></canvas></div>
+      <div class="rs-pano">
+        <div class="rs-hucre eski" id="rs-p-eski"><span>R²<sub>eski</sub></span><b>?</b><i>1. adım</i></div>
+        <div class="rs-hucre yeni" id="rs-p-yeni"><span>R²<sub>yeni</sub></span><b>?</b><i>3. adım</i></div>
+        <div class="rs-hucre m" id="rs-p-m"><span>f₁ = eklenen terim sayısı</span><b>?</b><i>3. adım</i></div>
+        <div class="rs-hucre sd" id="rs-p-sd"><span>f₂ = n − k (yeni model)</span><b>?</b><i>3. adım</i></div>
+      </div>
+      <div class="rs-adimlar" id="rs-adimlar"></div>
+      <div class="rs-icerik" id="rs-icerik"></div>
+      <div class="chart-wrap-sm rs-grafik" id="rs-grafik"><canvas id="c-rs"></canvas></div>
+      <div class="chart-wrap-sm rs-grafik" id="rs-grafik2"><canvas id="c-rs2"></canvas></div>
+      <div class="rs-gez"><button id="rs-geri">‹ Önceki adım</button><button id="rs-ileri">Sonraki adım ›</button></div>
     </div>
-    <div class="info-box" id="rs-not"></div>
     <details class="kd"><summary>Veriler</summary><div class="kd-body"><div class="tscroll" style="max-height:260px"><table id="rs-veri"></table></div></div></details>
   </div>
 </section>
@@ -731,6 +781,8 @@
 
 <script>
 // ---------- yardımcılar ----------
+// Adım adım ilerleyen bloklar: sunum modunda ok tuşları önce bunları gezer (parca_sunum.js, adimla)
+const ADIMLI = [];
 const $ = id => document.getElementById(id);
 const f = (x, d = 3) => (x < 0 ? '−' : '') + Math.abs(x).toFixed(d);
 const ort = a => a.reduce((s, v) => s + v, 0) / a.length;
@@ -883,31 +935,134 @@ function kalCiz(d) {
 }
 grupla([...document.querySelectorAll('.kal-b')], b => kalCiz(+b.dataset.d)); kalCiz(1);
 
-// ---------- 6: RESET ----------
-let rsV = 'ihr';
-function rsCiz() {
+// ---------- 6: RESET (adım adım) ----------
+// Kurgu: asıl model → şüphe (grafik) → Ŷ², Ŷ³ eklenir, R² artar → "artış şans eseri mi?" (rastgele değişken denemesi)
+// → bu karşılaştırma F oranına dönüşür → F dağılımında karar. Panodaki değerler adım adım dolar.
+// R² değerleri 4 basamağa yuvarlanır, F bu değerlerden hesaplanır (elle hesap ve sunumla aynı sonuç).
+let rsV = 'ihr', rsA = 1, RS = null, rsSans = null, rsSdAcik = false;
+const RS_ADIM = ['Asıl model', 'Şüphe: kalıntılar', 'Ŷ², Ŷ³ ekle', 'Artış şans eseri mi?', 'F oranı', 'Karar'], RS_N = RS_ADIM.length;
+function rsHesap() {
   const ihr = rsV === 'ihr', y = ihr ? ln(IHR) : ln(IT), x = ihr ? ln(DK) : ln(PA), xn = ihr ? 'ln DK' : 'ln PA', yn = ihr ? 'ln IHR' : 'ln IT';
   const r0 = ekk(y, [x]), fh = r0.fit, ek = [], ad = [];
   if ($('rs-2').checked) { ek.push(fh.map(v => v * v)); ad.push('Ŷ²'); }
   if ($('rs-3').checked) { ek.push(fh.map(v => v ** 3)); ad.push('Ŷ³'); }
-  let txt = cikti(`1. Adım: ${yn} = f(${xn})`, ['Sabit', xn], r0);
-  if (!ek.length) { $('rs-out').textContent = txt; $('rs-karar').className = 'karar'; $('rs-karar').textContent = 'En az bir terim seçin.'; }
-  else {
-    const r1 = ekk(y, [x, ...ek]), f1 = ek.length, f2 = r1.n - r1.k, F = ((r1.R2 - r0.R2) / f1) / ((1 - r1.R2) / f2), p = pF(F, f1, f2), Fk = kritik(v => pF(v, f1, f2));
-    txt += '\n\n' + cikti(`2. Adım: ${ad.join(' ve ')} eklenir`, ['Sabit', xn, ...ad], r1);
-    txt += `\n\nF = [(${r1.R2.toFixed(6)} − ${r0.R2.toFixed(6)})/${f1}] / [(1 − ${r1.R2.toFixed(6)})/${f2}] = ${F.toFixed(2)}\nF kritik (${f1}, ${f2}; %5) = ${Fk.toFixed(2)},  p = ${pfmt(p)}`;
-    $('rs-out').textContent = txt;
-    $('rs-karar').className = 'karar ' + (p < 0.05 ? 'red' : 'kabul');
-    $('rs-karar').textContent = p < 0.05 ? 'F > F kritik: H₀ (model doğru tanımlanmış) reddedilir.' : 'F < F kritik: H₀ (model doğru tanımlanmış) reddedilemez.';
-  }
-  ciz('c-rs', { type: 'scatter', data: { datasets: [{ label: 'û – Ŷ (1. adım)', data: fh.map((v, i) => ({ x: v, y: r0.e[i] })), backgroundColor: C.teal }] },
-    options: { maintainAspectRatio: false, scales: { x: { title: { display: true, text: 'Ŷ = tahmin edilen ' + yn } }, y: { title: { display: true, text: 'û' } } } } });
-  $('rs-not').innerHTML = ihr ? '<strong>İhracat:</strong> Kalıntılar Ŷ ile belirgin bir eğri çiziyor. Ŷ² ve Ŷ³ birlikte anlamlı: doğrusal-logaritmik model yanlış tanımlanmış. Not: Seriler güçlü trendli; düzey serilerle kurulan regresyonda sahte regresyon olasılığı da akılda tutulmalı.'
-    : '<strong>İthalat:</strong> Grafikte zayıf bir eğrisellik var, ama Ŷ² anlamlı değil: H₀ reddedilemez. Küçük örneklemde (n = 13) testin gücü düşüktür.';
-  const Y = ihr ? YIL1 : YIL2, sut = ihr ? [['DK', DK], ['IHR', IHR]] : [['IT', IT], ['PA', PA], ['DK', DK.slice(6, 19)], ['GSMH', GSMH]];
-  $('rs-veri').innerHTML = `<tr><th>Yıl</th>${sut.map(s => `<th>${s[0]}</th>`).join('')}</tr>` + Y.map((yy, i) => `<tr><td>${yy}</td>${sut.map(s => `<td>${s[1][i]}</td>`).join('')}</tr>`).join('');
+  const r1 = ek.length ? ekk(y, [x, ...ek]) : null;
+  const R0 = +r0.R2.toFixed(4), R1 = r1 ? +r1.R2.toFixed(4) : null, m = ek.length, sd = r1 ? r1.n - r1.k : null;
+  const pay = r1 ? (R1 - R0) / m : null, payda = r1 ? (1 - R1) / sd : null, F = r1 ? pay / payda : null;
+  const Fk = r1 ? kritik(v => pF(v, m, sd)) : null, p = r1 ? pF(F, m, sd) : null;
+  RS = { ihr, y, x, xn, yn, r0, r1, fh, ad, R0, R1, m, sd, pay, payda, F, Fk, p, n: r0.n };
+  rsSans = null; rsSdAcik = false;
 }
-grupla([...document.querySelectorAll('.rs-v')], b => { rsV = b.dataset.v; $('rs-2').checked = true; $('rs-3').checked = rsV === 'ihr'; rsCiz(); });
+// Şans denemesi: Ŷ², Ŷ³ yerine m tane rastgele (işe yaramaz) değişken eklenirse R² ne kadar artar? 400 tekrar.
+function rsSansHesap() {
+  const R = RS, art = [], rr = mulberry32(11);
+  const nr = () => { let u = 0; while (u === 0) u = rr(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * rr()); };
+  for (let t = 0; t < 400; t++) { const ek = Array.from({ length: R.m }, () => R.y.map(() => nr())); art.push(ekk(R.y, [R.x, ...ek]).R2 - R.r0.R2); }
+  art.sort((a, b) => a - b);
+  rsSans = { art, ort: ort(art), p95: art[Math.floor(0.95 * art.length)], buyuk: art.filter(v => v >= R.R1 - R.R0).length / art.length };
+}
+function fYog(x, d1, d2) { if (x <= 0) return 0; return Math.exp((d1 / 2) * Math.log(d1) + (d2 / 2) * Math.log(d2) + (d1 / 2 - 1) * Math.log(x) - ((d1 + d2) / 2) * Math.log(d2 + d1 * x) - (gammaln(d1 / 2) + gammaln(d2 / 2) - gammaln((d1 + d2) / 2))); }
+function rsPano() {
+  const dol = (id, deger, adim) => { const h = $(id), b = h.querySelector('b'), yeni = rsA >= adim && deger !== null;
+    const once = h.classList.contains('dolu'); h.classList.toggle('dolu', yeni); b.textContent = yeni ? deger : '?';
+    if (yeni && !once) { h.classList.remove('yanip'); void h.offsetWidth; h.classList.add('yanip'); } };
+  dol('rs-p-eski', RS.R0.toFixed(4), 1); dol('rs-p-yeni', RS.R1 === null ? null : RS.R1.toFixed(4), 3);
+  const sdGor = rsSdAcik || rsA >= 4;
+  dol('rs-p-m', RS.r1 && sdGor ? String(RS.m) : null, 3); dol('rs-p-sd', RS.r1 && sdGor ? `${RS.n} − ${RS.r1.k} = ${RS.sd}` : null, 3);
+}
+function rsIcerik() {
+  const R = RS, E = `<span class="rs-eski">${R.R0.toFixed(4)}</span>`, Y = R.R1 === null ? '' : `<span class="rs-yeni">${R.R1.toFixed(4)}</span>`;
+  const Mm = `<span class="rs-m">${R.m}</span>`, SD = `<span class="rs-sd">${R.sd}</span>`;
+  const kSay = R.r1 ? ['Sabit', R.xn, ...R.ad] : [];
+  const yok = '<div class="karar">Bu adım için en az bir terim (Ŷ² ya da Ŷ³) seçin.</div>';
+  if (R.r1 && rsA >= 4 && !rsSans) rsSansHesap();
+  const S = rsSans, artis = R.r1 ? R.R1 - R.R0 : 0;
+  const ic = {
+    1: () => `<h5>1. adım: Asıl modeli tahmin et</h5><div class="out">${cikti(`${R.yn} = f(${R.xn})`, ['Sabit', R.xn], R.r0)}</div>
+      <div class="rs-yaz">Bu modelin R²'si <b>R²<sub>eski</sub> = ${E}</b> → panoya. Tahmin edilen değerleri (Ŷ) ve kalıntıları (û) saklıyoruz.</div>`,
+    2: () => `<h5>2. adım: Şüphe: kalıntılar Ŷ ile bir desen çiziyor mu?</h5><div class="rs-yaz">Model doğruysa noktalar sıfır çevresinde desensiz bir bant olmalı. ${R.ihr ? 'Burada belirgin bir eğri var.' : 'Burada zayıf bir eğrisellik var; gözle karar vermek zor.'} Desen, modelin bir şeyi kaçırdığını düşündürür. Ama hangi değişkeni ya da hangi kalıbı kaçırdığını bilmiyoruz.</div>`,
+    3: () => !R.r1 ? yok : `<h5>3. adım: Ŷ'nin kuvvetlerini (${R.ad.join(', ')}) modele ekle</h5>
+      <div class="rs-yaz">Neden Ŷ'nin kuvvetleri? Kaçırdığımız şeyi bilmiyoruz; Ŷ², Ŷ³ her türlü eğriselliği taklit edebilen genel terimlerdir. Model doğruysa bunlar hiçbir şey açıklamaz.</div>
+      <div class="out">${cikti(`${R.yn} = f(${R.xn}, ${R.ad.join(', ')})`, ['Sabit', R.xn, ...R.ad], R.r1)}</div>
+      <div class="rs-yaz"><b>R²<sub>yeni</sub> = ${Y}</b> → panoya. Şimdi F için iki serbestlik derecesi gerekiyor. <b>Önce siz bulun:</b></div>
+      <div class="rs-sd-kutu"><label>f₁ (eklenen terim sayısı) = <input id="rs-f1" type="number" min="0" step="1"></label>
+        <label>f₂ = n − k = <input id="rs-f2" type="number" min="0" step="1"></label>
+        <button id="rs-kontrol">Kontrol et</button><button id="rs-goster">Cevabı göster</button>
+        <div id="rs-geri-bildirim"></div></div>`,
+    4: () => !R.r1 ? yok : `<h5>4. adım: R² ${E} → ${Y} arttı. Ama bu artış şans eseri olabilir mi?</h5>
+      <div class="rs-yaz">Modele <b>ne eklerseniz ekleyin R² artar</b>. Deneme: Ŷ'nin kuvvetleri yerine ${R.m} tane <b>rastgele</b>, Y ile ilgisiz değişken ekleyip 400 kez tahmin ettik (gri çubuklar). Rastgele değişkenler R²'yi ortalama <b>${S.ort.toFixed(4)}</b> artırıyor; bizim artış (turuncu çizgi) <b>${artis.toFixed(4)}</b>. Bu kadar artış denemelerin <b>%${(100 * S.buyuk).toFixed(1)}</b>'inde çıktı: ${S.buyuk < 0.05 ? 'şansla açıklanamayacak kadar büyük.' : 'şansla rahatça açıklanabilir.'}</div>`,
+    5: () => !R.r1 ? yok : `<h5>5. adım: "Şans eseri mi?" sorusunu tek sayıya çevir: F oranı</h5>
+      <div class="rs-yaz">Artışı, rastgele bir terimin getirmesi beklenen artışla karşılaştırırız. Rastgele bir terim ortalamada, açıklanamayan kısmın (1 − R²) bir serbestlik derecesine düşen payı kadar artış getirir. Bu yüzden: pay = eklenen terim başına kazanç (÷ f₁), payda = serbestlik derecesi başına kalan hata (÷ f₂).</div>
+      <div class="rs-f">F = <span class="frac"><span>(<span class="rs-yeni">R²<sub>yeni</sub></span> − <span class="rs-eski">R²<sub>eski</sub></span>) / <span class="rs-m">f₁</span></span><span>(1 − <span class="rs-yeni">R²<sub>yeni</sub></span>) / <span class="rs-sd">f₂</span></span></span>
+      = <span class="frac"><span>(${Y} − ${E}) / ${Mm}</span><span>(1 − ${Y}) / ${SD}</span></span>
+      = <span class="frac"><span>${R.pay.toFixed(5)}</span><span>${R.payda.toFixed(5)}</span></span> = <b>${R.F.toFixed(2)}</b></div>
+      <div class="rs-yaz">Eklenen terimler işe yaramıyorsa F ≈ 1 civarında olur (kazanç, rastgele bir terimin getireceği kadar). F 1'den çok büyükse terimler gerçekten bir şey yakalamıştır. Bizim F, bir terimin getirdiği kazancın rastgele beklentinin ${R.F.toFixed(1)} katı olduğunu söylüyor.</div>`,
+    6: () => !R.r1 ? yok : `<h5>6. adım: Karar: F, F(f₁ = ${Mm}, f₂ = ${SD}) dağılımının neresinde?</h5>
+      <div class="rs-yaz">H₀: model doğru tanımlanmış (${R.ad.join(', ')} katsayıları sıfır). H₀ doğruysa F, F(f₁, f₂) dağılımına uyar; değerlerin yalnız %5'i <b>F kritik = ${R.Fk.toFixed(2)}</b>'den büyüktür (kırmızı bölge). Tabloda <b>f₁ = ${R.m} üst satır (pay), f₂ = ${R.sd} sol sütun (payda)</b>.</div>
+      <div class="karar ${R.p < 0.05 ? 'red' : 'kabul'}">${R.p < 0.05 ? `F = ${R.F.toFixed(2)} > ${R.Fk.toFixed(2)}: kırmızı bölgede. H₀ reddedilir, model yanlış tanımlanmış (p = ${pfmt(R.p)}).` : `F = ${R.F.toFixed(2)} < ${R.Fk.toFixed(2)}: kırmızı bölgede değil. H₀ reddedilemez (p = ${pfmt(R.p)}).`}</div>
+      <div class="rs-yaz">${R.ihr ? 'RESET bir sorun olduğunu söyler, ne olduğunu söylemez: fonksiyon kalıbını değiştirin ya da dışlanmış değişken arayın.' : 'Küçük örneklemde (n = 13) testin gücü düşüktür: reddedememek modelin kesin doğru olduğunu göstermez.'}</div>` };
+  $('rs-icerik').innerHTML = ic[rsA]();
+  if (rsA === 3 && R.r1) rsSdBagla(kSay);
+  $('rs-grafik').style.display = rsA === 2 ? '' : 'none';
+  $('rs-grafik2').style.display = (rsA === 4 || rsA === 6) && R.r1 ? '' : 'none';
+  if (rsA === 2) ciz('c-rs', { type: 'scatter', data: { datasets: [{ label: 'û – Ŷ (1. adımın kalıntıları)', data: R.fh.map((v, i) => ({ x: v, y: R.r0.e[i] })), backgroundColor: C.teal }] },
+      options: { maintainAspectRatio: false, scales: { x: { title: { display: true, text: 'Ŷ = tahmin edilen ' + R.yn } }, y: { title: { display: true, text: 'û' } } } } });
+  if (rsA === 4 && R.r1) {
+    const ust = Math.max(S.art[S.art.length - 1], artis) * 1.05, H = hist([S.art], 0, ust, 30);
+    const lab = H.lab.map((_, q) => (ust * (q + 0.5) / H.lab.length).toFixed(4));
+    const cfg = histCfg(lab, [{ l: `Rastgele ${R.m} değişken eklenince R² artışı (400 deneme)`, d: H.h[0], c: C.gray }], 'R² artışı');
+    cfg.options.scales.x.ticks.maxTicksLimit = 7;
+    cfg.options.plugins.annotationCizgi = artis; cfg.plugins = [{ id: 'cizgi', afterDraw: c => { const xs = c.scales.x, i = (artis / ust) * H.lab.length - 0.5, px = xs.getPixelForValue(Math.min(i, H.lab.length - 1)), ys = c.scales.y, g = c.ctx;
+      g.save(); g.strokeStyle = C.orange; g.lineWidth = 3; g.beginPath(); g.moveTo(px, ys.top); g.lineTo(px, ys.bottom); g.stroke(); g.fillStyle = C.orange; g.font = 'bold 15px sans-serif'; g.textAlign = px > xs.right - 160 ? 'right' : 'left'; g.fillText(' bizim artış ' + artis.toFixed(4) + ' ', px, ys.top + 14); g.restore(); } }];
+    ciz('c-rs2', cfg);
+  }
+  if (rsA === 6 && R.r1) {
+    const ust = Math.max(R.F, R.Fk) * 1.25, xs = Array.from({ length: 121 }, (_, i) => ust * i / 120), ys = xs.map(v => fYog(v, R.m, R.sd));
+    ciz('c-rs2', { type: 'line', data: { labels: xs.map(v => v.toFixed(2)), datasets: [
+      { label: `F(${R.m}, ${R.sd}) yoğunluğu (H₀ doğruysa)`, data: ys, borderColor: C.navy, pointRadius: 0, borderWidth: 2, fill: false },
+      { label: 'Kritik bölge (%5)', data: ys.map((v, i) => xs[i] >= R.Fk ? v : null), borderColor: C.red, backgroundColor: C.red + '55', pointRadius: 0, fill: 'origin' }] },
+      options: { maintainAspectRatio: false, animation: false, scales: { x: { ticks: { maxTicksLimit: 8 }, title: { display: true, text: 'F' } }, y: { title: { display: true, text: 'yoğunluk' } } } },
+      plugins: [{ id: 'fcizgi', afterDraw: c => { const X = c.scales.x, Yy = c.scales.y, g = c.ctx, yer = v => X.getPixelForValue(Math.round(v / ust * 120));
+        [[R.Fk, C.red, 'F kritik ' + R.Fk.toFixed(2)], [R.F, C.orange, 'F = ' + R.F.toFixed(2)]].forEach(([v, renk, yaz], q) => { const px = yer(v);
+          g.save(); g.strokeStyle = renk; g.lineWidth = 3; g.setLineDash(q ? [] : [6, 4]); g.beginPath(); g.moveTo(px, Yy.top); g.lineTo(px, Yy.bottom); g.stroke();
+          g.fillStyle = renk; g.font = 'bold 15px sans-serif'; g.textAlign = px > X.right - 110 ? 'right' : 'left'; g.fillText(' ' + yaz + ' ', px, Yy.top + 14 + q * 18); g.restore(); }); } }] });
+  }
+  $('rs-adimlar').innerHTML = RS_ADIM.map((a, k) => `<button data-a="${k + 1}" class="${k + 1 === rsA ? 'active' : k + 1 < rsA ? 'gecti' : ''}">${k + 1}. ${a}</button>`).join('');
+  document.querySelectorAll('#rs-adimlar button').forEach(b => b.onclick = () => rsGit(+b.dataset.a));
+  $('rs-geri').disabled = rsA === 1; $('rs-ileri').disabled = rsA === RS_N;
+  rsPano();
+  if (document.body.classList.contains('sunum')) { const el = BOLUMLER[SLAYT[si].b]; if (el.contains($('rs-icerik'))) sigdir(el); }
+}
+// 3. adım alıştırması: f₁ ve f₂'yi öğrenci bulur; sık yapılan hatalar tanınır.
+function rsSdBagla(kSay) {
+  const R = RS, kE = R.r0.k, dogru = () => { rsSdAcik = true; rsPano();
+    $('rs-geri-bildirim').innerHTML = `<div class="karar kabul">Doğru. f₁ = ${R.m}: eklenen terimler ${R.ad.join(', ')}. f₂ = n − k = ${R.n} − ${R.r1.k} = ${R.sd}; yeni modeldeki katsayılar: ${kSay.map((t, i) => `<span class="rs-kat">${i + 1}. ${t}</span>`).join(' ')} → k = ${R.r1.k} (sabit dahil).</div>`;
+    if (document.body.classList.contains('sunum')) sigdir(BOLUMLER[SLAYT[si].b]); };
+  const yaz = h => { $('rs-geri-bildirim').innerHTML = `<div class="karar red">${h}</div>`; if (document.body.classList.contains('sunum')) sigdir(BOLUMLER[SLAYT[si].b]); };
+  if (rsSdAcik) { dogru(); $('rs-f1').value = R.m; $('rs-f2').value = R.sd; }
+  $('rs-goster').onclick = () => { $('rs-f1').value = R.m; $('rs-f2').value = R.sd; dogru(); };
+  $('rs-kontrol').onclick = () => {
+    const a = +$('rs-f1').value, b = +$('rs-f2').value, h = [];
+    if ($('rs-f1').value === '' || $('rs-f2').value === '') return yaz('İki kutuyu da doldurun.');
+    if (a !== R.m) h.push(a === R.r1.k - 1 ? `f₁ = ${a}: bu yeni modeldeki bütün açıklayıcı değişkenlerin sayısı. f₁ yalnız <b>eklenen</b> terimlerin sayısıdır (${R.ad.join(', ')}).`
+      : a === R.r1.k ? `f₁ = ${a}: bu yeni modeldeki bütün katsayıların sayısı (k). f₁ yalnız <b>eklenen</b> terimlerin sayısıdır.` : `f₁ = ${a} değil: eklenen terimleri sayın (${R.ad.join(', ')}).`);
+    if (b !== R.sd) h.push(b === R.n - kE ? `f₂ = ${b}: k'yı <b>eski</b> modelden aldınız (${kE} katsayı). f₂ yeni, büyük modelden hesaplanır.`
+      : b === R.sd + 1 ? `f₂ = ${b}: <b>sabit terimi</b> saymayı unuttunuz; k sabit dahil bütün katsayılardır.`
+      : b === R.n - R.m ? `f₂ = ${b}: n'den eklenen terim sayısını çıkardınız. f₂ = n − k, k yeni modeldeki <b>bütün</b> katsayılardır.`
+      : b === R.n ? `f₂ = ${b}: bu gözlem sayısı (n). f₂ = n − k.` : `f₂ = ${b} değil: yeni modeldeki katsayıları sabit dahil sayın, n = ${R.n}'den çıkarın.`);
+    h.length ? yaz(h.join('<br>')) : dogru();
+  };
+}
+function rsGit(a) { rsA = Math.max(1, Math.min(RS_N, a)); rsIcerik(); }
+function rsCiz() {
+  rsHesap(); rsIcerik();
+  const Yl = RS.ihr ? YIL1 : YIL2, sut = RS.ihr ? [['DK', DK], ['IHR', IHR]] : [['IT', IT], ['PA', PA], ['DK', DK.slice(6, 19)], ['GSMH', GSMH]];
+  $('rs-veri').innerHTML = `<tr><th>Yıl</th>${sut.map(s => `<th>${s[0]}</th>`).join('')}</tr>` + Yl.map((yy, i) => `<tr><td>${yy}</td>${sut.map(s => `<td>${s[1][i]}</td>`).join('')}</tr>`).join('');
+}
+$('rs-geri').onclick = () => rsGit(rsA - 1); $('rs-ileri').onclick = () => rsGit(rsA + 1);
+// Sunum modunda sağ/sol ok (ve kumanda) önce adımları gezer, son adımdan sonra slayta geçer.
+ADIMLI.push({ el: document.querySelector('#s6 .rs-kutu'), ileri: () => rsA < RS_N ? (rsGit(rsA + 1), true) : false, geri: () => rsA > 1 ? (rsGit(rsA - 1), true) : false });
+grupla([...document.querySelectorAll('.rs-v')], b => { rsV = b.dataset.v; $('rs-2').checked = true; $('rs-3').checked = rsV === 'ihr'; rsA = 1; rsCiz(); });
 ['rs-2', 'rs-3'].forEach(id => $(id).onchange = rsCiz); rsCiz();
 
 // ---------- 7: DW ve LM ----------
@@ -1218,13 +1373,19 @@ window.addEventListener('resize', () => {
     const j = SLAYT.findIndex(x => x.b === S.b && S.parca && x.parca && x.parca.includes(S.parca[0])); slaytGoster(j >= 0 ? j : SLAYT.findIndex(x => x.b === S.b), 1); }, 250);
 });
 $('sunum-ac').onclick = sunumAc; $('sb-cik').onclick = sunumKapat;
-$('sb-ileri').onclick = () => slaytGoster(si + 1, 1); $('sb-geri').onclick = () => slaytGoster(si - 1, -1);
+// Görünen slaytta adım adım ilerleyen bir blok varsa (ADIMLI), ok tuşları ve › ‹ düğmeleri önce adımları gezer.
+function adimla(yon) {
+  if (typeof ADIMLI === 'undefined') return false;
+  const el = BOLUMLER[SLAYT[si].b], a = ADIMLI.find(x => x.el && el.contains(x.el) && !x.el.closest('.gizli-p'));
+  return a ? a[yon]() : false;
+}
+$('sb-ileri').onclick = () => { if (!adimla('ileri')) slaytGoster(si + 1, 1); }; $('sb-geri').onclick = () => { if (!adimla('geri')) slaytGoster(si - 1, -1); };
 $('sb-tam').onclick = () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
 document.addEventListener('keydown', e => {
   if (!document.body.classList.contains('sunum')) return;
   const t = e.target.tagName; if (t === 'INPUT' || t === 'SELECT' || t === 'TEXTAREA') return;
-  if (['ArrowRight', 'PageDown'].includes(e.key)) { e.preventDefault(); slaytGoster(si + 1, 1); }
-  else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); slaytGoster(si - 1, -1); }
+  if (['ArrowRight', 'PageDown'].includes(e.key)) { e.preventDefault(); if (!adimla('ileri')) slaytGoster(si + 1, 1); }
+  else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); if (!adimla('geri')) slaytGoster(si - 1, -1); }
   else if (e.key === 'Home') slaytGoster(0, -1);
   else if (e.key === 'End') slaytGoster(SLAYT.length - 1, 1);
   else if (e.key === 'Escape' && !document.fullscreenElement) sunumKapat();
