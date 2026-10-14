@@ -403,7 +403,7 @@
     </div>
     <h4 style="margin:1.1rem 0 .3rem;color:var(--navy)">Simülasyon: X<sub>3</sub> dışlanınca α̂<sub>2</sub> nereye gider?</h4>
     <p>Gerçek β<sub>2</sub>'yi kaydırıcıyla seçin (varsayılan 0.65). Her örnekte (n = 50) hem doğru model hem de X<sub>3</sub>'ün dışlandığı model tahmin ediliyor. β<sub>3</sub>'ü ve X<sub>2</sub> ile X<sub>3</sub> arasındaki korelasyonu değiştirin.</p>
-    <div class="info-box"><strong>Deneyin:</strong> r<sub>23</sub> = 0 yapın: sapma kaybolur (α̂<sub>2</sub> sapmasız olur, ama sabit terim hâlâ sapmalıdır). β<sub>3</sub>'ün ya da korelasyonun işaretini değiştirin: sapmanın işareti β<sub>3</sub> ile r<sub>23</sub>'ün işaretlerinin çarpımıdır (aynı işaret: yukarı, ters işaret: aşağı). Örneklem büyüse de bu sapma kalkmaz: tahminci tutarsızdır. β<sub>3</sub> = 0 yapın: bu kez X<sub>3</sub>'ü dışlayan model doğru modeldir (renkler yer değiştirir); iki dağılımın merkezi aynıdır, ama X<sub>3</sub>'ü içeren model r<sub>23</sub> ≠ 0 iken daha geniş dağılır (gereksiz değişken, 4. bölüm).</div>
+    <div class="info-box"><strong>Deneyin:</strong> r<sub>23</sub> = 0 yapın: sapma kaybolur (α̂<sub>2</sub> sapmasız olur, ama sabit terim hâlâ sapmalıdır). β<sub>3</sub>'ün ya da korelasyonun işaretini değiştirin: sapmanın işareti β<sub>3</sub> ile r<sub>23</sub>'ün işaretlerinin çarpımıdır (aynı işaret: yukarı, ters işaret: aşağı). Örneklem büyüse de bu sapma kalkmaz: tahminci tutarsızdır. β<sub>3</sub> = 0 yapın: X<sub>3</sub> gerçek modelde yoktur, dışlamak hata değildir; iki histogram r<sub>23</sub> ne olursa olsun çakışır.</div>
     <div class="controls yeni-slayt">
       <span class="kayd"><label>Gerçek β<sub>2</sub> = <b id="d-b2-l">0.65</b></label><input type="range" id="d-b2" min="-1" max="2" step="0.05" value="0.65"></span>
       <span class="kayd"><label>β<sub>3</sub> = <b id="d-b3-l">1.0</b></label><input type="range" id="d-b3" min="-2" max="2" step="0.1" value="1"></span>
@@ -795,18 +795,19 @@ grupla([...document.querySelectorAll('#hata-tabs button')], b => hataGoster(+b.d
 function disCek() {
   const b2 = +$('d-b2').value, b3 = +$('d-b3').value, r = +$('d-r').value, n = 50, uz = [], ks = [];
   $('d-b2-l').textContent = b2.toFixed(2); $('d-gercek').textContent = f(b2); $('d-b3-l').textContent = b3.toFixed(1); $('d-r-l').textContent = r.toFixed(1);
+  const sifir = Math.abs(b3) < 1e-9;
   for (let s = 0; s < 500; s++) {
     const x2 = [], x3 = [], y = [];
     for (let i = 0; i < n; i++) { const a = nrm(), c = r * a + Math.sqrt(1 - r * r) * nrm(); x2.push(a); x3.push(c); y.push(1 + b2 * a + b3 * c + nrm()); }
-    uz.push(egim2(y, x2, x3)); ks.push(egim1(y, x2));
+    ks.push(egim1(y, x2)); uz.push(sifir ? ks[ks.length - 1] : egim2(y, x2, x3));
   }
   const lo = b2 - 2.2, hi = b2 + 2.2, H = hist([uz, ks], lo, hi, 44);
-  // β₃ = 0 iken gerçek model Y = β₁ + β₂X₂ + u olur: X₃'ü dışlayan model doğru, X₃'ü içeren model gereksiz değişkenli.
-  const sifir = Math.abs(b3) < 1e-9, renk = sifir ? [C.red, C.green] : [C.green, C.red];
-  ciz('c-dis', histCfg(H.lab, [{ l: sifir ? 'X₃ eklenmiş (β₃ = 0, gereksiz) β̂₂' : 'Doğru model β̂₂', d: H.h[0], c: renk[0] }, { l: sifir ? 'X₃ dışlanmış (β₃ = 0 iken doğru) α̂₂' : 'X₃ dışlanmış α̂₂', d: H.h[1], c: renk[1] }], 'Tahmin edilen eğim (gerçek değer ' + f(b2, 2) + ')'));
-  $('d-uz').style.color = renk[0]; $('d-ks').style.color = renk[1];
-  $('d-uz-lab').textContent = sifir ? 'X₃ eklenmiş modelde β̂₂ ortalaması' : 'Doğru modelde β̂₂ ortalaması';
-  $('d-ks-lab').textContent = sifir ? 'X₃ dışlanmış (doğru) modelde α̂₂ ortalaması' : 'Dışlanan modelde α̂₂ ortalaması';
+  // "Doğru model" her zaman gerçek modeldir: β₃ = 0 iken gerçek model X₃'ü içermez, yani X₃'ü dışlayan modelle aynıdır.
+  // Bu yüzden β₃ = 0 iken iki histogram r₂₃'ten bağımsız olarak çakışır (dışlama sapma yaratmaz). Gereksiz değişkenin varyans etkisi 4. bölümde.
+  ciz('c-dis', histCfg(H.lab, [{ l: sifir ? 'Doğru model (β₃ = 0: X₃ modelde yok) β̂₂' : 'Doğru model β̂₂', d: H.h[0], c: C.green }, { l: sifir ? 'X₃ dışlanmış α̂₂ (doğru modelle aynı)' : 'X₃ dışlanmış α̂₂', d: H.h[1], c: sifir ? C.mint : C.red }], 'Tahmin edilen eğim (gerçek değer ' + f(b2, 2) + ')'));
+  $('d-uz').style.color = 'var(--dogru)'; $('d-ks').style.color = sifir ? 'var(--dogru)' : 'var(--hatali)';
+  $('d-uz-lab').textContent = 'Doğru modelde β̂₂ ortalaması';
+  $('d-ks-lab').textContent = sifir ? 'Dışlanan modelde α̂₂ ortalaması (sapma yok)' : 'Dışlanan modelde α̂₂ ortalaması';
   $('d-uz').textContent = f(ort(uz)); $('d-ks').textContent = f(ort(ks)); $('d-teo').textContent = (b3 * r >= 0 ? '+' : '') + f(b3 * r);
 }
 ['d-b2', 'd-b3', 'd-r'].forEach(id => $(id).oninput = disCek); $('d-cek').onclick = disCek;
