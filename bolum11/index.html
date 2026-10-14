@@ -1110,7 +1110,7 @@ function egYorumMetni(m, k) {
   if (k === 'c') return m === 'm'
     ? `<b>Sabit = ${n2(R.b[0])}</b>: Annesi hiç okumamış (SM = 0) biri için beklenen eğitim süresi. Veride böyle ${EM.filter(v => v === 0).length} kişi var.`
     : `<b>Sabit = ${n2(R.b[0])}</b>: ${m === 'tam' ? 'ASVABC = 0 ve SM = 0' : 'ASVABC = 0'} için beklenen değer. Veride ASVABC en az ${Math.min(...EA).toFixed(1)}; iktisadi yorumu yoktur.`;
-  return `<b>R² = ${n4(R.R2)}</b>: Eğitim süresindeki değişimin %${(100 * R.R2).toFixed(0)}'i ${m === 'tam' ? 'iki değişkenle birlikte' : 'bu tek değişkenle'} açıklanır.`;
+  return `<b>R² = ${n4(R.R2)}</b>: Eğitim süresindeki değişimin %${(100 * R.R2).toFixed(0)}'i ${{ tam: 'yetenek puanı ve annenin eğitimi değişkenleri', a: 'yetenek puanı değişkeni', m: 'annenin eğitimi değişkeni' }[m]} tarafından açıklanıyor.`;
 }
 function egYorumGoster() {
   const var_ = { tam: ['a', 'm', 'c', 'r'], a: ['a', 'c', 'r'], m: ['m', 'c', 'r'] }[egModel];
