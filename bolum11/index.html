@@ -980,7 +980,7 @@ function rsIcerik() {
   const ic = {
     1: () => `<h5>1. adım: Asıl modeli tahmin et</h5><div class="out">${cikti(`${R.yn} = f(${R.xn})`, ['Sabit', R.xn], R.r0)}</div>
       <div class="rs-yaz">Bu modelin R²'si <b>R²<sub>eski</sub> = ${E}</b> → panoya. Tahmin edilen değerleri (Ŷ) ve kalıntıları (û) saklıyoruz.</div>`,
-    2: () => `<h5>2. adım: Şüphe: kalıntılar Ŷ ile bir desen çiziyor mu?</h5><div class="rs-yaz">Model doğruysa noktalar sıfır çevresinde desensiz bir bant olmalı. ${R.ihr ? 'Burada belirgin bir eğri var.' : 'Burada zayıf bir eğrisellik var; gözle karar vermek zor.'} Desen, modelin bir şeyi kaçırdığını düşündürür. Ama hangi değişkeni ya da hangi kalıbı kaçırdığını bilmiyoruz.</div>`,
+    2: () => `<h5>2. adım: Şüphe: kalıntılar Ŷ ile bir desen çiziyor mu?</h5><div class="rs-yaz">Model doğruysa noktalar sıfır çevresinde desensiz bir bant olmalı. ${R.ihr ? 'Burada belirgin bir eğri var.' : 'Burada zayıf bir eğrisellik var; gözle karar vermek zor.'} Desen, modelin bir şeyi kaçırdığını düşündürür. <b>Turuncu eğri</b>: yukarıda seçilen terimler (Ŷ², Ŷ³) modele eklenirse yakalanabilecek desen. Kutuları değiştirip eğrinin nasıl değiştiğine bakın.</div>`,
     3: () => !R.r1 ? yok : `<h5>3. adım: Ŷ'nin kuvvetlerini (${R.ad.join(', ')}) modele ekle</h5>
       <div class="rs-yaz">Neden Ŷ'nin kuvvetleri? Kaçırdığımız şeyi bilmiyoruz; Ŷ², Ŷ³ her türlü eğriselliği taklit edebilen genel terimlerdir. Model doğruysa bunlar hiçbir şey açıklamaz.</div>
       <div class="out">${cikti(`${R.yn} = f(${R.xn}, ${R.ad.join(', ')})`, ['Sabit', R.xn, ...R.ad], R.r1)}</div>
@@ -1005,8 +1005,18 @@ function rsIcerik() {
   if (rsA === 3 && R.r1) rsSdBagla(kSay);
   $('rs-grafik').style.display = rsA === 2 ? '' : 'none';
   $('rs-grafik2').style.display = (rsA === 4 || rsA === 6) && R.r1 ? '' : 'none';
-  if (rsA === 2) ciz('c-rs', { type: 'scatter', data: { datasets: [{ label: 'û – Ŷ (1. adımın kalıntıları)', data: R.fh.map((v, i) => ({ x: v, y: R.r0.e[i] })), backgroundColor: C.teal }] },
+  if (rsA === 2) {
+    // Turuncu eğri: kalıntıların seçilen terimlere (Ŷ², Ŷ³) göre uydurulmuş deseni; terim seçimi değişince eğri değişir.
+    const g2 = $('rs-2').checked, g3 = $('rs-3').checked, X = [R.fh], lo = Math.min(...R.fh), hi = Math.max(...R.fh);
+    if (g2) X.push(R.fh.map(v => v * v)); if (g3) X.push(R.fh.map(v => v ** 3));
+    const u = ekk(R.r0.e, X), xs = Array.from({ length: 80 }, (_, i) => lo + (hi - lo) * i / 79);
+    const egri = xs.map(v => { let y = u.b[0] + u.b[1] * v, j = 2; if (g2) y += u.b[j++] * v * v; if (g3) y += u.b[j++] * v ** 3; return { x: v, y }; });
+    const ad = [g2 && 'Ŷ²', g3 && 'Ŷ³'].filter(Boolean);
+    ciz('c-rs', { type: 'scatter', data: { datasets: [
+      { label: 'û – Ŷ (1. adımın kalıntıları)', data: R.fh.map((v, i) => ({ x: v, y: R.r0.e[i] })), backgroundColor: C.teal },
+      { label: ad.length ? `${ad.join(' ve ')} ile yakalanabilecek desen` : 'Terim seçilmedi: yakalanan desen yok', type: 'line', data: egri, borderColor: C.orange, borderWidth: 3, pointRadius: 0, tension: 0 }] },
       options: { maintainAspectRatio: false, scales: { x: { title: { display: true, text: 'Ŷ = tahmin edilen ' + R.yn } }, y: { title: { display: true, text: 'û' } } } } });
+  }
   if (rsA === 4 && R.r1) {
     const ust = Math.max(S.art[S.art.length - 1], artis) * 1.05, H = hist([S.art], 0, ust, 30);
     const lab = H.lab.map((_, q) => (ust * (q + 0.5) / H.lab.length).toFixed(4));
@@ -1063,7 +1073,8 @@ $('rs-geri').onclick = () => rsGit(rsA - 1); $('rs-ileri').onclick = () => rsGit
 // Sunum modunda sağ/sol ok (ve kumanda) önce adımları gezer, son adımdan sonra slayta geçer.
 ADIMLI.push({ el: document.querySelector('#s6 .rs-kutu'), ileri: () => rsA < RS_N ? (rsGit(rsA + 1), true) : false, geri: () => rsA > 1 ? (rsGit(rsA - 1), true) : false });
 grupla([...document.querySelectorAll('.rs-v')], b => { rsV = b.dataset.v; $('rs-2').checked = true; $('rs-3').checked = rsV === 'ihr'; rsA = 1; rsCiz(); });
-['rs-2', 'rs-3'].forEach(id => $(id).onchange = rsCiz); rsCiz();
+// Terim seçimi 1. adımda bir şey değiştirmez (asıl modelde yoklar): etkisinin göründüğü 2. adıma geç.
+['rs-2', 'rs-3'].forEach(id => $(id).onchange = () => { if (rsA === 1) rsA = 2; rsCiz(); }); rsCiz();
 
 // ---------- 7: DW ve LM ----------
 const r7 = ekk(ln(IHR), [ln(DK)]);
