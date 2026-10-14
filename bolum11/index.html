@@ -294,6 +294,15 @@
   .eg-denk .ayni { color: var(--dogru); font-weight: 700; }
   .eg-acik { font-size: 14px; margin-top: .5rem; line-height: 1.55; }
   .eg-panel { grid-template-columns: 1.25fr 1fr; }
+  .eg-yorum { margin-top: .6rem; font-size: 14px; }
+  .eg-yorum-bas { color: var(--gray); margin-right: .4rem; font-size: .9em; }
+  .eg-yorum button { font-size: 12.5px; padding: 3px 10px; margin: 0 .25rem .3rem 0; border-color: var(--teal); color: var(--teal); }
+  .eg-yorum button.active { background: var(--teal); color: #fff; }
+  .eg-yorum button:disabled { opacity: .35; }
+  .eg-yorum-metin:not(:empty) { background: #FFF8E6; border-left: 4px solid var(--orange); border-radius: 6px; padding: .45rem .7rem; line-height: 1.5; }
+  .eg-denk .sec { background: #FFE9B8; border-radius: 4px; padding: 0 3px; }
+  body.sunum .eg-yorum { font-size: 21px; }
+  body.sunum .eg-yorum button { font-size: 18px; padding: 4px 14px; }
   @media(max-width:700px) { .eg-panel { grid-template-columns: 1fr; } }
   body.sunum .eg-denk { font-size: 26px; }
   body.sunum .eg-acik { font-size: 21px; }
@@ -438,7 +447,9 @@
       <button data-m="m">ASVABC'yi çıkar: S = f(SM)</button>
     </div>
     <div class="grid2 kwn eg-panel">
-      <div><div class="eq eg-denk" id="eg-denk"></div><div class="eg-acik" id="eg-acik"></div></div>
+      <div><div class="eq eg-denk" id="eg-denk"></div><div class="eg-acik" id="eg-acik"></div>
+        <div class="eg-yorum"><span class="eg-yorum-bas">Yorumla:</span><button data-k="a">ASVABC</button><button data-k="m">SM</button><button data-k="c">Sabit</button><button data-k="r">R²</button>
+          <div class="eg-yorum-metin" id="eg-yorum-metin"></div></div></div>
       <div class="chart-wrap-sm"><canvas id="c-eg"></canvas></div>
     </div>
     <p class="note eg-not">Veri: Dougherty, <i>Introduction to Econometrics</i>, EAEF Data Set 21 (gretl veri paketi, n = 540); Excel dosyasının EAEF21 sayfasında. Kitabın 3. baskısındaki çıktılar aynı veri setinin n = 570'lik eski sürümündendir (ASVABC .1381, SM .1548); desen aynıdır. <a href="bolum11_veriler.xlsx" download>⤓ Veriyi indir (Excel)</a></p>
@@ -1065,9 +1076,9 @@ function egGoster(m) {
   const K = egK[m], T = egK.tam, R = EGM[m], terim = (ad, k) => {
     if (K[k] === null) return `<span style="color:var(--gray);text-decoration:line-through">${ad}</span>`;
     const d = m !== 'tam';
-    return `<span class="${d ? 'deg' : 'ayni'}">${n4(K[k])}</span>·${ad}${d ? ` <span style="font-size:.75em;color:var(--gray)">(tam modelde ${n4(T[k])})</span>` : ''}`;
+    return `<span class="${d ? 'deg' : 'ayni'}${egSecili === k ? ' sec' : ''}">${n4(K[k])}</span>·${ad}${d ? ` <span style="font-size:.75em;color:var(--gray)">(tam modelde ${n4(T[k])})</span>` : ''}`;
   };
-  $('eg-denk').innerHTML = `Ŝ = ${n2(R.b[0])} + ${terim('ASVABC', 'a')} + ${terim('SM', 'm')}<br>R² = ${n4(R.R2)}${m !== 'tam' ? ` <span style="font-size:.75em;color:var(--gray)">(tam modelde ${n4(EGM.tam.R2)})</span>` : ''}`;
+  $('eg-denk').innerHTML = `Ŝ = <span class="${egSecili === 'c' ? 'sec' : ''}">${n2(R.b[0])}</span> + ${terim('ASVABC', 'a')} + ${terim('SM', 'm')}<br><span class="${egSecili === 'r' ? 'sec' : ''}">R² = ${n4(R.R2)}</span>${m !== 'tam' ? ` <span style="font-size:.75em;color:var(--gray)">(tam modelde ${n4(EGM.tam.R2)})</span>` : ''}`;
   const b32 = egS.s23 / egS.s22, b23 = egS.s23 / egS.s33, kay = (a, b) => (100 * (a / b - 1)).toFixed(0);
   $('eg-acik').innerHTML = ({
     tam: () => `Doğru model: iki değişken birlikte, corr(ASVABC, SM) = ${n2(egS.s23 / Math.sqrt(egS.s22 * egS.s33))}. Bir değişkeni çıkarın.`,
@@ -1078,10 +1089,35 @@ function egGoster(m) {
   ds.data = [K.a, K.m];  // çıkarılan değişkenin çubuğu yok (null)
   ds.backgroundColor = hatali ? C.red + 'CC' : C.green + '55'; ds.borderColor = hatali ? C.red : C.green;
   egGrafik.update();
+  egYorumGoster();
   // Sunum modunda açıklamanın uzunluğu değişince slaytı yeniden sığdır.
   if (document.body.classList.contains('sunum')) sigdir(BOLUMLER[SLAYT[si].b]);
 }
-grupla([...document.querySelectorAll('#eg-btn button')], b => egGoster(b.dataset.m)); egGoster('tam');
+// Katsayı yorumları: sol alttaki düğmelerle tek tek. Model değişince seçili katsayının değeri ve yorumu güncellenir; modelde olmayan değişkenin düğmesi pasif.
+let egModel = 'tam', egSecili = null;
+function egYorumMetni(m, k) {
+  const R = EGM[m], j = { tam: { a: 1, m: 2 }, a: { a: 1 }, m: { m: 1 } }[m];
+  const anl = q => `t = ${R.t[j[q]].toFixed(2)}, ${R.p[j[q]] < 0.01 ? '%1 düzeyinde anlamlı' : R.p[j[q]] < 0.05 ? '%5 düzeyinde anlamlı' : 'anlamsız'}`;
+  const sap = '<span style="color:var(--hatali)">';
+  if (k === 'a') return m === 'tam'
+    ? `<b>ASVABC = ${n4(R.b[j.a])}</b>: SM sabitken, yetenek puanı 1 puan yüksek olanların eğitim süresi ortalama ${n2(R.b[j.a])} yıl fazladır (10 puan ≈ ${(10 * R.b[j.a]).toFixed(1)} yıl). ${anl('a')}.`
+    : `<b>ASVABC = ${n4(R.b[j.a])}</b>: Yetenek puanı 1 puan yüksek olanların eğitim süresi ortalama ${n2(R.b[j.a])} yıl fazladır. ${sap}SM sabit tutulmadığı için katsayı annenin eğitiminin etkisini de taşır: yukarı sapmalı.</span>`;
+  if (k === 'm') return m === 'tam'
+    ? `<b>SM = ${n4(R.b[j.m])}</b>: ASVABC sabitken, annesi 1 yıl fazla okumuş olanların eğitim süresi ortalama ${n2(R.b[j.m])} yıl fazladır. ${anl('m')}.`
+    : `<b>SM = ${n4(R.b[j.m])}</b>: Annesi 1 yıl fazla okumuş olanların eğitim süresi ortalama ${n2(R.b[j.m])} yıl fazladır. ${sap}ASVABC sabit tutulmadığı için katsayı yeteneğin etkisini de taşır: yukarı sapmalı.</span>`;
+  if (k === 'c') return m === 'm'
+    ? `<b>Sabit = ${n2(R.b[0])}</b>: Annesi hiç okumamış (SM = 0) biri için beklenen eğitim süresi. Veride böyle ${EM.filter(v => v === 0).length} kişi var.`
+    : `<b>Sabit = ${n2(R.b[0])}</b>: ${m === 'tam' ? 'ASVABC = 0 ve SM = 0' : 'ASVABC = 0'} için beklenen değer. Veride ASVABC en az ${Math.min(...EA).toFixed(1)}; iktisadi yorumu yoktur.`;
+  return `<b>R² = ${n4(R.R2)}</b>: Eğitim süresindeki değişimin %${(100 * R.R2).toFixed(0)}'i ${m === 'tam' ? 'iki değişkenle birlikte' : 'bu tek değişkenle'} açıklanır.`;
+}
+function egYorumGoster() {
+  const var_ = { tam: ['a', 'm', 'c', 'r'], a: ['a', 'c', 'r'], m: ['m', 'c', 'r'] }[egModel];
+  document.querySelectorAll('.eg-yorum button').forEach(b => { b.disabled = !var_.includes(b.dataset.k); b.classList.toggle('active', b.dataset.k === egSecili); });
+  $('eg-yorum-metin').innerHTML = egSecili && var_.includes(egSecili) ? egYorumMetni(egModel, egSecili)
+    : egSecili ? `<b>${egSecili === 'a' ? 'ASVABC' : 'SM'}</b> bu modelde yok: çıkarıldı.` : '';
+}
+document.querySelectorAll('.eg-yorum button').forEach(b => b.onclick = () => { egSecili = egSecili === b.dataset.k ? null : b.dataset.k; egGoster(egModel); });
+grupla([...document.querySelectorAll('#eg-btn button[data-m]')], b => { egModel = b.dataset.m; egGoster(egModel); }); egGoster('tam');
 (() => {
   const S = egS, D = S.s22 * S.s33 - S.s23 ** 2, b2 = (S.s2y * S.s33 - S.s3y * S.s23) / D, b3 = (S.s3y * S.s22 - S.s2y * S.s23) / D, b32 = S.s23 / S.s22;
   $('eg-top').innerHTML = '<tr><th>Toplam (n = 540)</th><th>Değer</th></tr>' + [['Σx₂² (ASVABC)', S.s22], ['Σx₃² (SM)', S.s33], ['Σx₂x₃', S.s23], ['Σx₂y', S.s2y], ['Σx₃y', S.s3y]].map(([a, v]) => `<tr><td>${a}</td><td>${n2(v)}</td></tr>`).join('') +
@@ -1155,10 +1191,11 @@ function sigdir(el) {
   const g = el.querySelector('.section-body'); if (!g) return;
   Object.assign(g.style, { transform: '', transformOrigin: '', width: '', marginBottom: '' });
   const alan = el.clientHeight - g.offsetTop - 4; if (g.offsetHeight <= alan) return;
-  // Önce genişliği 1/f kat aç (içerik tam genişliğe yayılsın), sonra f ile küçült; f'yi birkaç adımda oturt.
-  let f = 1;
-  for (let k = 0; k < 4; k++) { f = Math.max(0.55, Math.min(1, f * alan / (g.offsetHeight * f))); g.style.width = (100 / f) + '%'; }
-  f = Math.max(0.55, Math.min(f, alan / g.offsetHeight)); g.style.width = (100 / f) + '%';
+  // Genişliği 1/f kat açınca içerik yayılır ve kısalır; sığan en büyük f'yi ikili aramayla bul.
+  const sigar = f => { g.style.width = (100 / f) + '%'; return g.offsetHeight * f <= alan; };
+  let lo = 0.55, hi = 1;
+  for (let k = 0; k < 10; k++) { const mid = (lo + hi) / 2; if (sigar(mid)) lo = mid; else hi = mid; }
+  const f = lo; g.style.width = (100 / f) + '%';
   Object.assign(g.style, { transformOrigin: 'top left', transform: `scale(${f.toFixed(3)})`, marginBottom: -(g.offsetHeight * (1 - f)) + 'px' });
 }
 function sunumAc() { document.body.classList.add('sunum'); olcekle(); grafikYazi(17); parcala(); slaytGoster(SLAYT.findIndex(x => x.b === sonGorunen), 1); }
