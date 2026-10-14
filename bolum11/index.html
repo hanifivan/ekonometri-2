@@ -1031,7 +1031,7 @@ let SLAYT = [], si = 0, sonGorunen = 0;
 function parcala() {
   SLAYT = [{ b: 0, parca: null, k: 1, n: 1 }];
   BOLUMLER.slice(1).forEach((sec, i) => {
-    const body = sec.querySelector('.section-body'), kids = [...body.children]; body.style.zoom = '';
+    const body = sec.querySelector('.section-body'), kids = [...body.children]; Object.assign(body.style, { transform: '', transformOrigin: '', width: '', marginBottom: '' });
     const zorla = [...sec.querySelectorAll('[data-olc]')].map(e => [e, e.style.display]);
     zorla.forEach(([e]) => e.style.display = '');
     kids.forEach(c => c.classList.remove('gizli-p'));
@@ -1073,17 +1073,23 @@ const SAHNE = { w: 1280, h: 720 };
 function olcekle() { document.documentElement.style.setProperty('--s', Math.min(innerWidth / SAHNE.w, (innerHeight - 56) / SAHNE.h)); }
 function grafikYazi(px) { Chart.defaults.font.size = px; Object.values(charts).forEach(c => c.update('none')); }
 // Bölünemeyen blok slayta sığmıyorsa içeriği küçült (PowerPoint'teki "taşarsa sığdır" gibi).
+// CSS zoom değil transform: zoom, Chart.js'in tıklama koordinatlarını bozuyor (gösterge tıklaması çalışmıyordu).
 function sigdir(el) {
   const g = el.querySelector('.section-body'); if (!g) return;
-  g.style.zoom = ''; const fazla = el.scrollHeight - el.clientHeight;
-  if (fazla > 2) { const h = g.offsetHeight; g.style.zoom = Math.max(0.55, (h - fazla - 4) / h).toFixed(3); }
+  Object.assign(g.style, { transform: '', transformOrigin: '', width: '', marginBottom: '' });
+  const alan = el.clientHeight - g.offsetTop - 4; if (g.offsetHeight <= alan) return;
+  // Önce genişliği 1/f kat aç (içerik tam genişliğe yayılsın), sonra f ile küçült; f'yi birkaç adımda oturt.
+  let f = 1;
+  for (let k = 0; k < 4; k++) { f = Math.max(0.55, Math.min(1, f * alan / (g.offsetHeight * f))); g.style.width = (100 / f) + '%'; }
+  f = Math.max(0.55, Math.min(f, alan / g.offsetHeight)); g.style.width = (100 / f) + '%';
+  Object.assign(g.style, { transformOrigin: 'top left', transform: `scale(${f.toFixed(3)})`, marginBottom: -(g.offsetHeight * (1 - f)) + 'px' });
 }
 function sunumAc() { document.body.classList.add('sunum'); olcekle(); grafikYazi(17); parcala(); slaytGoster(SLAYT.findIndex(x => x.b === sonGorunen), 1); }
 function sunumKapat() {
   document.body.classList.remove('sunum'); grafikYazi(12);
   BOLUMLER.forEach(el => el.classList.remove('slide-on', 'ileri', 'geri'));
   document.querySelectorAll('.gizli-p').forEach(c => c.classList.remove('gizli-p'));
-  document.querySelectorAll('.section-body').forEach(g => g.style.zoom = '');
+  document.querySelectorAll('.section-body').forEach(g => Object.assign(g.style, { transform: '', transformOrigin: '', width: '', marginBottom: '' }));
   document.querySelectorAll('.parca-no').forEach(x => x.textContent = '');
   if (document.fullscreenElement) document.exitFullscreen();
   BOLUMLER[SLAYT[si].b].scrollIntoView(); Object.values(charts).forEach(c => c.resize());
