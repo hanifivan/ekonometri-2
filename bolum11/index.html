@@ -228,6 +228,42 @@
   .parca-no { margin-left: auto; font-size: .75em; color: #a8c8d8; font-weight: 600; }
   @media print { #sunum-ac, #sunum-bar { display: none !important; } }
 </style>
+<style>
+  /* ---------- slayt düzeni (2026-10-14, bu derse özel deneme) ----------
+     Her slayt 1280x720 sabit bir sahnede kurulur ve ekrana ölçeklenir (PowerPoint gibi).
+     Yazılar sahneye göre büyük; projektörde ekranı doldurur. Eski düzen: yedek/2026-10-14_eski_sunum/ */
+  body.sunum #main { background: #0f172a; }
+  body.sunum .slide-on { top: calc((100vh - 56px) / 2); left: 50%; right: auto; bottom: auto; width: 1280px; height: 720px;
+    transform: translate(-50%, -50%) scale(var(--s, 1)); transform-origin: center; background: #fff; overflow: hidden; }
+  body.sunum .slide-on.ileri, body.sunum .slide-on.geri { animation: slaytBelir .35s ease; }
+  @keyframes slaytBelir { from { opacity: 0; } to { opacity: 1; } }
+  body.sunum .hero.slide-on { background: linear-gradient(135deg, #1E2D5E, #2c4a8a); }
+  body.sunum .hero h1 { font-size: 68px; }
+  body.sunum .hero p { font-size: 30px; max-width: 1050px; }
+  body.sunum .hero .yazar { font-size: 30px; }
+  body.sunum .hero .yazar span { font-size: 22px; }
+  body.sunum .section-header { font-size: 38px; padding: 20px 52px; }
+  body.sunum .section-header .num { width: 50px; height: 50px; font-size: 24px; }
+  body.sunum .section-body { font-size: 28px; line-height: 1.45; padding: 26px 56px 30px; max-width: none; }
+  body.sunum .section-body > p { margin-bottom: 18px; }
+  body.sunum .card, body.sunum .info-box, body.sunum .warn-box, body.sunum details.kd .kd-body { font-size: 25px; line-height: 1.45; }
+  body.sunum .card h4 { font-size: 27px; }
+  body.sunum .formula { font-size: 32px; }
+  body.sunum table { font-size: 23px; }
+  body.sunum .chart-wrap { height: 400px; }
+  body.sunum .chart-wrap-sm { height: 310px; }
+  body.sunum .stat-card .value { font-size: 38px; }
+  body.sunum .stat-card .label { font-size: 19px; }
+  body.sunum button { font-size: 21px; padding: 8px 18px; }
+  body.sunum .controls label { font-size: 23px; }
+  body.sunum input[type=range] { width: 260px; }
+  body.sunum .steps, body.sunum .step { font-size: 24px; }
+  body.sunum .note { font-size: 20px; }
+  body.sunum #s11 #fa-tablo { font-size: 20px; }
+  body.sunum #s11 .info-box { font-size: 22px; }
+  body.sunum #s3 .chart-wrap, body.sunum #s9 .chart-wrap { height: 380px; }
+  body.sunum #sunum-bar .bilgi { font-size: 16px; }
+</style>
 
 <style>
   .eq { font-family: "Cambria Math", "STIX Two Math", "Times New Roman", serif; font-size: 16px; color: var(--navy); background: #F3F7FB; border-radius: 6px; padding: .45rem .9rem; margin: .4rem 0; overflow-x: auto; white-space: nowrap; }
@@ -252,9 +288,10 @@
   .pv-low { color: var(--green); font-weight: 700; }
   .pv-high { color: var(--red); font-weight: 700; }
   tr.dus td { text-decoration: line-through; color: #b04040; }
-  body.sunum .eq { font-size: 21px; }
-  body.sunum .out { font-size: 15px; }
-  body.sunum .karar { font-size: 17px; }
+  :root { --dogru: #1D9E75; --hatali: #E24B4A; }
+  body.sunum .eq { font-size: 30px; }
+  body.sunum .out { font-size: 21px; }
+  body.sunum .karar { font-size: 24px; }
 </style>
 </head>
 <body>
@@ -371,8 +408,8 @@
     <div class="chart-wrap kwn"><canvas id="c-dis"></canvas></div>
     <div class="stat-grid">
       <div class="stat-card"><div class="label">Gerçek β₂</div><div class="value" id="d-gercek">0.650</div></div>
-      <div class="stat-card"><div class="label">Doğru modelde β̂₂ ortalaması</div><div class="value" id="d-uz">-</div></div>
-      <div class="stat-card"><div class="label">Dışlanan modelde α̂₂ ortalaması</div><div class="value" id="d-ks">-</div></div>
+      <div class="stat-card"><div class="label">Doğru modelde β̂₂ ortalaması</div><div class="value" id="d-uz" style="color:var(--dogru)">-</div></div>
+      <div class="stat-card"><div class="label">Dışlanan modelde α̂₂ ortalaması</div><div class="value" id="d-ks" style="color:var(--hatali)">-</div></div>
       <div class="stat-card"><div class="label">Teorik sapma β₃·b₃₂</div><div class="value" id="d-teo">-</div></div>
     </div>
     <table class="isaret" style="max-width:520px;margin-top:1rem">
@@ -410,8 +447,8 @@
     </div>
     <div class="chart-wrap kwn"><canvas id="c-gerek"></canvas></div>
     <div class="stat-grid">
-      <div class="stat-card"><div class="label">Doğru model: ortalama / std</div><div class="value" id="g-uz">-</div></div>
-      <div class="stat-card"><div class="label">Gereksiz eklenmiş: ortalama / std</div><div class="value" id="g-ks">-</div></div>
+      <div class="stat-card"><div class="label">Doğru model: ortalama / std</div><div class="value" id="g-uz" style="color:var(--dogru)">-</div></div>
+      <div class="stat-card"><div class="label">Gereksiz eklenmiş: ortalama / std</div><div class="value" id="g-ks" style="color:var(--hatali)">-</div></div>
       <div class="stat-card"><div class="label">Varyans oranı (sim.)</div><div class="value" id="g-oran">-</div></div>
       <div class="stat-card"><div class="label">Teorik 1/(1 − r²)</div><div class="value" id="g-teo">-</div></div>
     </div>
@@ -765,7 +802,7 @@ function disCek() {
     uz.push(egim2(y, x2, x3)); ks.push(egim1(y, x2));
   }
   const lo = b2 - 2.2, hi = b2 + 2.2, H = hist([uz, ks], lo, hi, 44);
-  ciz('c-dis', histCfg(H.lab, [{ l: 'Doğru model β̂₂', d: H.h[0], c: C.teal }, { l: 'X₃ dışlanmış α̂₂', d: H.h[1], c: C.orange }], 'Tahmin edilen eğim (gerçek değer ' + f(b2, 2) + ')'));
+  ciz('c-dis', histCfg(H.lab, [{ l: 'Doğru model β̂₂', d: H.h[0], c: C.green }, { l: 'X₃ dışlanmış α̂₂', d: H.h[1], c: C.red }], 'Tahmin edilen eğim (gerçek değer ' + f(b2, 2) + ')'));
   $('d-uz').textContent = f(ort(uz)); $('d-ks').textContent = f(ort(ks)); $('d-teo').textContent = (b3 * r >= 0 ? '+' : '') + f(b3 * r);
   ['pp', 'pn', 'np', 'nn'].forEach(k => $('is-' + k).classList.remove('on'));
   if (b3 !== 0 && r !== 0) $('is-' + (b3 > 0 ? 'p' : 'n') + (r > 0 ? 'p' : 'n')).classList.add('on');
@@ -782,7 +819,7 @@ function gerCek() {
     uz.push(egim1(y, x2)); ks.push(egim2(y, x2, x3));
   }
   const H = hist([uz, ks], b2 - 1, b2 + 1, 40);
-  ciz('c-gerek', histCfg(H.lab, [{ l: 'Doğru model', d: H.h[0], c: C.teal }, { l: 'X₃ gereksiz yere eklenmiş', d: H.h[1], c: C.purple }], 'α̂₂ (gerçek değer ' + f(b2, 2) + ')'));
+  ciz('c-gerek', histCfg(H.lab, [{ l: 'Doğru model', d: H.h[0], c: C.green }, { l: 'X₃ gereksiz yere eklenmiş', d: H.h[1], c: C.red }], 'α̂₂ (gerçek değer ' + f(b2, 2) + ')'));
   $('g-uz').textContent = `${f(ort(uz), 2)} / ${f(sd(uz), 3)}`; $('g-ks').textContent = `${f(ort(ks), 2)} / ${f(sd(ks), 3)}`;
   $('g-oran').textContent = f(sd(ks) ** 2 / sd(uz) ** 2, 2); $('g-teo').textContent = f(1 / (1 - r * r), 2);
 }
@@ -994,7 +1031,7 @@ let SLAYT = [], si = 0, sonGorunen = 0;
 function parcala() {
   SLAYT = [{ b: 0, parca: null, k: 1, n: 1 }];
   BOLUMLER.slice(1).forEach((sec, i) => {
-    const body = sec.querySelector('.section-body'), kids = [...body.children];
+    const body = sec.querySelector('.section-body'), kids = [...body.children]; body.style.zoom = '';
     const zorla = [...sec.querySelectorAll('[data-olc]')].map(e => [e, e.style.display]);
     zorla.forEach(([e]) => e.style.display = '');
     kids.forEach(c => c.classList.remove('gizli-p'));
@@ -1025,16 +1062,28 @@ function slaytGoster(i, yon) {
     el.querySelector('.parca-no').textContent = S.n > 1 ? `(${S.k}/${S.n})` : '';
   }
   void el.offsetWidth; el.classList.add('slide-on', yon < 0 ? 'geri' : 'ileri'); el.scrollTop = 0;
+  sigdir(el);
   $('sb-bilgi').textContent = `${si + 1} / ${SLAYT.length}  ·  ${KISIM[S.b] ? KISIM[S.b] + '  ·  ' : ''}${BASLIK[S.b]}`;
   $('sb-ilerleme').style.width = (100 * (si + 1) / SLAYT.length) + '%';
   $('sb-geri').disabled = si === 0; $('sb-ileri').disabled = si === SLAYT.length - 1;
   requestAnimationFrame(() => el.querySelectorAll('canvas').forEach(c => { const ch = Chart.getChart(c); if (ch) ch.resize(); }));
 }
-function sunumAc() { document.body.classList.add('sunum'); parcala(); slaytGoster(SLAYT.findIndex(x => x.b === sonGorunen), 1); }
+// Slayt düzeni: 1280x720 sahne ekrana ölçeklenir; grafik yazıları sahneye göre büyür.
+const SAHNE = { w: 1280, h: 720 };
+function olcekle() { document.documentElement.style.setProperty('--s', Math.min(innerWidth / SAHNE.w, (innerHeight - 56) / SAHNE.h)); }
+function grafikYazi(px) { Chart.defaults.font.size = px; Object.values(charts).forEach(c => c.update('none')); }
+// Bölünemeyen blok slayta sığmıyorsa içeriği küçült (PowerPoint'teki "taşarsa sığdır" gibi).
+function sigdir(el) {
+  const g = el.querySelector('.section-body'); if (!g) return;
+  g.style.zoom = ''; const fazla = el.scrollHeight - el.clientHeight;
+  if (fazla > 2) { const h = g.offsetHeight; g.style.zoom = Math.max(0.55, (h - fazla - 4) / h).toFixed(3); }
+}
+function sunumAc() { document.body.classList.add('sunum'); olcekle(); grafikYazi(17); parcala(); slaytGoster(SLAYT.findIndex(x => x.b === sonGorunen), 1); }
 function sunumKapat() {
-  document.body.classList.remove('sunum');
+  document.body.classList.remove('sunum'); grafikYazi(12);
   BOLUMLER.forEach(el => el.classList.remove('slide-on', 'ileri', 'geri'));
   document.querySelectorAll('.gizli-p').forEach(c => c.classList.remove('gizli-p'));
+  document.querySelectorAll('.section-body').forEach(g => g.style.zoom = '');
   document.querySelectorAll('.parca-no').forEach(x => x.textContent = '');
   if (document.fullscreenElement) document.exitFullscreen();
   BOLUMLER[SLAYT[si].b].scrollIntoView(); Object.values(charts).forEach(c => c.resize());
@@ -1042,7 +1091,7 @@ function sunumKapat() {
 let boyutZaman = null;
 window.addEventListener('resize', () => {
   if (!document.body.classList.contains('sunum')) return;
-  clearTimeout(boyutZaman);
+  olcekle(); clearTimeout(boyutZaman);
   boyutZaman = setTimeout(() => { const S = SLAYT[si]; document.querySelectorAll('.gizli-p').forEach(c => c.classList.remove('gizli-p')); parcala();
     const j = SLAYT.findIndex(x => x.b === S.b && S.parca && x.parca && x.parca.includes(S.parca[0])); slaytGoster(j >= 0 ? j : SLAYT.findIndex(x => x.b === S.b), 1); }, 250);
 });
@@ -1067,6 +1116,7 @@ const navA = [...document.querySelectorAll('#sidebar a')];
 const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) navA.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-30% 0px -60% 0px' });
 
 document.querySelectorAll('.section').forEach(s => obs.observe(s));
+
 </script>
 </body>
 </html>
