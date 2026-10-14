@@ -301,8 +301,10 @@
   .eg-yorum button:disabled { opacity: .35; }
   .eg-yorum-metin:not(:empty) { background: #FFF8E6; border-left: 4px solid var(--orange); border-radius: 6px; padding: .45rem .7rem; line-height: 1.5; }
   .eg-denk .sec { background: #FFE9B8; border-radius: 4px; padding: 0 3px; }
-  body.sunum .eg-yorum { font-size: 21px; }
-  body.sunum .eg-yorum button { font-size: 18px; padding: 4px 14px; }
+  body.sunum .eg-yorum { font-size: 18px; }
+  body.sunum .eg-yorum button { font-size: 16px; padding: 3px 12px; }
+  /* sunumda yeni slayt başlatan başlığın üst boşluğu: içerik başlık çubuğuna yakın başlasın */
+  body.sunum h4.yeni-slayt { margin-top: 0 !important; }
   @media(max-width:700px) { .eg-panel { grid-template-columns: 1fr; } }
   body.sunum .eg-denk { font-size: 26px; }
   body.sunum .eg-acik { font-size: 21px; }
