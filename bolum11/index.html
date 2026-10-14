@@ -360,7 +360,6 @@
   </div>
   <div class="indir">
     <a href="ekonometri2_bolum11.pdf" download>⤓ Sunum (PDF)</a>
-    <a href="ekonometri2_bolum11.pptx" download>⤓ Sunum (PowerPoint)</a>
     <a href="bolum11_veriler.xlsx" download>⤓ Veriler (Excel)</a>
   </div>
 </header>
@@ -431,34 +430,25 @@
       <div class="stat-card"><div class="label">Teorik sapma β₃·b₃₂</div><div class="value" id="d-teo">-</div></div>
     </div>
 
-    <h4 class="yeni-slayt" style="margin:1.5rem 0 .3rem;color:var(--navy)">Gerçek veri: ithalat modeli (1990-2002, n = 13)</h4>
-    <p>İthalat (IT, 10 milyar $), para arzı (PA, milyar $) ve GSMH; bölümün Excel dosyasındaki İthalat sayfası. Katsayılar tarayıcıda EKK ile hesaplanır. Bir değişkeni çıkarın, kalan değişkenin katsayısının nereye kaydığını izleyin.</p>
+    <h4 class="yeni-slayt" style="margin:1.5rem 0 .3rem;color:var(--navy)">Gerçek veri: eğitim süresi (Dougherty, EAEF Data Set 21, n = 540)</h4>
+    <p>S: eğitim süresi (yıl), ASVABC: yetenek puanı, SM: annenin eğitim süresi (yıl). Katsayılar 540 kişilik veriden tarayıcıda EKK ile hesaplanır. Bir değişkeni çıkarın, kalan değişkenin katsayısının nereye kaydığını izleyin.</p>
     <div class="controls" id="eg-btn">
-      <button data-m="tam" class="active">Tam model: IT = f(PA, GSMH)</button>
-      <button data-m="pa">GSMH'yi çıkar: IT = f(PA)</button>
-      <button data-m="g">PA'yı çıkar: IT = f(GSMH)</button>
+      <button data-m="tam" class="active">Tam model: S = f(ASVABC, SM)</button>
+      <button data-m="a">SM'yi çıkar: S = f(ASVABC)</button>
+      <button data-m="m">ASVABC'yi çıkar: S = f(SM)</button>
     </div>
     <div class="grid2 kwn eg-panel">
       <div><div class="eq eg-denk" id="eg-denk"></div><div class="eg-acik" id="eg-acik"></div></div>
       <div class="chart-wrap-sm"><canvas id="c-eg"></canvas></div>
     </div>
-    <details class="kd eg-not"><summary>Veriyi göster</summary><div class="kd-body"><div class="tscroll" style="max-height:none"><table id="eg-veri"></table></div></div></details>
+    <p class="note eg-not">Veri: Dougherty, <i>Introduction to Econometrics</i>, EAEF Data Set 21 (gretl veri paketi, n = 540); Excel dosyasının EAEF21 sayfasında. Kitabın 3. baskısındaki çıktılar aynı veri setinin n = 570'lik eski sürümündendir (ASVABC .1381, SM .1548); desen aynıdır. <a href="bolum11_veriler.xlsx" download>⤓ Veriyi indir (Excel)</a></p>
 
     <h4 class="yeni-slayt" style="margin:1.5rem 0 .3rem;color:var(--navy)">EKK hatırlatma: katsayılar elle (sapmalarla, x = X − X̄, y = Y − Ȳ)</h4>
     <div class="grid2 eg-ekk">
       <div><table id="eg-top"></table></div>
       <div class="eg-acik" id="eg-form"></div>
     </div>
-
-    <h4 class="yeni-slayt" style="margin:1.5rem 0 .3rem;color:var(--navy)">Aynı desen başka bir veride: eğitim süresi (Dougherty, EAEF, n = 570)</h4>
-    <p>S: eğitim süresi, ASVABC: yetenek puanı, SM: annenin eğitim süresi. corr(ASVABC, SM) = 0.38.</p>
-    <table class="ornek" style="max-width:640px">
-      <tr><th>Regresyon</th><th>ASVABC</th><th>SM</th><th>R²</th></tr>
-      <tr><td>S = f(ASVABC, SM)</td><td>.1381</td><td>.1548</td><td>0.3561</td></tr>
-      <tr class="hl"><td>S = f(ASVABC)</td><td>.1545</td><td></td><td>0.3340</td></tr>
-      <tr class="hl"><td>S = f(SM)</td><td></td><td>.3445</td><td>0.1283</td></tr>
-    </table>
-    <div class="info-box">İki değişken de pozitif etkili ve pozitif ilişkili: birini dışlamak diğerinin katsayısını <b>yukarı</b> iter (SM .155 → .345). R²'ler toplanamaz: 0.3340 + 0.1283 = 0.46, ama iki değişken birlikte yalnız 0.3561 açıklar.</div>
+    <div class="info-box"><b>R²'ler toplanamaz:</b> <span id="eg-r2"></span> Her basit regresyon, dışlanan değişkenin katkısının bir kısmını kendine mal eder.</div>
   </div>
 </section>
 
@@ -1056,18 +1046,20 @@ ciz('c-aic', { type: 'bar', data: { labels: ['C: f(GSMH)', 'D: f(PA)', 'E: f(GSM
 
 disCek(); gerCek(); hCek(); ohCiz();
 
-// ---------- 3: gerçek veri örneği (ithalat, 1990-2002): değişken çıkarınca katsayılar, EKK elle ----------
-// X₂ = PA, X₃ = GSMH. Katsayılar ekk() ile; elle hesap sapmalarla aynı sonucu verir (Python/statsmodels ile doğrulandı).
-const EGM = { tam: ekk(IT, [PA, GSMH]), pa: ekk(IT, [PA]), g: ekk(IT, [GSMH]) };
-const egK = { tam: { pa: EGM.tam.b[1], g: EGM.tam.b[2] }, pa: { pa: EGM.pa.b[1], g: null }, g: { pa: null, g: EGM.g.b[1] } };
-const egS = (() => { const m = a => ort(a), y = IT.map(v => v - m(IT)), x2 = PA.map(v => v - m(PA)), x3 = GSMH.map(v => v - m(GSMH)), t = (a, b) => a.reduce((s, v, i) => s + v * b[i], 0);
-  return { s22: t(x2, x2), s33: t(x3, x3), s23: t(x2, x3), s2y: t(x2, y), s3y: t(x3, y), my: m(IT), m2: m(PA), m3: m(GSMH) }; })();
+// ---------- 3: gerçek veri örneği (Dougherty, EAEF Data Set 21, n = 540): değişken çıkarınca katsayılar, EKK elle ----------
+// X₂ = ASVABC, X₃ = SM. Katsayılar ekk() ile; Python/statsmodels ile doğrulandı (tam: .1328, .1235; SM yok: .1481; ASVABC yok: .3131).
+const EAEF = {"S":[12.0,12.0,15.0,13.0,18.0,16.0,14.0,12.0,12.0,12.0,17.0,8.0,16.0,18.0,19.0,12.0,20.0,12.0,16.0,12.0,16.0,12.0,12.0,11.0,12.0,16.0,20.0,12.0,12.0,12.0,15.0,12.0,12.0,18.0,12.0,12.0,13.0,16.0,12.0,14.0,12.0,12.0,17.0,15.0,14.0,17.0,16.0,14.0,17.0,16.0,13.0,12.0,16.0,17.0,12.0,12.0,20.0,13.0,16.0,12.0,12.0,12.0,12.0,10.0,16.0,12.0,12.0,17.0,18.0,13.0,13.0,12.0,16.0,19.0,12.0,12.0,12.0,17.0,16.0,12.0,13.0,12.0,14.0,12.0,12.0,12.0,12.0,12.0,16.0,15.0,12.0,15.0,13.0,16.0,12.0,16.0,14.0,13.0,16.0,16.0,12.0,13.0,18.0,12.0,12.0,12.0,9.0,14.0,18.0,16.0,12.0,9.0,14.0,12.0,12.0,20.0,19.0,16.0,12.0,16.0,14.0,12.0,15.0,12.0,12.0,16.0,12.0,12.0,12.0,18.0,14.0,13.0,16.0,16.0,13.0,12.0,17.0,20.0,12.0,14.0,16.0,12.0,14.0,12.0,13.0,12.0,16.0,12.0,12.0,12.0,12.0,16.0,16.0,12.0,12.0,16.0,16.0,12.0,15.0,12.0,18.0,12.0,12.0,12.0,12.0,15.0,14.0,12.0,9.0,19.0,12.0,15.0,8.0,13.0,12.0,18.0,16.0,12.0,13.0,12.0,18.0,16.0,12.0,8.0,16.0,12.0,12.0,12.0,12.0,12.0,12.0,16.0,10.0,15.0,12.0,16.0,17.0,16.0,10.0,12.0,12.0,12.0,16.0,12.0,13.0,20.0,12.0,12.0,14.0,12.0,9.0,15.0,12.0,12.0,12.0,12.0,12.0,14.0,12.0,12.0,12.0,12.0,12.0,13.0,15.0,12.0,20.0,17.0,16.0,12.0,13.0,17.0,15.0,12.0,12.0,18.0,12.0,8.0,12.0,9.0,12.0,12.0,16.0,16.0,16.0,12.0,12.0,12.0,15.0,18.0,12.0,14.0,12.0,12.0,9.0,16.0,16.0,12.0,16.0,16.0,20.0,12.0,12.0,13.0,9.0,12.0,16.0,19.0,12.0,18.0,16.0,14.0,12.0,13.0,15.0,12.0,12.0,12.0,13.0,14.0,12.0,12.0,12.0,12.0,14.0,14.0,14.0,13.0,12.0,17.0,11.0,15.0,16.0,16.0,12.0,12.0,12.0,14.0,9.0,16.0,15.0,12.0,12.0,16.0,10.0,12.0,12.0,12.0,14.0,16.0,14.0,16.0,17.0,17.0,12.0,14.0,12.0,16.0,12.0,12.0,12.0,16.0,12.0,12.0,17.0,12.0,14.0,12.0,12.0,16.0,14.0,17.0,10.0,16.0,12.0,12.0,15.0,12.0,15.0,12.0,10.0,12.0,13.0,12.0,18.0,13.0,15.0,13.0,15.0,18.0,11.0,16.0,12.0,12.0,12.0,18.0,13.0,12.0,12.0,12.0,12.0,12.0,17.0,12.0,15.0,12.0,12.0,15.0,10.0,18.0,16.0,20.0,12.0,15.0,13.0,13.0,11.0,12.0,12.0,18.0,14.0,15.0,16.0,18.0,12.0,13.0,20.0,18.0,9.0,14.0,12.0,14.0,12.0,12.0,8.0,12.0,12.0,13.0,20.0,11.0,13.0,14.0,12.0,16.0,12.0,12.0,12.0,18.0,17.0,16.0,10.0,12.0,13.0,12.0,14.0,16.0,16.0,12.0,14.0,17.0,17.0,16.0,12.0,12.0,18.0,16.0,12.0,20.0,12.0,16.0,12.0,15.0,14.0,7.0,12.0,13.0,14.0,18.0,16.0,13.0,16.0,17.0,12.0,16.0,12.0,12.0,12.0,12.0,12.0,12.0,12.0,14.0,13.0,16.0,16.0,12.0,16.0,12.0,18.0,12.0,14.0,12.0,13.0,18.0,7.0,16.0,13.0,12.0,12.0,12.0,15.0,17.0,16.0,12.0,17.0,12.0,12.0,12.0,12.0,16.0,12.0,12.0,12.0,12.0,16.0,16.0,15.0,14.0,16.0,12.0,12.0,12.0,12.0,14.0,16.0,12.0,12.0,16.0,11.0,16.0,14.0,12.0,12.0,12.0,16.0,17.0,12.0,12.0,13.0,17.0,13.0,14.0,12.0,12.0,16.0,18.0,12.0,16.0,13.0,14.0,16.0,16.0,12.0,12.0,11.0,15.0,13.0,14.0,12.0,12.0,14.0,12.0,16.0,12.0,12.0,12.0,14.0,12.0,13.0,12.0],"ASVABC":[60.8999,33.6379,38.8177,57.0832,65.5344,55.4475,36.3641,56.5379,60.6272,43.9974,62.8082,49.9951,63.8987,62.8082,65.2618,54.357,66.0796,47.5415,42.0891,32.0022,54.9022,37.7272,46.9963,52.176,54.0844,60.6272,62.5356,51.0855,57.901,51.0855,59.8094,54.9022,50.8129,52.9939,59.5368,41.5439,54.357,60.8999,40.726,59.2641,41.8165,53.2665,54.0844,64.7165,58.7189,65.2618,64.4439,58.1737,53.5391,56.2653,49.1772,39.3629,65.5344,63.8987,59.8094,43.1796,60.8999,47.2689,57.0832,48.9046,55.9927,31.1843,31.1843,27.9129,63.8987,55.9927,57.3558,63.0808,64.7165,57.6284,52.176,43.9974,59.8094,58.4463,45.3605,52.7213,30.9117,66.0796,65.5344,55.9927,57.3558,35.001,57.6284,48.632,52.176,50.2677,52.7213,63.3534,45.9058,37.4546,58.9915,51.3582,63.3534,58.1737,56.8106,58.4463,41.5439,44.2701,62.263,58.7189,25.4593,51.9034,59.8094,40.9986,55.1748,38.2724,30.9117,51.9034,63.626,62.263,48.3594,34.7284,58.7189,52.7213,52.4486,63.3534,63.8987,62.263,36.3641,53.5391,55.1748,37.1819,57.6284,60.8999,42.0891,58.1737,33.0927,48.632,26.8224,63.3534,60.8999,35.2736,63.3534,52.4486,65.2618,44.8153,62.263,65.2618,40.1808,55.4475,58.7189,51.9034,49.4498,52.7213,63.626,48.9046,63.8987,55.4475,60.082,36.9093,39.6355,51.6308,60.082,51.9034,46.9963,59.8094,64.9892,48.632,61.1725,54.0844,61.7177,64.9892,55.9927,41.5439,62.8082,58.4463,61.9903,45.9058,29.8212,65.807,57.901,51.3582,36.3641,50.5403,36.9093,65.2618,63.8987,51.0855,59.2641,57.901,64.7165,53.5391,34.7284,40.726,60.6272,58.7189,53.2665,55.1748,46.7236,37.9998,43.1796,57.901,38.545,59.5368,45.6332,46.1784,64.4439,64.1713,44.8153,43.7248,30.9117,40.4534,64.9892,33.9105,46.9963,63.8987,57.6284,37.1819,37.9998,36.6367,36.3641,59.5368,55.7201,47.5415,52.9939,34.7284,60.6272,56.2653,49.4498,29.8212,57.901,58.7189,60.3546,62.263,65.2618,43.4522,65.2618,51.6308,49.9951,39.6355,40.9986,44.5427,56.5379,51.9034,42.3617,61.7177,51.9034,29.8212,32.0022,32.82,40.9986,60.3546,61.7177,63.8987,64.1713,37.7272,52.9939,48.9046,60.6272,56.2653,57.901,64.9892,43.9974,54.9022,46.451,59.5368,64.7165,47.2689,57.3558,61.7177,54.9022,56.8106,51.0855,37.7272,45.0879,35.2736,55.7201,64.4439,38.545,62.5356,54.0844,43.1796,55.7201,52.4486,54.6296,54.9022,44.5427,54.9022,46.9963,40.1808,54.9022,40.1808,51.6308,52.4486,52.7213,52.7213,47.5415,49.4498,60.6272,47.2689,38.2724,33.3653,56.5379,48.9046,37.9998,64.7165,49.9951,58.9915,39.6355,49.1772,59.8094,48.9046,35.2736,56.2653,32.0022,52.9939,41.5439,55.1748,42.907,63.3534,41.5439,60.082,59.8094,56.8106,62.8082,56.5379,48.632,62.8082,30.6391,43.7248,47.8141,59.8094,58.4463,37.1819,61.4451,48.9046,42.907,28.7307,37.7272,59.2641,50.5403,65.807,33.3653,58.7189,51.6308,40.4534,53.5391,34.4558,57.6284,34.1831,58.9915,40.1808,44.8153,37.1819,66.0796,49.9951,51.9034,46.451,48.632,58.9915,37.7272,65.2618,55.9927,57.901,42.6343,54.9022,42.907,34.7284,56.2653,55.4475,54.0844,32.5474,62.5356,39.3629,45.6332,43.7248,54.0844,57.3558,48.9046,53.2665,57.0832,58.1737,42.3617,55.7201,57.0832,51.6308,45.0879,44.5427,41.2712,58.1737,65.2618,58.1737,60.082,63.8987,49.9951,56.5379,55.9927,60.8999,41.5439,51.3582,40.1808,51.3582,43.1796,51.3582,30.3665,51.0855,50.8129,52.7213,55.9927,45.0879,42.6343,45.0879,45.9058,55.9927,49.1772,49.4498,51.0855,51.0855,55.4475,61.4451,35.2736,33.9105,56.2653,57.3558,57.901,55.9927,55.9927,48.9046,48.632,65.2618,51.3582,60.3546,35.8189,45.0879,65.2618,63.626,46.451,63.8987,56.8106,59.5368,49.4498,57.0832,57.901,34.4558,48.9046,47.5415,61.9903,60.082,59.5368,42.3617,53.8117,52.4486,38.8177,58.4463,51.6308,45.9058,43.4522,54.6296,51.6308,35.8189,53.2665,53.2665,55.4475,52.7213,52.9939,45.0879,63.0808,50.8129,63.0808,46.451,57.6284,52.176,41.8165,56.2653,36.9093,33.3653,35.001,50.2677,37.7272,53.5391,46.9963,56.5379,37.1819,58.9915,57.3558,57.901,52.9939,53.8117,48.3594,63.3534,55.4475,60.082,46.451,60.6272,63.8987,50.5403,49.9951,62.5356,63.626,39.9081,42.6343,58.4463,44.8153,49.1772,64.9892,47.5415,53.8117,61.9903,54.0844,58.1737,39.6355,57.3558,44.8153,38.8177,61.1725,50.5403,52.4486,43.1796,52.7213,40.4534,29.5486,58.4463,42.6343,33.3653,61.9903,59.8094,52.4486,48.3594,51.0855,56.8106,58.1737,47.2689,50.8129,39.9081,55.1748,60.082,36.3641,60.6272,61.9903,53.2665,52.7213,36.3641,56.5379,45.6332,37.4546,43.4522,61.4451,44.8153,50.2677,39.0903],"SM":[8.0,5.0,11.0,12.0,16.0,12.0,12.0,8.0,12.0,10.0,12.0,12.0,17.0,13.0,16.0,11.0,14.0,12.0,12.0,10.0,12.0,12.0,12.0,9.0,12.0,10.0,17.0,18.0,10.0,5.0,12.0,12.0,12.0,12.0,12.0,14.0,12.0,12.0,12.0,16.0,12.0,10.0,12.0,12.0,16.0,14.0,12.0,12.0,12.0,12.0,12.0,12.0,12.0,12.0,12.0,6.0,12.0,10.0,16.0,12.0,12.0,11.0,10.0,14.0,16.0,12.0,10.0,14.0,4.0,11.0,12.0,14.0,8.0,16.0,9.0,9.0,5.0,16.0,12.0,11.0,14.0,2.0,16.0,9.0,12.0,12.0,11.0,12.0,12.0,14.0,12.0,18.0,10.0,12.0,12.0,10.0,12.0,13.0,14.0,12.0,8.0,12.0,15.0,12.0,13.0,8.0,8.0,16.0,20.0,16.0,10.0,12.0,12.0,12.0,14.0,12.0,15.0,5.0,11.0,12.0,6.0,12.0,12.0,11.0,12.0,12.0,9.0,12.0,6.0,15.0,9.0,3.0,12.0,12.0,12.0,12.0,6.0,16.0,8.0,16.0,12.0,12.0,13.0,10.0,12.0,11.0,16.0,12.0,12.0,5.0,12.0,12.0,12.0,12.0,12.0,5.0,12.0,15.0,16.0,8.0,15.0,12.0,11.0,12.0,12.0,12.0,12.0,12.0,11.0,14.0,12.0,11.0,12.0,11.0,7.0,12.0,13.0,12.0,8.0,12.0,12.0,12.0,5.0,10.0,14.0,16.0,16.0,11.0,12.0,8.0,10.0,16.0,12.0,16.0,12.0,11.0,19.0,12.0,10.0,9.0,12.0,12.0,13.0,8.0,12.0,12.0,12.0,12.0,10.0,12.0,12.0,11.0,12.0,12.0,12.0,9.0,12.0,11.0,12.0,10.0,12.0,12.0,17.0,12.0,18.0,3.0,18.0,8.0,12.0,12.0,3.0,11.0,12.0,9.0,11.0,13.0,12.0,7.0,11.0,8.0,10.0,13.0,12.0,14.0,12.0,10.0,11.0,12.0,9.0,12.0,12.0,15.0,6.0,12.0,14.0,15.0,12.0,12.0,10.0,16.0,14.0,12.0,12.0,16.0,12.0,6.0,12.0,14.0,12.0,12.0,12.0,14.0,12.0,13.0,16.0,10.0,12.0,12.0,12.0,12.0,9.0,12.0,4.0,12.0,16.0,10.0,12.0,13.0,9.0,12.0,13.0,12.0,14.0,12.0,12.0,11.0,12.0,12.0,9.0,12.0,12.0,12.0,0.0,12.0,6.0,12.0,9.0,11.0,7.0,15.0,15.0,15.0,16.0,12.0,12.0,13.0,10.0,16.0,12.0,12.0,10.0,16.0,12.0,12.0,12.0,10.0,0.0,12.0,14.0,12.0,14.0,16.0,12.0,12.0,10.0,7.0,12.0,0.0,11.0,10.0,14.0,11.0,9.0,10.0,16.0,10.0,8.0,12.0,12.0,12.0,6.0,16.0,12.0,12.0,12.0,14.0,9.0,11.0,12.0,12.0,12.0,7.0,12.0,0.0,10.0,7.0,10.0,12.0,10.0,15.0,20.0,14.0,10.0,12.0,16.0,10.0,12.0,8.0,8.0,12.0,12.0,12.0,12.0,12.0,11.0,12.0,12.0,17.0,12.0,12.0,10.0,12.0,12.0,10.0,9.0,12.0,12.0,16.0,12.0,8.0,12.0,12.0,7.0,12.0,12.0,12.0,12.0,12.0,12.0,12.0,10.0,12.0,12.0,12.0,11.0,16.0,10.0,10.0,12.0,12.0,12.0,11.0,12.0,5.0,12.0,16.0,12.0,9.0,9.0,12.0,12.0,16.0,4.0,7.0,11.0,13.0,12.0,19.0,14.0,6.0,13.0,12.0,12.0,12.0,8.0,12.0,11.0,12.0,10.0,10.0,12.0,12.0,12.0,12.0,13.0,12.0,11.0,13.0,12.0,16.0,6.0,12.0,12.0,12.0,9.0,10.0,5.0,12.0,11.0,12.0,12.0,12.0,12.0,12.0,14.0,12.0,12.0,12.0,12.0,12.0,12.0,9.0,12.0,16.0,16.0,11.0,12.0,16.0,16.0,7.0,12.0,5.0,9.0,12.0,16.0,12.0,12.0,12.0,11.0,12.0,14.0,12.0,11.0,12.0,16.0,15.0,12.0,12.0,12.0,12.0,11.0,16.0,9.0,12.0,12.0,14.0,6.0,12.0,12.0,12.0,12.0,9.0,7.0,12.0,9.0,10.0,12.0,12.0,12.0,12.0,12.0,10.0,12.0,9.0,12.0,9.0,13.0,12.0,10.0,11.0]};
+const EY = EAEF.S, EA = EAEF.ASVABC, EM = EAEF.SM;
+const EGM = { tam: ekk(EY, [EA, EM]), a: ekk(EY, [EA]), m: ekk(EY, [EM]) };
+const egK = { tam: { a: EGM.tam.b[1], m: EGM.tam.b[2] }, a: { a: EGM.a.b[1], m: null }, m: { a: null, m: EGM.m.b[1] } };
+const egS = (() => { const y = EY.map(v => v - ort(EY)), x2 = EA.map(v => v - ort(EA)), x3 = EM.map(v => v - ort(EM)), t = (a, b) => a.reduce((s, v, i) => s + v * b[i], 0);
+  return { s22: t(x2, x2), s33: t(x3, x3), s23: t(x2, x3), s2y: t(x2, y), s3y: t(x3, y), my: ort(EY), m2: ort(EA), m3: ort(EM) }; })();
 const n4 = x => x.toFixed(4), n2 = x => x.toFixed(2);
-const egGrafik = new Chart($('c-eg'), { type: 'bar', data: { labels: ['PA', 'GSMH'], datasets: [
-  { label: 'Tam model (doğru)', data: [egK.tam.pa, egK.tam.g], backgroundColor: C.green + 'CC', borderColor: C.green, borderWidth: 1 },
-  { label: 'Seçili model (tam)', data: [egK.tam.pa, egK.tam.g], backgroundColor: C.green + '55', borderColor: C.green, borderWidth: 1 }] },
+const egGrafik = new Chart($('c-eg'), { type: 'bar', data: { labels: ['ASVABC', 'SM'], datasets: [
+  { label: 'Tam model (doğru)', data: [egK.tam.a, egK.tam.m], backgroundColor: C.green + 'CC', borderColor: C.green, borderWidth: 1 },
+  { label: 'Seçili model (tam)', data: [egK.tam.a, egK.tam.m], backgroundColor: C.green + '55', borderColor: C.green, borderWidth: 1 }] },
   options: { responsive: true, maintainAspectRatio: false, animation: { duration: 900, easing: 'easeOutCubic' },
-    scales: { y: { min: 0, max: 1.1, title: { display: true, text: 'Katsayı' } } }, plugins: { legend: { position: 'top' } } } });
+    scales: { y: { min: 0, max: 0.35, title: { display: true, text: 'Katsayı' } } }, plugins: { legend: { position: 'top' } } } });
 charts['c-eg'] = egGrafik;
 function egGoster(m) {
   const K = egK[m], T = egK.tam, R = EGM[m], terim = (ad, k) => {
@@ -1075,31 +1067,31 @@ function egGoster(m) {
     const d = m !== 'tam';
     return `<span class="${d ? 'deg' : 'ayni'}">${n4(K[k])}</span>·${ad}${d ? ` <span style="font-size:.75em;color:var(--gray)">(tam modelde ${n4(T[k])})</span>` : ''}`;
   };
-  $('eg-denk').innerHTML = `IT̂ = ${n2(R.b[0])} + ${terim('PA', 'pa')} + ${terim('GSMH', 'g')}<br>R² = ${n4(R.R2)}${m !== 'tam' ? ` <span style="font-size:.75em;color:var(--gray)">(tam modelde ${n4(EGM.tam.R2)})</span>` : ''}`;
+  $('eg-denk').innerHTML = `Ŝ = ${n2(R.b[0])} + ${terim('ASVABC', 'a')} + ${terim('SM', 'm')}<br>R² = ${n4(R.R2)}${m !== 'tam' ? ` <span style="font-size:.75em;color:var(--gray)">(tam modelde ${n4(EGM.tam.R2)})</span>` : ''}`;
   const b32 = egS.s23 / egS.s22, b23 = egS.s23 / egS.s33, kay = (a, b) => (100 * (a / b - 1)).toFixed(0);
   $('eg-acik').innerHTML = ({
-    tam: () => `Doğru model: iki değişken birlikte, corr(PA, GSMH) = ${n2(egS.s23 / Math.sqrt(egS.s22 * egS.s33))}. Bir değişkeni çıkarın.`,
-    pa: () => `GSMH çıkarılınca etkisinin bir kısmı PA'ya yüklenir:<br>α̂<sub>PA</sub> = β̂<sub>PA</sub> + β̂<sub>GSMH</sub>·b = ${n4(T.pa)} + ${n4(T.g)} × ${n4(b32)} = <b style="color:var(--hatali)">${n4(K.pa)}</b><br>Katsayı %${kay(K.pa, T.pa)} yukarı kaydı. (b: GSMH'nin PA'ya regresyonundaki eğim)`,
-    g: () => `PA çıkarılınca etkisinin bir kısmı GSMH'ye yüklenir:<br>α̂<sub>GSMH</sub> = β̂<sub>GSMH</sub> + β̂<sub>PA</sub>·b = ${n4(T.g)} + ${n4(T.pa)} × ${n4(b23)} = <b style="color:var(--hatali)">${n4(K.g)}</b><br>Katsayı %${kay(K.g, T.g)} yukarı kaydı. (b: PA'nın GSMH'ye regresyonundaki eğim)` })[m]();
+    tam: () => `Doğru model: iki değişken birlikte, corr(ASVABC, SM) = ${n2(egS.s23 / Math.sqrt(egS.s22 * egS.s33))}. Bir değişkeni çıkarın.`,
+    a: () => `SM çıkarılınca etkisinin bir kısmı ASVABC'ye yüklenir:<br>α̂<sub>ASVABC</sub> = β̂<sub>ASVABC</sub> + β̂<sub>SM</sub>·b = ${n4(T.a)} + ${n4(T.m)} × ${n4(b32)} = <b style="color:var(--hatali)">${n4(K.a)}</b><br>Katsayı %${kay(K.a, T.a)} yukarı kaydı. (b: SM'nin ASVABC'ye regresyonundaki eğim)`,
+    m: () => `ASVABC çıkarılınca etkisinin bir kısmı SM'ye yüklenir:<br>α̂<sub>SM</sub> = β̂<sub>SM</sub> + β̂<sub>ASVABC</sub>·b = ${n4(T.m)} + ${n4(T.a)} × ${n4(b23)} = <b style="color:var(--hatali)">${n4(K.m)}</b><br>Katsayı %${kay(K.m, T.m)} yukarı kaydı (iki katından fazla). (b: ASVABC'nin SM'ye regresyonundaki eğim)` })[m]();
   const ds = egGrafik.data.datasets[1], hatali = m !== 'tam';
   ds.label = hatali ? 'Değişken çıkarılmış model' : 'Seçili model (tam)';
-  ds.data = [K.pa, K.g];  // çıkarılan değişkenin çubuğu yok (null)
+  ds.data = [K.a, K.m];  // çıkarılan değişkenin çubuğu yok (null)
   ds.backgroundColor = hatali ? C.red + 'CC' : C.green + '55'; ds.borderColor = hatali ? C.red : C.green;
   egGrafik.update();
   // Sunum modunda açıklamanın uzunluğu değişince slaytı yeniden sığdır.
   if (document.body.classList.contains('sunum')) sigdir(BOLUMLER[SLAYT[si].b]);
 }
 grupla([...document.querySelectorAll('#eg-btn button')], b => egGoster(b.dataset.m)); egGoster('tam');
-$('eg-veri').innerHTML = '<tr><th>Yıl</th><th>IT</th><th>PA</th><th>GSMH</th></tr>' + YIL2.map((y, i) => `<tr><td>${y}</td><td>${IT[i]}</td><td>${PA[i]}</td><td>${GSMH[i]}</td></tr>`).join('');
 (() => {
   const S = egS, D = S.s22 * S.s33 - S.s23 ** 2, b2 = (S.s2y * S.s33 - S.s3y * S.s23) / D, b3 = (S.s3y * S.s22 - S.s2y * S.s23) / D, b32 = S.s23 / S.s22;
-  $('eg-top').innerHTML = '<tr><th>Toplam</th><th>Değer</th></tr>' + [['Σx₂² (PA)', S.s22], ['Σx₃² (GSMH)', S.s33], ['Σx₂x₃', S.s23], ['Σx₂y', S.s2y], ['Σx₃y', S.s3y]].map(([a, v]) => `<tr><td>${a}</td><td>${n2(v)}</td></tr>`).join('') +
+  $('eg-top').innerHTML = '<tr><th>Toplam (n = 540)</th><th>Değer</th></tr>' + [['Σx₂² (ASVABC)', S.s22], ['Σx₃² (SM)', S.s33], ['Σx₂x₃', S.s23], ['Σx₂y', S.s2y], ['Σx₃y', S.s3y]].map(([a, v]) => `<tr><td>${a}</td><td>${n2(v)}</td></tr>`).join('') +
     `<tr><td>Ȳ, X̄₂, X̄₃</td><td>${n2(S.my)}, ${n2(S.m2)}, ${n2(S.m3)}</td></tr>`;
-  $('eg-form').innerHTML = `<b>Tam model</b><br>b₂ = (Σx₂y·Σx₃² − Σx₃y·Σx₂x₃) / (Σx₂²·Σx₃² − (Σx₂x₃)²) = <b class="ayni" style="color:var(--dogru)">${n4(b2)}</b><br>` +
+  $('eg-form').innerHTML = `<b>Tam model</b><br>b₂ = (Σx₂y·Σx₃² − Σx₃y·Σx₂x₃) / (Σx₂²·Σx₃² − (Σx₂x₃)²) = <b style="color:var(--dogru)">${n4(b2)}</b><br>` +
     `b₃ = (Σx₃y·Σx₂² − Σx₂y·Σx₂x₃) / (Σx₂²·Σx₃² − (Σx₂x₃)²) = <b style="color:var(--dogru)">${n4(b3)}</b><br>` +
     `b₁ = Ȳ − b₂X̄₂ − b₃X̄₃ = ${n2(S.my - b2 * S.m2 - b3 * S.m3)}<br><br>` +
-    `<b>GSMH çıkarılınca</b><br>a₂ = Σx₂y / Σx₂² = ${n2(S.s2y)} / ${n2(S.s22)} = <b style="color:var(--hatali)">${n4(S.s2y / S.s22)}</b><br>` +
+    `<b>SM çıkarılınca</b><br>a₂ = Σx₂y / Σx₂² = ${n2(S.s2y)} / ${n2(S.s22)} = <b style="color:var(--hatali)">${n4(S.s2y / S.s22)}</b><br>` +
     `b₃₂ = Σx₂x₃ / Σx₂² = ${n4(b32)} &nbsp;⇒&nbsp; a₂ = b₂ + b₃·b₃₂ = ${n4(b2)} + ${n4(b3)} × ${n4(b32)} = ${n4(b2 + b3 * b32)}`;
+  $('eg-r2').textContent = `${n4(EGM.a.R2)} + ${n4(EGM.m.R2)} = ${n2(EGM.a.R2 + EGM.m.R2)}, ama iki değişken birlikte yalnız ${n4(EGM.tam.R2)} açıklar.`;
 })();
 
 // ---------- sunum modu ----------
