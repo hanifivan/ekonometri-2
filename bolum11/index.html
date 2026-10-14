@@ -289,7 +289,11 @@
   .pv-high { color: var(--red); font-weight: 700; }
   tr.dus td { text-decoration: line-through; color: #b04040; }
   :root { --dogru: #1D9E75; --hatali: #E24B4A; }
-  body.sunum .eq { font-size: 30px; }
+  body.sunum .eq { font-size: 28px; white-space: normal; }
+  body.sunum .grid2 .eq { font-size: 25px; }
+  body.sunum .eq .lbl { font-size: 17px; display: block; margin: .3rem 0 0; }
+  body.sunum table.ornek { max-width: none !important; font-size: 28px; }
+  body.sunum table.ornek td, body.sunum table.ornek th { padding: 10px 18px; }
   body.sunum .out { font-size: 21px; }
   body.sunum .karar { font-size: 24px; }
 </style>
@@ -399,7 +403,8 @@
     </div>
     <h4 style="margin:1.1rem 0 .3rem;color:var(--navy)">Simülasyon: X<sub>3</sub> dışlanınca α̂<sub>2</sub> nereye gider?</h4>
     <p>Gerçek β<sub>2</sub>'yi kaydırıcıyla seçin (varsayılan 0.65). Her örnekte (n = 50) hem doğru model hem de X<sub>3</sub>'ün dışlandığı model tahmin ediliyor. β<sub>3</sub>'ü ve X<sub>2</sub> ile X<sub>3</sub> arasındaki korelasyonu değiştirin.</p>
-    <div class="controls">
+    <div class="info-box"><strong>Deneyin:</strong> r<sub>23</sub> = 0 yapın: sapma kaybolur (α̂<sub>2</sub> sapmasız olur, ama sabit terim hâlâ sapmalıdır). β<sub>3</sub>'ün ya da korelasyonun işaretini değiştirin: sapmanın işareti β<sub>3</sub> ile r<sub>23</sub>'ün işaretlerinin çarpımıdır (aynı işaret: yukarı, ters işaret: aşağı). Örneklem büyüse de bu sapma kalkmaz: tahminci tutarsızdır.</div>
+    <div class="controls yeni-slayt">
       <span class="kayd"><label>Gerçek β<sub>2</sub> = <b id="d-b2-l">0.65</b></label><input type="range" id="d-b2" min="-1" max="2" step="0.05" value="0.65"></span>
       <span class="kayd"><label>β<sub>3</sub> = <b id="d-b3-l">1.0</b></label><input type="range" id="d-b3" min="-2" max="2" step="0.1" value="1"></span>
       <span class="kayd"><label>r<sub>23</sub> = <b id="d-r-l">0.5</b></label><input type="range" id="d-r" min="-0.9" max="0.9" step="0.1" value="0.5"></span>
@@ -412,16 +417,10 @@
       <div class="stat-card"><div class="label">Dışlanan modelde α̂₂ ortalaması</div><div class="value" id="d-ks" style="color:var(--hatali)">-</div></div>
       <div class="stat-card"><div class="label">Teorik sapma β₃·b₃₂</div><div class="value" id="d-teo">-</div></div>
     </div>
-    <table class="isaret" style="max-width:520px;margin-top:1rem">
-      <tr><th>Sapmanın yönü</th><th>r₂₃ &gt; 0</th><th>r₂₃ &lt; 0</th></tr>
-      <tr><td>β₃ &gt; 0</td><td id="is-pp">yukarı (+)</td><td id="is-pn">aşağı (−)</td></tr>
-      <tr><td>β₃ &lt; 0</td><td id="is-np">aşağı (−)</td><td id="is-nn">yukarı (+)</td></tr>
-    </table>
-    <div class="info-box"><strong>Deneyin:</strong> r<sub>23</sub> = 0 yapın: sapma kaybolur (α̂<sub>2</sub> sapmasız olur, ama sabit terim hâlâ sapmalıdır). β<sub>3</sub>'ün ya da korelasyonun işaretini değiştirin ve tablodaki işaretli hücreyi izleyin. Örneklem büyüse de bu sapma kalkmaz: tahminci tutarsızdır.</div>
 
-    <h4 style="margin:1.5rem 0 .3rem;color:var(--navy)">Gerçek veri: eğitim süresi (Dougherty, EAEF, n = 570)</h4>
+    <h4 class="yeni-slayt" style="margin:1.5rem 0 .3rem;color:var(--navy)">Gerçek veri: eğitim süresi (Dougherty, EAEF, n = 570)</h4>
     <p>S: eğitim süresi, ASVABC: yetenek puanı, SM: annenin eğitim süresi. corr(ASVABC, SM) = 0.38.</p>
-    <table style="max-width:640px">
+    <table class="ornek" style="max-width:640px">
       <tr><th>Regresyon</th><th>ASVABC</th><th>SM</th><th>R²</th></tr>
       <tr><td>S = f(ASVABC, SM)</td><td>.1381</td><td>.1548</td><td>0.3561</td></tr>
       <tr class="hl"><td>S = f(ASVABC)</td><td>.1545</td><td></td><td>0.3340</td></tr>
@@ -804,8 +803,6 @@ function disCek() {
   const lo = b2 - 2.2, hi = b2 + 2.2, H = hist([uz, ks], lo, hi, 44);
   ciz('c-dis', histCfg(H.lab, [{ l: 'Doğru model β̂₂', d: H.h[0], c: C.green }, { l: 'X₃ dışlanmış α̂₂', d: H.h[1], c: C.red }], 'Tahmin edilen eğim (gerçek değer ' + f(b2, 2) + ')'));
   $('d-uz').textContent = f(ort(uz)); $('d-ks').textContent = f(ort(ks)); $('d-teo').textContent = (b3 * r >= 0 ? '+' : '') + f(b3 * r);
-  ['pp', 'pn', 'np', 'nn'].forEach(k => $('is-' + k).classList.remove('on'));
-  if (b3 !== 0 && r !== 0) $('is-' + (b3 > 0 ? 'p' : 'n') + (r > 0 ? 'p' : 'n')).classList.add('on');
 }
 ['d-b2', 'd-b3', 'd-r'].forEach(id => $(id).oninput = disCek); $('d-cek').onclick = disCek;
 
@@ -1020,13 +1017,14 @@ disCek(); gerCek(); hCek(); ohCiz();
 
 // ---------- sunum modu ----------
 // Her bölüm, ekran yüksekliğine göre ölçülüp birkaç slayda bölünür.
-// Başlık (h4) ve düğme satırı (.controls) ardındaki içerikten ayrılmaz.
+// Başlık (h4) ve düğme satırı (.controls) ardındaki içerikten ayrılmaz. class="yeni-slayt" taşıyan öğe yeni slayt başlatır.
 const BOLUMLER = [document.querySelector('.hero'), ...document.querySelectorAll('.section')];
 const KISIM = BOLUMLER.map(el => { let p = el.previousElementSibling; while (p && !p.classList.contains('part-title')) { if (p.classList.contains('hero')) return ''; p = p.previousElementSibling; } return p ? p.textContent : ''; });
 const BASLIK = BOLUMLER.map((el, i) => i === 0 ? 'Kapak' : el.querySelector('.section-header').innerText.replace(/^\S+\s*/, ''));
 BOLUMLER.slice(1).forEach(el => el.querySelector('.section-header').insertAdjacentHTML('beforeend', '<span class="parca-no"></span>'));
+// Slayt düzeninde açıklama paragrafı kaydırıcılardan ayrılabilir: başlık + açıklama bir önceki slayta, kaydırıcı + grafik + sonuçlar kendi slaytına.
 const bitisik = el => el.tagName === 'H4' || el.classList.contains('controls') || el.classList.contains('kwn') ||
-  (el.tagName === 'P' && el.nextElementSibling && el.nextElementSibling.classList.contains('controls'));
+  (el.classList.contains('chart-wrap') && el.nextElementSibling && el.nextElementSibling.classList.contains('stat-grid'));
 let SLAYT = [], si = 0, sonGorunen = 0;
 function parcala() {
   SLAYT = [{ b: 0, parca: null, k: 1, n: 1 }];
@@ -1044,7 +1042,7 @@ function parcala() {
     const birim = []; let cur = null;
     kids.forEach((c, j) => { if (!cur) cur = { el: [], h: 0 }; cur.el.push(c); cur.h += yuk[j]; if (!bitisik(c) || j === kids.length - 1) { birim.push(cur); cur = null; } });
     const dagit = L => { const out = []; let p = null;
-      birim.forEach(u => { if (p && p.h + u.h > L) { out.push(p); p = null; } if (!p) p = { el: [], h: 0 }; p.el.push(...u.el); p.h += u.h; });
+      birim.forEach(u => { if (p && (p.h + u.h > L || u.el[0].classList.contains('yeni-slayt'))) { out.push(p); p = null; } if (!p) p = { el: [], h: 0 }; p.el.push(...u.el); p.h += u.h; });
       if (p) out.push(p); return out; };
     // Slayt sayısını artırmadan içeriği dengeli dağıt: sonda küçük artık kalmasın.
     const n = dagit(bos).length; let lo = Math.max(...birim.map(u => u.h)), hi = Math.max(bos, lo);
