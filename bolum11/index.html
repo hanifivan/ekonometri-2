@@ -263,6 +263,21 @@
   body.sunum #s11 .info-box { font-size: 22px; }
   body.sunum #s3 .chart-wrap, body.sunum #s9 .chart-wrap { height: 380px; }
   body.sunum #sunum-bar .bilgi { font-size: 16px; }
+  /* Dar telefon (320-430 px): ızgara sütunları ve kaydırıcılar içerikle genişlemesin. Bölüm kutusu taşanı gizlediği için
+     taşma sayfada kaydırma çubuğu açmıyor, içerik sağdan kesik görünüyordu. Formül kutusu kendi içinde yana kayar. */
+  @media(max-width:700px) {
+    body:not(.sunum) .grid2, body:not(.sunum) .grid3, body:not(.sunum) .grid4 { grid-template-columns: minmax(0, 1fr); }
+    body:not(.sunum) .grid2 > *, body:not(.sunum) .grid3 > *, body:not(.sunum) .grid4 > *, body:not(.sunum) .section-body > * { min-width: 0; }
+    body:not(.sunum) .controls { flex-wrap: wrap; }
+    body:not(.sunum) .controls .kayd { white-space: normal; flex-wrap: wrap; max-width: 100%; }
+    body:not(.sunum) input[type=range] { width: auto; flex: 1 1 140px; min-width: 0; max-width: 100%; }
+    body:not(.sunum) .eq, body:not(.sunum) .eq.c { max-width: 100%; text-align: left; font-size: 15px; padding: .45rem .7rem; }
+    body:not(.sunum) .rs-pano { grid-template-columns: repeat(2, minmax(0, 1fr)); } body:not(.sunum) .rs-hucre { min-width: 0; }
+    body:not(.sunum) .rs-pano .rs-hucre b { white-space: normal; overflow-wrap: anywhere; font-size: 17px; }
+    body:not(.sunum) .eq .lbl { display: block; flex-basis: 100%; margin: .2rem 0 0; white-space: normal; }
+    body:not(.sunum) .eq[style*="flex"] { flex-wrap: wrap; justify-content: flex-start !important; }
+    body:not(.sunum) .section-body table:not(.table-scroll table) { display: block; max-width: 100%; overflow-x: auto; }
+  }
 </style>
 
 <style>
@@ -913,6 +928,10 @@
 // ---------- yardımcılar ----------
 // Adım adım ilerleyen bloklar: sunum modunda ok tuşları önce bunları gezer (parca_sunum.js, adimla)
 const ADIMLI = [];
+// Dar telefonda uzun formül kutuya sığana kadar küçülür (en az 11 px); sığmazsa kutu içinde yana kayar. Sunumda ve geniş ekranda dokunulmaz.
+function eqSigdir() { document.querySelectorAll('.eq').forEach(e => { e.style.fontSize = ''; if (document.body.classList.contains('sunum') || innerWidth > 700 || !e.offsetParent) return;
+  let f = parseFloat(getComputedStyle(e).fontSize); while (e.scrollWidth > e.clientWidth + 1 && f > 11) { f -= 0.5; e.style.fontSize = f + 'px'; } }); }
+addEventListener('load', eqSigdir); addEventListener('resize', eqSigdir);
 const $ = id => document.getElementById(id);
 const f = (x, d = 3) => (x < 0 ? '−' : '') + Math.abs(x).toFixed(d);
 const ort = a => a.reduce((s, v) => s + v, 0) / a.length;
