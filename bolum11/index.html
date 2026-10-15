@@ -373,6 +373,7 @@
   /* J testi: işaret tablosunda seçilen yönün sonucu mavi çerçeveli; kabul yeşil, ret kırmızı */
   .j-kutu .isaret th { text-align: center; }
   /* şapka (α̂, β̂): birleşik karakter Chromium'da kayıyor; harfin üstüne ayrı işaret konur */
+  .hip { border-left: 4px solid var(--navy); background: #f4f6fa; border-radius: 6px; padding: .5rem .9rem; margin: .4rem 0 .6rem; } .hip p { margin: .3rem 0; }
   .sapka { position: relative; display: inline-block; } .sapka::after { content: 'ˆ'; position: absolute; left: 50%; top: -.3em; transform: translateX(-50%); font-weight: 400; }
   .rs-hucre span.sapka, body.sunum .rs-hucre span.sapka { display: inline-block; font-size: inherit; color: inherit; }
   .isaret th.yon, .isaret td.yon { box-shadow: inset 0 0 0 3px #378ADD; } .j-kabul { color: #1D9E75; font-weight: 700; } .j-ret { color: #E24B4A; font-weight: 700; }
@@ -632,10 +633,10 @@
         <label><input type="checkbox" id="rs-2" checked> Ŷ²</label><label><input type="checkbox" id="rs-3" checked> Ŷ³</label>
       </div>
       <div class="rs-pano">
-        <div class="rs-hucre eski" id="rs-p-eski"><span>R²<sub>eski</sub></span><b>?</b><i>1. adım</i></div>
-        <div class="rs-hucre yeni" id="rs-p-yeni"><span>R²<sub>yeni</sub></span><b>?</b><i>3. adım</i></div>
-        <div class="rs-hucre m" id="rs-p-m"><span>f₁ = eklenen terim sayısı</span><b>?</b><i>3. adım</i></div>
-        <div class="rs-hucre sd" id="rs-p-sd"><span>f₂ = n − k (yeni model)</span><b>?</b><i>3. adım</i></div>
+        <div class="rs-hucre eski" id="rs-p-eski"><span>R²<sub>eski</sub></span><b>?</b><i>2. adım</i></div>
+        <div class="rs-hucre yeni" id="rs-p-yeni"><span>R²<sub>yeni</sub></span><b>?</b><i>4. adım</i></div>
+        <div class="rs-hucre m" id="rs-p-m"><span>f₁ = eklenen terim sayısı</span><b>?</b><i>4. adım</i></div>
+        <div class="rs-hucre sd" id="rs-p-sd"><span>f₂ = n − k (yeni model)</span><b>?</b><i>4. adım</i></div>
       </div>
       <div class="rs-adimlar" id="rs-adimlar"></div>
       <div class="rs-icerik" id="rs-icerik"></div>
@@ -662,12 +663,12 @@
         <button data-s="t" class="dw-b active">Zamana göre</button><button data-s="dk" class="dw-b">Döviz kuruna (DK) göre</button>
       </div>
       <div class="rs-pano dw-pano">
-        <div class="rs-hucre eski" id="dw-p-den"><span>Σe² (kalıntı kareleri)</span><b>?</b><i>1. adım</i></div>
-        <div class="rs-hucre m" id="dw-p-num"><span>Σ(e<sub>t</sub> − e<sub>t−1</sub>)²</span><b>?</b><i>3. adım</i></div>
-        <div class="rs-hucre yeni" id="dw-p-d"><span>d</span><b>?</b><i>3. adım</i></div>
-        <div class="rs-hucre sd" id="dw-p-n"><span>n</span><b>?</b><i>6. adım</i></div>
-        <div class="rs-hucre sd" id="dw-p-k"><span>k′ (sabit hariç)</span><b>?</b><i>6. adım</i></div>
-        <div class="rs-hucre tl" id="dw-p-dl"><span>d<sub>L</sub> / d<sub>U</sub> (%5)</span><b>?</b><i>6. adım</i></div>
+        <div class="rs-hucre eski" id="dw-p-den"><span>Σe² (kalıntı kareleri)</span><b>?</b><i>2. adım</i></div>
+        <div class="rs-hucre m" id="dw-p-num"><span>Σ(e<sub>t</sub> − e<sub>t−1</sub>)²</span><b>?</b><i>4. adım</i></div>
+        <div class="rs-hucre yeni" id="dw-p-d"><span>d</span><b>?</b><i>4. adım</i></div>
+        <div class="rs-hucre sd" id="dw-p-n"><span>n</span><b>?</b><i>7. adım</i></div>
+        <div class="rs-hucre sd" id="dw-p-k"><span>k′ (sabit hariç)</span><b>?</b><i>7. adım</i></div>
+        <div class="rs-hucre tl" id="dw-p-dl"><span>d<sub>L</sub> / d<sub>U</sub> (%5)</span><b>?</b><i>7. adım</i></div>
       </div>
       <div class="rs-adimlar" id="dw-adimlar"></div>
       <div class="rs-icerik" id="dw-icerik"></div>
@@ -678,12 +679,12 @@
     <h4 class="yeni-slayt dw-bas" style="margin-top:1rem">Eklenen değişkenler için LM testi adım adım: aynı ihracat modeli, Ŷ² ve Ŷ³ eklenmek isteniyor</h4>
     <div class="rs-kutu lm-kutu" data-adimli>
       <div class="rs-pano dw-pano lm-pano">
-        <div class="rs-hucre eski" id="lm-p-e"><span>Σe² (kısıtlı model)</span><b>?</b><i>1. adım</i></div>
-        <div class="rs-hucre yeni" id="lm-p-r2"><span>R²<sub>yard</sub></span><b>?</b><i>3. adım</i></div>
-        <div class="rs-hucre sd" id="lm-p-n"><span>n</span><b>?</b><i>5. adım</i></div>
-        <div class="rs-hucre m" id="lm-p-m"><span>sd = m (eklenen)</span><b>?</b><i>5. adım</i></div>
-        <div class="rs-hucre tl" id="lm-p-k"><span>χ²<sub>m</sub> kritik (%5)</span><b>?</b><i>5. adım</i></div>
-        <div class="rs-hucre ist" id="lm-p-lm"><span>LM = nR²<sub>yard</sub></span><b>?</b><i>6. adım</i></div>
+        <div class="rs-hucre eski" id="lm-p-e"><span>Σe² (kısıtlı model)</span><b>?</b><i>2. adım</i></div>
+        <div class="rs-hucre yeni" id="lm-p-r2"><span>R²<sub>yard</sub></span><b>?</b><i>4. adım</i></div>
+        <div class="rs-hucre sd" id="lm-p-n"><span>n</span><b>?</b><i>6. adım</i></div>
+        <div class="rs-hucre m" id="lm-p-m"><span>sd = m (eklenen)</span><b>?</b><i>6. adım</i></div>
+        <div class="rs-hucre tl" id="lm-p-k"><span>χ²<sub>m</sub> kritik (%5)</span><b>?</b><i>6. adım</i></div>
+        <div class="rs-hucre ist" id="lm-p-lm"><span>LM = nR²<sub>yard</sub></span><b>?</b><i>7. adım</i></div>
       </div>
       <div class="rs-adimlar" id="lm-adimlar"></div>
       <div class="rs-icerik" id="lm-icerik"></div>
@@ -734,13 +735,13 @@
       <h4 class="dw-bas" style="margin-top:.3rem">Hausman m testi adım adım: ln IHR = α + β ln DK + u, araç ln DK<sub>t−1</sub> (1985-2003)</h4>
       <div class="rs-kutu hu-kutu" data-adimli>
         <div class="rs-pano hu-pano">
-          <div class="rs-hucre eski" id="hu-p-b0"><span>β̂₀ (EKK)</span><b>?</b><i>1. adım</i></div>
-          <div class="rs-hucre m" id="hu-p-v0"><span>Var(β̂₀)</span><b>?</b><i>1. adım</i></div>
-          <div class="rs-hucre tl" id="hu-p-r"><span>r = corr(X, Z)</span><b>?</b><i>2. adım</i></div>
-          <div class="rs-hucre yes" id="hu-p-b1"><span>β̂₁ (IV)</span><b>?</b><i>3. adım</i></div>
-          <div class="rs-hucre ist" id="hu-p-q"><span>q̂ = β̂₁ − β̂₀</span><b>?</b><i>3. adım</i></div>
-          <div class="rs-hucre yeni" id="hu-p-m"><span>m</span><b>?</b><i>5. adım</i></div>
-          <div class="rs-hucre sd" id="hu-p-sd"><span>χ² sd</span><b>?</b><i>6. adım</i></div>
+          <div class="rs-hucre eski" id="hu-p-b0"><span>β̂₀ (EKK)</span><b>?</b><i>2. adım</i></div>
+          <div class="rs-hucre m" id="hu-p-v0"><span>Var(β̂₀)</span><b>?</b><i>2. adım</i></div>
+          <div class="rs-hucre tl" id="hu-p-r"><span>r = corr(X, Z)</span><b>?</b><i>3. adım</i></div>
+          <div class="rs-hucre yes" id="hu-p-b1"><span>β̂₁ (IV)</span><b>?</b><i>4. adım</i></div>
+          <div class="rs-hucre ist" id="hu-p-q"><span>q̂ = β̂₁ − β̂₀</span><b>?</b><i>4. adım</i></div>
+          <div class="rs-hucre yeni" id="hu-p-m"><span>m</span><b>?</b><i>6. adım</i></div>
+          <div class="rs-hucre sd" id="hu-p-sd"><span>χ² sd</span><b>?</b><i>7. adım</i></div>
         </div>
         <div class="rs-adimlar" id="hu-adimlar"></div>
         <div class="rs-icerik" id="hu-icerik"></div>
@@ -754,12 +755,12 @@
       <div class="rs-kutu ith-kutu" data-adimli>
         <div class="controls"><label>Araç</label><button data-a="gsmh" class="ar-b">ln GSMH</button><button data-a="lag" class="ar-b active">ln DK<sub>t−1</sub></button></div>
         <div class="rs-pano dw-pano ith-pano">
-          <div class="rs-hucre eski" id="ith-p-b"><span>β̂₂ ln DK (EKK)</span><b>?</b><i>1. adım</i></div>
-          <div class="rs-hucre tl" id="ith-p-tz"><span>t(araç), 1. aşama</span><b>?</b><i>3. adım</i></div>
-          <div class="rs-hucre ist" id="ith-p-f"><span>F = t² (&gt; 10?)</span><b>?</b><i>3. adım</i></div>
-          <div class="rs-hucre m" id="ith-p-d"><span>δ̂ (v̂ katsayısı)</span><b>?</b><i>4. adım</i></div>
-          <div class="rs-hucre yeni" id="ith-p-t"><span>t(δ̂)</span><b>?</b><i>4. adım</i></div>
-          <div class="rs-hucre sd" id="ith-p-sd"><span>sd = n − k</span><b>?</b><i>6. adım</i></div>
+          <div class="rs-hucre eski" id="ith-p-b"><span>β̂₂ ln DK (EKK)</span><b>?</b><i>2. adım</i></div>
+          <div class="rs-hucre tl" id="ith-p-tz"><span>t(araç), 1. aşama</span><b>?</b><i>4. adım</i></div>
+          <div class="rs-hucre ist" id="ith-p-f"><span>F = t² (&gt; 10?)</span><b>?</b><i>4. adım</i></div>
+          <div class="rs-hucre m" id="ith-p-d"><span>δ̂ (v̂ katsayısı)</span><b>?</b><i>5. adım</i></div>
+          <div class="rs-hucre yeni" id="ith-p-t"><span>t(δ̂)</span><b>?</b><i>5. adım</i></div>
+          <div class="rs-hucre sd" id="ith-p-sd"><span>sd = n − k</span><b>?</b><i>7. adım</i></div>
         </div>
         <div class="rs-adimlar" id="ith-adimlar"></div>
         <div class="rs-icerik" id="ith-icerik"></div>
@@ -846,12 +847,12 @@
         <button data-y="D" class="yn-b active">D: VM = f(PA)</button><button data-y="C" class="yn-b">C: VM = f(GSMH)</button>
       </div>
       <div class="rs-pano dw-pano yn-pano">
-        <div class="rs-hucre ist" id="yn-p-c"><span>Σe², C: f(GSMH)</span><b>?</b><i>1. adım</i></div>
-        <div class="rs-hucre ist" id="yn-p-d"><span>Σe², D: f(PA)</span><b>?</b><i>1. adım</i></div>
-        <div class="rs-hucre yeni" id="yn-p-e"><span>Σe², E: f(GSMH, PA)</span><b>?</b><i>2. adım</i></div>
-        <div class="rs-hucre m" id="yn-p-m"><span>f₁ = eklenen değişken</span><b>?</b><i>2. adım</i></div>
-        <div class="rs-hucre sd" id="yn-p-sd"><span>f₂ = n − k (E)</span><b>?</b><i>2. adım</i></div>
-        <div class="rs-hucre ist" id="yn-p-f"><span>F</span><b>?</b><i>4. adım</i></div>
+        <div class="rs-hucre ist" id="yn-p-c"><span>Σe², C: f(GSMH)</span><b>?</b><i>2. adım</i></div>
+        <div class="rs-hucre ist" id="yn-p-d"><span>Σe², D: f(PA)</span><b>?</b><i>2. adım</i></div>
+        <div class="rs-hucre yeni" id="yn-p-e"><span>Σe², E: f(GSMH, PA)</span><b>?</b><i>3. adım</i></div>
+        <div class="rs-hucre m" id="yn-p-m"><span>f₁ = eklenen değişken</span><b>?</b><i>3. adım</i></div>
+        <div class="rs-hucre sd" id="yn-p-sd"><span>f₂ = n − k (E)</span><b>?</b><i>3. adım</i></div>
+        <div class="rs-hucre ist" id="yn-p-f"><span>F</span><b>?</b><i>5. adım</i></div>
       </div>
       <div class="rs-adimlar" id="yn-adimlar"></div>
       <div class="rs-icerik" id="yn-icerik"></div>
@@ -866,12 +867,12 @@
         <button data-j="CD" class="j-b active">C'yi sına: C + Ŷ<sup>D</sup></button><button data-j="DC" class="j-b">D'yi sına: D + Ŷ<sup>C</sup></button>
       </div>
       <div class="rs-pano dw-pano j-pano">
-        <div class="rs-hucre ist" id="j-p-r"><span>Eklenen Ŷ'nin kaynağı</span><b>?</b><i>2. adım</i></div>
-        <div class="rs-hucre eski" id="j-p-b"><span>α̂₃ (Ŷ<sup>D</sup> katsayısı)</span><b>?</b><i>3. adım</i></div>
-        <div class="rs-hucre m" id="j-p-se"><span>Std. hata</span><b>?</b><i>3. adım</i></div>
-        <div class="rs-hucre yeni" id="j-p-t"><span>t = katsayı / std. hata</span><b>?</b><i>3. adım</i></div>
-        <div class="rs-hucre sd" id="j-p-sd"><span>sd = n − k</span><b>?</b><i>5. adım</i></div>
-        <div class="rs-hucre tl" id="j-p-k"><span>t kritik (%5, iki yanlı)</span><b>?</b><i>5. adım</i></div>
+        <div class="rs-hucre ist" id="j-p-r"><span>Eklenen Ŷ'nin kaynağı</span><b>?</b><i>3. adım</i></div>
+        <div class="rs-hucre eski" id="j-p-b"><span>α̂₃ (Ŷ<sup>D</sup> katsayısı)</span><b>?</b><i>4. adım</i></div>
+        <div class="rs-hucre m" id="j-p-se"><span>Std. hata</span><b>?</b><i>4. adım</i></div>
+        <div class="rs-hucre yeni" id="j-p-t"><span>t = katsayı / std. hata</span><b>?</b><i>4. adım</i></div>
+        <div class="rs-hucre sd" id="j-p-sd"><span>sd = n − k</span><b>?</b><i>6. adım</i></div>
+        <div class="rs-hucre tl" id="j-p-k"><span>t kritik (%5, iki yanlı)</span><b>?</b><i>6. adım</i></div>
       </div>
       <div class="rs-adimlar" id="j-adimlar"></div>
       <div class="rs-icerik" id="j-icerik"></div>
@@ -948,13 +949,13 @@ function panoYaz(id, deger, acik) {
   if (yeni && eski !== b.textContent) { h.classList.remove('yanip'); void h.offsetWidth; h.classList.add('yanip'); }
 }
 // Adım çubuğu: adlar dizisinden düğmeler; a etkin adım (1'den), git(k) adıma gider.
-function adimCubugu(kapId, adlar, a, git) {
-  $(kapId).innerHTML = adlar.map((x, k) => `<button data-a="${k + 1}" class="${k + 1 === a ? 'active' : k + 1 < a ? 'gecti' : ''}">${k + 1}. ${x}</button>`).join('');
+function adimCubugu(kapId, adlar, a, git, ilk = 1) {
+  $(kapId).innerHTML = adlar.map((x, k) => `<button data-a="${k + ilk}" class="${k + ilk === a ? 'active' : k + ilk < a ? 'gecti' : ''}">${k + 1}. ${x}</button>`).join('');
   $(kapId).querySelectorAll('button').forEach(b => b.onclick = () => git(+b.dataset.a));
 }
 // Sunum modunda ok tuşu/kumanda önce bu bloğun adımlarını gezer (parca_sunum.js, adimla); al() etkin adımı verir.
 // Blok gizliyse (ör. başka sekme açık) ok tuşu slayta geçer.
-function adimliKaydet(el, al, N, git) { const gor = () => el.offsetParent !== null; ADIMLI.push({ el, ileri: () => gor() && al() < N ? (git(al() + 1), true) : false, geri: () => gor() && al() > 1 ? (git(al() - 1), true) : false }); }
+function adimliKaydet(el, al, N, git, ilk = 1) { const gor = () => el.offsetParent !== null; ADIMLI.push({ el, ileri: () => gor() && al() < N ? (git(al() + 1), true) : false, geri: () => gor() && al() > ilk ? (git(al() - 1), true) : false }); }
 // İçerik uzunluğu değişince, öğe görünen slayttaysa slaytı yeniden sığdır.
 function sunumdaSigdir(oge) { if (!document.body.classList.contains('sunum')) return; const el = BOLUMLER[SLAYT[si].b]; if (el.contains(oge)) sigdir(el); }
 // Öğrenciye sayı buldurma (f₁, f₂, n, k′ ...): on-kontrol, on-goster, on-geri-bildirim kimlikli öğeler;
@@ -1170,7 +1171,7 @@ grupla([...document.querySelectorAll('.kal-b')], b => kalCiz(+b.dataset.d)); kal
 // Kurgu: asıl model → şüphe (grafik) → Ŷ², Ŷ³ eklenir, R² artar → "artış şans eseri mi?" (rastgele değişken denemesi)
 // → bu karşılaştırma F oranına dönüşür → F dağılımında karar. Panodaki değerler adım adım dolar.
 // R² değerleri 4 basamağa yuvarlanır, F bu değerlerden hesaplanır (elle hesap ve sunumla aynı sonuç).
-let rsV = 'ihr', rsA = 1, RS = null, rsSans = null, rsSdAcik = false;
+let rsV = 'ihr', rsA = 0, RS = null, rsSans = null, rsSdAcik = false;
 const RS_ADIM = ['Asıl model', 'Şüphe: kalıntılar', 'Ŷ², Ŷ³ ekle', 'Artış şans eseri mi?', 'F oranı', 'Karar'], RS_N = RS_ADIM.length;
 function rsHesap() {
   const ihr = rsV === 'ihr', y = ihr ? ln(IHR) : ln(IT), x = ihr ? ln(DK) : ln(PA), xn = ihr ? 'ln DK' : 'ln PA', yn = ihr ? 'ln IHR' : 'ln IT';
@@ -1207,10 +1208,13 @@ function rsIcerik() {
   if (R.r1 && rsA >= 4 && !rsSans) rsSansHesap();
   const S = rsSans, artis = R.r1 ? R.R1 - R.R0 : 0;
   const ic = {
-    1: () => `<h5>1. adım: Asıl modeli tahmin et</h5><div class="out">${cikti(`${R.yn} = f(${R.xn})`, ['Sabit', R.xn], R.r0)}</div>
+    0: () => `<h5>1. adım: Hipotezleri kur</h5>
+      <div class="hip"><p><b>H₀:</b> model doğru tanımlanmış. Ŷ'nin kuvvetleri modele eklenirse katsayıları sıfırdır (${(R.ad.length ? R.ad : ['Ŷ²', 'Ŷ³']).map((a, i) => ['γ₁', 'γ₂'][i]).join(' = ')} = 0).</p><p><b>H₁:</b> katsayılardan en az biri sıfırdan farklı; model yanlış tanımlanmış (dışlanmış değişken ya da yanlış fonksiyon kalıbı).</p></div>
+      <div class="rs-yaz">Sınanacak model: ${R.yn} = β₀ + β₁ ${R.xn} + ${(R.ad.length ? R.ad : ['Ŷ²', 'Ŷ³']).map((a, i) => ['γ₁', 'γ₂'][i] + a).join(' + ')} + u. Anlamlılık düzeyi %5. Sonraki adımlarda F istatistiği kurulur; F, F kritik değerini aşarsa H₀ reddedilir.</div>`,
+    1: () => `<h5>2. adım: Asıl modeli tahmin et</h5><div class="out">${cikti(`${R.yn} = f(${R.xn})`, ['Sabit', R.xn], R.r0)}</div>
       <div class="rs-yaz">Bu modelin R²'si <b>R²<sub>eski</sub> = ${E}</b> → panoya. Tahmin edilen değerleri (Ŷ) ve kalıntıları (û) saklıyoruz.</div>`,
-    2: () => `<h5>2. adım: Şüphe: kalıntılar Ŷ ile bir desen çiziyor mu?</h5><div class="rs-yaz">Model doğruysa noktalar sıfır çevresinde desensiz bir bant olmalı. ${R.ihr ? 'Burada belirgin bir eğri var.' : 'Burada zayıf bir eğrisellik var; gözle karar vermek zor.'} Desen, modelin bir şeyi kaçırdığını düşündürür. <b>Turuncu eğri</b>: yukarıda seçilen terimler (Ŷ², Ŷ³) modele eklenirse yakalanabilecek desen. Kutuları değiştirip eğrinin nasıl değiştiğine bakın.</div>`,
-    3: () => !R.r1 ? yok : `<h5>3. adım: Ŷ'nin kuvvetlerini (${R.ad.join(', ')}) modele ekle</h5>
+    2: () => `<h5>3. adım: Şüphe: kalıntılar Ŷ ile bir desen çiziyor mu?</h5><div class="rs-yaz">Model doğruysa noktalar sıfır çevresinde desensiz bir bant olmalı. ${R.ihr ? 'Burada belirgin bir eğri var.' : 'Burada zayıf bir eğrisellik var; gözle karar vermek zor.'} Desen, modelin bir şeyi kaçırdığını düşündürür. <b>Turuncu eğri</b>: yukarıda seçilen terimler (Ŷ², Ŷ³) modele eklenirse yakalanabilecek desen. Kutuları değiştirip eğrinin nasıl değiştiğine bakın.</div>`,
+    3: () => !R.r1 ? yok : `<h5>4. adım: Ŷ'nin kuvvetlerini (${R.ad.join(', ')}) modele ekle</h5>
       <div class="rs-yaz">Neden Ŷ'nin kuvvetleri? Kaçırdığımız şeyi bilmiyoruz; Ŷ², Ŷ³ her türlü eğriselliği taklit edebilen genel terimlerdir. Model doğruysa bunlar hiçbir şey açıklamaz.</div>
       <div class="out">${cikti(`${R.yn} = f(${R.xn}, ${R.ad.join(', ')})`, ['Sabit', R.xn, ...R.ad], R.r1)}</div>
       <div class="rs-yaz"><b>R²<sub>yeni</sub> = ${Y}</b> → panoya. Şimdi F için iki serbestlik derecesi gerekiyor. <b>Önce siz bulun:</b></div>
@@ -1218,15 +1222,15 @@ function rsIcerik() {
         <label>f₂ = n − k = <input id="rs-f2" type="number" min="0" step="1"></label>
         <button id="rs-kontrol">Kontrol et</button><button id="rs-goster">Cevabı göster</button>
         <div id="rs-geri-bildirim"></div></div>`,
-    4: () => !R.r1 ? yok : `<h5>4. adım: R² ${E} → ${Y} arttı. Ama bu artış şans eseri olabilir mi?</h5>
+    4: () => !R.r1 ? yok : `<h5>5. adım: R² ${E} → ${Y} arttı. Ama bu artış şans eseri olabilir mi?</h5>
       <div class="rs-yaz">Modele <b>ne eklerseniz ekleyin R² artar</b>. Deneme: Ŷ'nin kuvvetleri yerine ${R.m} tane <b>rastgele</b>, Y ile ilgisiz değişken ekleyip 400 kez tahmin ettik (gri çubuklar). Rastgele değişkenler R²'yi ortalama <b>${S.ort.toFixed(4)}</b> artırıyor; bizim artış (turuncu çizgi) <b>${artis.toFixed(4)}</b>. Bu kadar artış ${S.buyuk === 0 ? 'denemelerin <b>hiçbirinde</b> çıkmadı: şansla açıklanamayacak kadar büyük.' : `denemelerin <b>%${(100 * S.buyuk).toFixed(1)}</b>${sayiEk((100 * S.buyuk).toFixed(1), 'inde')} çıktı: ${S.buyuk < 0.05 ? 'şansla açıklanamayacak kadar büyük.' : 'şansla rahatça açıklanabilir.'}`}</div>`,
-    5: () => !R.r1 ? yok : `<h5>5. adım: "Şans eseri mi?" sorusunu tek sayıya çevir: F oranı</h5>
+    5: () => !R.r1 ? yok : `<h5>6. adım: "Şans eseri mi?" sorusunu tek sayıya çevir: F oranı</h5>
       <div class="rs-yaz">Artışı, rastgele bir terimin getirmesi beklenen artışla karşılaştırırız. Rastgele bir terim ortalamada, açıklanamayan kısmın (1 − R²) bir serbestlik derecesine düşen payı kadar artış getirir. Bu yüzden: pay = eklenen terim başına kazanç (÷ f₁), payda = serbestlik derecesi başına kalan hata (÷ f₂).</div>
       <div class="rs-f">F = <span class="frac"><span>(<span class="rs-yeni">R²<sub>yeni</sub></span> − <span class="rs-eski">R²<sub>eski</sub></span>) / <span class="rs-m">f₁</span></span><span>(1 − <span class="rs-yeni">R²<sub>yeni</sub></span>) / <span class="rs-sd">f₂</span></span></span>
       = <span class="frac"><span>(${Y} − ${E}) / ${Mm}</span><span>(1 − ${Y}) / ${SD}</span></span>
       = <span class="frac"><span>${R.pay.toFixed(5)}</span><span>${R.payda.toFixed(5)}</span></span> = <b>${R.F.toFixed(2)}</b></div>
       <div class="rs-yaz">Eklenen terimler işe yaramıyorsa F ≈ 1 civarında olur (kazanç, rastgele bir terimin getireceği kadar). F 1'den çok büyükse terimler gerçekten bir şey yakalamıştır. Bizim F, bir terimin getirdiği kazancın rastgele beklentinin ${R.F.toFixed(1)} katı olduğunu söylüyor.</div>`,
-    6: () => !R.r1 ? yok : `<h5>6. adım: Karar: F, F(f₁ = ${Mm}, f₂ = ${SD}) dağılımının neresinde?</h5>
+    6: () => !R.r1 ? yok : `<h5>7. adım: Karar: F, F(f₁ = ${Mm}, f₂ = ${SD}) dağılımının neresinde?</h5>
       <div class="rs-yaz">H₀: model doğru tanımlanmış (${R.ad.join(', ')} katsayıları sıfır). H₀ doğruysa F, F(f₁, f₂) dağılımına uyar; değerlerin yalnız %5'i <b>F kritik = ${R.Fk.toFixed(2)}</b>${sayiEk(R.Fk.toFixed(2), 'den')} büyüktür (kırmızı bölge). Tabloda <b>f₁ = ${R.m} üst satır (pay), f₂ = ${R.sd} sol sütun (payda)</b>.</div>
       <div class="karar ${R.p < 0.05 ? 'red' : 'kabul'}">${R.p < 0.05 ? `F = ${R.F.toFixed(2)} > ${R.Fk.toFixed(2)}: kırmızı bölgede. H₀ reddedilir, model yanlış tanımlanmış (p = ${pfmt(R.p)}).` : `F = ${R.F.toFixed(2)} < ${R.Fk.toFixed(2)}: kırmızı bölgede değil. H₀ reddedilemez (p = ${pfmt(R.p)}).`}</div>
       <div class="rs-yaz">${R.ihr ? 'RESET bir sorun olduğunu söyler, ne olduğunu söylemez: fonksiyon kalıbını değiştirin ya da dışlanmış değişken arayın.' : 'Küçük örneklemde (n = 13) testin gücü düşüktür: reddedememek modelin kesin doğru olduğunu göstermez.'}</div>` };
@@ -1242,7 +1246,7 @@ function rsIcerik() {
     const egri = xs.map(v => { let y = u.b[0] + u.b[1] * v, j = 2; if (g2) y += u.b[j++] * v * v; if (g3) y += u.b[j++] * v ** 3; return { x: v, y }; });
     const ad = [g2 && 'Ŷ²', g3 && 'Ŷ³'].filter(Boolean);
     ciz('c-rs', { type: 'scatter', data: { datasets: [
-      { label: 'û – Ŷ (1. adımın kalıntıları)', data: R.fh.map((v, i) => ({ x: v, y: R.r0.e[i] })), backgroundColor: C.teal },
+      { label: 'û – Ŷ (2. adımın kalıntıları)', data: R.fh.map((v, i) => ({ x: v, y: R.r0.e[i] })), backgroundColor: C.teal },
       { label: ad.length ? `${ad.join(' ve ')} ile yakalanabilecek desen` : 'Terim seçilmedi: yakalanan desen yok', type: 'line', data: egri, borderColor: C.orange, borderWidth: 3, pointRadius: 0, tension: 0 }] },
       options: { maintainAspectRatio: false, scales: { x: { title: { display: true, text: 'Ŷ = tahmin edilen ' + R.yn } }, y: { title: { display: true, text: 'û' } } } } });
   }
@@ -1266,8 +1270,8 @@ function rsIcerik() {
           g.save(); g.strokeStyle = renk; g.lineWidth = 3; g.setLineDash(q ? [] : [6, 4]); g.beginPath(); g.moveTo(px, Yy.top); g.lineTo(px, Yy.bottom); g.stroke();
           g.fillStyle = renk; g.font = 'bold 15px sans-serif'; g.textAlign = px > X.right - 110 ? 'right' : 'left'; g.fillText(' ' + yaz + ' ', px, Yy.top + 14 + q * 18); g.restore(); }); } }] });
   }
-  adimCubugu('rs-adimlar', RS_ADIM, rsA, rsGit);
-  $('rs-geri').disabled = rsA === 1; $('rs-ileri').disabled = rsA === RS_N;
+  adimCubugu('rs-adimlar', ['Hipotezler', ...RS_ADIM], rsA, rsGit, 0);
+  $('rs-geri').disabled = rsA === 0; $('rs-ileri').disabled = rsA === RS_N;
   rsPano();
   sunumdaSigdir($('rs-icerik'));
 }
@@ -1284,7 +1288,7 @@ function rsSdBagla(kSay) {
     () => `Doğru. f₁ = ${R.m}: eklenen terimler ${R.ad.join(', ')}. f₂ = n − k = ${R.n} − ${R.r1.k} = ${R.sd}; yeni modeldeki katsayılar: ${kSay.map((t, i) => `<span class="rs-kat">${i + 1}. ${t}</span>`).join(' ')} → k = ${R.r1.k} (sabit dahil).`,
     rsSdAcik, () => { rsSdAcik = true; rsPano(); });
 }
-function rsGit(a) { rsA = Math.max(1, Math.min(RS_N, a)); rsIcerik(); }
+function rsGit(a) { rsA = Math.max(0, Math.min(RS_N, a)); rsIcerik(); }
 function rsCiz() {
   rsHesap(); rsIcerik();
   const Yl = RS.ihr ? YIL1 : YIL2, sut = RS.ihr ? [['DK', DK], ['IHR', IHR]] : [['IT', IT], ['PA', PA], ['DK', DK.slice(6, 19)], ['GSMH', GSMH]];
@@ -1292,8 +1296,8 @@ function rsCiz() {
 }
 $('rs-geri').onclick = () => rsGit(rsA - 1); $('rs-ileri').onclick = () => rsGit(rsA + 1);
 // Sunum modunda sağ/sol ok (ve kumanda) önce adımları gezer, son adımdan sonra slayta geçer.
-adimliKaydet(document.querySelector('#s6 .rs-kutu'), () => rsA, RS_N, rsGit);
-grupla([...document.querySelectorAll('.rs-v')], b => { rsV = b.dataset.v; $('rs-2').checked = true; $('rs-3').checked = rsV === 'ihr'; rsA = 1; rsCiz(); });
+adimliKaydet(document.querySelector('#s6 .rs-kutu'), () => rsA, RS_N, rsGit, 0);
+grupla([...document.querySelectorAll('.rs-v')], b => { rsV = b.dataset.v; $('rs-2').checked = true; $('rs-3').checked = rsV === 'ihr'; rsA = 0; rsCiz(); });
 // Terim seçimi 1. adımda bir şey değiştirmez (asıl modelde yoklar): etkisinin göründüğü 2. adıma geç.
 ['rs-2', 'rs-3'].forEach(id => $(id).onchange = () => { if (rsA === 1) rsA = 2; rsCiz(); }); rsCiz();
 
@@ -1304,7 +1308,7 @@ grupla([...document.querySelectorAll('.rs-v')], b => { rsV = b.dataset.v; $('rs-
 const DW_L = 1.201, DW_U = 1.411; // Savin-White, n = 20, k′ = 1, %5
 const DW_ADIM = ['Asıl model', 'Şüphe: hangi sıra?', 'd ne ölçer?', 'Küçüklük şans eseri mi?', 'd formülü', 'n ve k′', 'Karar'], DW_N = DW_ADIM.length;
 const r7 = ekk(ln(IHR), [ln(DK)]);
-let dwS = 't', dwA = 1, DW = null, dwSdAcik = false;
+let dwS = 't', dwA = 0, DW = null, dwSdAcik = false;
 const dwSans = {};
 function dwOlc(s) {
   const zaman = s === 't', sira = zaman ? YIL1.map((_, i) => i) : DK.map((v, i) => [v, i]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
@@ -1343,27 +1347,30 @@ function dwIcerik() {
   const NU = `<span class="rs-m">${R.NUM.toFixed(4)}</span>`, DE = `<span class="rs-eski">${R.DEN.toFixed(4)}</span>`;
   const S = dwA === 4 ? dwSansHesap() : null, e3 = v => v < 0 ? `(${f(v, 3)})` : f(v, 3);
   const ic = {
-    1: () => `<h5>1. adım: Asıl modeli tahmin et, kalıntıları al</h5><div class="out">${cikti('ln IHR = f(ln DK)', ['Sabit', 'ln DK'], r7)}</div>
+    0: () => `<h5>1. adım: Hipotezleri kur</h5>
+      <div class="hip"><p><b>H₀:</b> ρ = 0; ardışık kalıntılar arasında ilişki (örüntü) yok, model doğru tanımlanmış.</p><p><b>H₁:</b> ρ &gt; 0; ardışık kalıntılar birbirine bağlı (dışlanmış değişken, yanlış fonksiyon kalıbı ya da otokorelasyon).</p></div>
+      <div class="rs-yaz">Kalıntılar için e<sub>t</sub> = ρ e<sub>t−1</sub> + v<sub>t</sub> düşünülür. Tek yanlı test, anlamlılık düzeyi %5. Sonraki adımlarda d istatistiği hesaplanır; d, d<sub>L</sub>'nin altına düşerse H₀ reddedilir.</div>`,
+    1: () => `<h5>2. adım: Asıl modeli tahmin et, kalıntıları al</h5><div class="out">${cikti('ln IHR = f(ln DK)', ['Sabit', 'ln DK'], r7)}</div>
       <div class="rs-yaz">Kalıntılar e<sub>t</sub> = ln IHR<sub>t</sub> − (α̂₁ + α̂₂ ln DK<sub>t</sub>). Kareleri toplamı <b>Σe² = ${DE}</b> → panoya. Bu toplam, kalıntıları hangi sıraya dizersek dizelim aynıdır.</div>`,
-    2: () => `<h5>2. adım: Şüphe: kalıntıları hangi sıraya dizelim?</h5>
+    2: () => `<h5>3. adım: Şüphe: kalıntıları hangi sıraya dizelim?</h5>
       <div class="rs-yaz">Dışlanmış bir değişken ya da yanlış fonksiyon kalıbı kalıntıya kaçar; kalıntılar şüphelenilen değişkenle birlikte dalgalanır. Bu yüzden gözlemleri o değişkene göre sıralayıp kalıntılara bakarız (yukarıdaki düğmeler). ${R.zaman ? 'Zaman sırası zamanla değişen bir etkiyi yakalar.' : 'DK sırası ln DK ile ilişkinin doğrusal olmadığını yakalar. DK 2003 dışında her yıl arttığından bu sıra zaman sırasından yalnız son iki gözlemde ayrılır.'} Kalıntının işareti 19 geçişte yalnız <b>${R.isd}</b> kez değişiyor; desensiz kalıntılarda yaklaşık 9-10 kez beklenir. Uzun artı ve eksi blokları ardışık kalıntıların birbirine benzediğini gösterir.</div>`,
-    3: () => `<h5>3. adım: d ne ölçer?</h5>
+    3: () => `<h5>4. adım: d ne ölçer?</h5>
       <div class="rs-yaz">d, <b>ardışık kalıntı farklarının karelerinin toplamını</b> <b>kalıntı kareleri toplamına</b> böler. Kalıntılar desensizse komşu kalıntılar birbirinden bağımsızdır, farklar büyük çıkar ve d ≈ 2 olur. Örüntü varsa komşu kalıntılar birbirine benzer, farklar küçülür; pay küçüldüğü için d de küçülür.</div>
       <div class="rs-yaz">Bizim kalıntılarda (${R.ad}) Σ(e<sub>t</sub> − e<sub>t−1</sub>)² = ${NU}, Σe² = ${DE}. Pay paydadan bile küçük: <b>d = ${D}</b> → panoya. Desensiz kalıntılarda beklenen 2'nin çok altında.</div>`,
-    4: () => `<h5>4. adım: d = ${D} küçük. Bu küçüklük şans eseri olabilir mi?</h5>
+    4: () => `<h5>5. adım: d = ${D} küçük. Bu küçüklük şans eseri olabilir mi?</h5>
       <div class="rs-yaz">Deneme: aynı 20 kalıntıyı <b>rastgele bir sıraya</b> karıştırıp d'yi yeniden hesapladık, 2000 kez (gri çubuklar). Rastgele sırada komşu kalıntılar arasında bağ yoktur, d ortalama <b>${S.ort.toFixed(2)}</b> çıkıyor. Bizim d (turuncu çizgi) <b>${R.d.toFixed(3)}</b>. Bu kadar küçük d ${S.kucuk === 0 ? 'denemelerin <b>hiçbirinde</b> çıkmadı: şansla açıklanamayacak kadar küçük.' : `denemelerin yalnız <b>%${(100 * S.kucuk).toFixed(1)}</b>${sayiEk((100 * S.kucuk).toFixed(1), 'inde')} çıktı: ${S.kucuk < 0.05 ? 'şansla açıklanamayacak kadar küçük.' : 'şansla açıklanabilir.'}`}</div>`,
-    5: () => `<h5>5. adım: Formül ve sayılar</h5>
+    5: () => `<h5>6. adım: Formül ve sayılar</h5>
       <div class="rs-f">d = <span class="frac"><span><span class="rs-m">Σ<sub>t=2</sub><sup>n</sup> (e<sub>t</sub> − e<sub>t−1</sub>)²</span></span><span><span class="rs-eski">Σ<sub>t=1</sub><sup>n</sup> e<sub>t</sub>²</span></span></span>
         = <span class="frac"><span>${NU}</span><span>${DE}</span></span> = <b>${D}</b></div>
       <div class="rs-yaz">Pay ${R.n - 1} ardışık farkın kareleri toplamı: [${e3(R.e[1])} − ${e3(R.e[0])}]² + [${e3(R.e[2])} − ${e3(R.e[1])}]² + … + [${e3(R.e[R.n - 1])} − ${e3(R.e[R.n - 2])}]² = ${NU}. Payda ${R.n} kalıntının kareleri toplamı: ${e3(R.e[0])}² + ${e3(R.e[1])}² + … + ${e3(R.e[R.n - 1])}² = ${DE}.</div>
       <div class="rs-yaz">d 0 ile 4 arasında değişir. d ≈ 0 güçlü pozitif örüntü, d ≈ 2 örüntü yok, d ≈ 4 negatif örüntü (komşular ters işaretli). Yaklaşık ilişki d ≈ 2(1 − ρ̂); ardışık kalıntılar arasındaki korelasyon ρ̂ = ${R.rho.toFixed(3)} → 2(1 − ${R.rho.toFixed(3)}) = ${(2 * (1 - R.rho)).toFixed(2)} (küçük örneklemde uç terimler e₁², e<sub>n</sub>² yüzünden yalnız yaklaşık).</div>`,
-    6: () => `<h5>6. adım: Tablo için n ve k′ gerekli. Önce siz bulun</h5>
+    6: () => `<h5>7. adım: Tablo için n ve k′ gerekli. Önce siz bulun</h5>
       <div class="rs-yaz">d'nin H₀ altındaki dağılımı açıklayıcı değişkenlerin değerlerine bağlıdır. Bu yüzden Durbin-Watson tablosu tek kritik değer yerine bir alt (d<sub>L</sub>) ve bir üst (d<sub>U</sub>) sınır verir. Tabloya iki sayıyla girilir.</div>
       <div class="rs-sd-kutu"><label>n = <input id="dw-n" type="number" min="0" step="1"></label>
         <label>k′ (açıklayıcı değişken sayısı) = <input id="dw-k" type="number" min="0" step="1"></label>
         <button id="dw-kontrol">Kontrol et</button><button id="dw-goster">Cevabı göster</button>
         <div id="dw-geri-bildirim"></div></div>`,
-    7: () => `<h5>7. adım: Karar: d = ${D}, 0-4 şeridinin neresinde?</h5>
+    7: () => `<h5>8. adım: Karar: d = ${D}, 0-4 şeridinin neresinde?</h5>
       <div class="rs-yaz">H₀: kalıntılarda örüntü yok (model doğru tanımlanmış). d &lt; d<sub>L</sub> ise H₀ reddedilir; d<sub>L</sub> ile d<sub>U</sub> arasında test karar vermez (kararsız bölge).</div>
       ${dwSerit(R.d)}
       <div class="karar ${R.d < DW_L ? 'red' : R.d > DW_U ? 'kabul' : ''}">${R.d < DW_L ? `${R.ad[0].toUpperCase() + R.ad.slice(1)} ile d = ${R.d.toFixed(3)} &lt; d<sub>L</sub> = ${DW_L}: kırmızı bölgede. H₀ reddedilir. ${R.zaman ? 'Kalıntılarda sistematik örüntü var; bu tanımlama hatasının ya da otokorelasyonun belirtisi olabilir.' : 'Kalıntılarda sistematik örüntü var, model yanlış tanımlanmış (tanımlama hatası).'}` : R.d > DW_U ? `d = ${R.d.toFixed(3)} &gt; d<sub>U</sub> = ${DW_U}: H₀ reddedilemez.` : `d = ${R.d.toFixed(3)} kararsız bölgede: test karar vermez.`}</div>
@@ -1392,14 +1399,14 @@ function dwIcerik() {
     cfg.plugins = [histCizgi(-0.05, 4.05, 41, [[R.d, C.orange, 'bizim d = ' + R.d.toFixed(3)]])];
     ciz('c-dw2', cfg);
   }
-  adimCubugu('dw-adimlar', DW_ADIM, dwA, dwGit);
-  $('dw-geri').disabled = dwA === 1; $('dw-ileri').disabled = dwA === DW_N;
+  adimCubugu('dw-adimlar', ['Hipotezler', ...DW_ADIM], dwA, dwGit, 0);
+  $('dw-geri').disabled = dwA === 0; $('dw-ileri').disabled = dwA === DW_N;
   dwPano();
   sunumdaSigdir($('dw-icerik'));
 }
-function dwGit(a) { dwA = Math.max(1, Math.min(DW_N, a)); dwIcerik(); }
+function dwGit(a) { dwA = Math.max(0, Math.min(DW_N, a)); dwIcerik(); }
 $('dw-geri').onclick = () => dwGit(dwA - 1); $('dw-ileri').onclick = () => dwGit(dwA + 1);
-adimliKaydet(document.querySelector('#s7 .dw-kutu'), () => dwA, DW_N, dwGit);
+adimliKaydet(document.querySelector('#s7 .dw-kutu'), () => dwA, DW_N, dwGit, 0);
 // Sıralama seçimi 1. adımda bir şey değiştirmez (Σe² sıraya bağlı değil): oradan 2. adıma geç; 2-7. adımlarda o adım yeni sırayla güncellenir.
 grupla([...document.querySelectorAll('.dw-b')], b => { dwS = b.dataset.s; DW = dwOlc(dwS); dwGit(dwA === 1 ? 2 : dwA); });
 DW = dwOlc(dwS); dwIcerik();
@@ -1409,7 +1416,7 @@ DW = dwOlc(dwS); dwIcerik();
 // → "bu R² şans eseri mi?" (Ŷ², Ŷ³ yerine 2 rastgele değişken, 2000 deneme) → n ve sd öğrenciye buldurulur, χ² tablosu → nR² → χ²₂ yoğunluğunda karar.
 // R²yard 4 basamağa yuvarlanır, LM bundan hesaplanır (sunumla aynı: 20 × 0.4912 = 9.82).
 const LM_ADIM = ['Kısıtlı model', 'Neden LM?', 'Yardımcı regresyon', 'R² şans eseri mi?', 'n ve sd', 'nR²', 'Karar'], LM_N = LM_ADIM.length;
-let lmA = 1, lmSdAcik = false, lmSans = null;
+let lmA = 0, lmSdAcik = false, lmSans = null;
 const LM_TOHUM = 25;
 const LM = (() => {
   const x = ln(DK), fh = r7.fit, ek = [fh.map(v => v * v), fh.map(v => v ** 3)], aux = ekk(r7.e, [x, ...ek]);
@@ -1436,28 +1443,31 @@ function lmIcerik() {
   const Nn = `<span class="rs-sd">${R.n}</span>`, Mm = `<span class="rs-m">${R.m}</span>`, KR = `<span class="rs-tl">${R.kr.toFixed(3)}</span>`, L = `<span class="rs-ist">${R.LMv.toFixed(2)}</span>`;
   const S = lmA === 4 ? lmSansHesap() : null;
   const ic = {
-    1: () => `<h5>1. adım: Kısıtlı modeli tahmin et, kalıntıları al</h5><div class="out">${cikti('ln IHR = f(ln DK)', ['Sabit', 'ln DK'], r7)}</div>
+    0: () => `<h5>1. adım: Hipotezleri kur</h5>
+      <div class="hip"><p><b>H₀:</b> eklenmesi düşünülen değişkenlerin (Ŷ², Ŷ³) katsayıları sıfır; kısıtlı model yeterli, doğru tanımlanmış.</p><p><b>H₁:</b> bu katsayılardan en az biri sıfırdan farklı; kısıtlı model yanlış tanımlanmış.</p></div>
+      <div class="rs-yaz">Anlamlılık düzeyi %5. Sonraki adımlarda LM = nR²<sub>yard</sub> hesaplanır; LM, χ² kritik değerini aşarsa H₀ reddedilir.</div>`,
+    1: () => `<h5>2. adım: Kısıtlı modeli tahmin et, kalıntıları al</h5><div class="out">${cikti('ln IHR = f(ln DK)', ['Sabit', 'ln DK'], r7)}</div>
       <div class="rs-yaz">Kısıtlı model, eklenmek istenen değişkenler (Ŷ², Ŷ³) olmadan tahmin edilen asıl modeldir. Kalıntılar e<sub>t</sub> saklanır; kareleri toplamı <b>Σe² = ${E}</b> → panoya. e, modelin açıklayamadığı kısımdır.</div>`,
-    2: () => `<h5>2. adım: Neden LM? Eklenecek değişkenler e'yi açıklayabiliyor mu?</h5>
+    2: () => `<h5>3. adım: Neden LM? Eklenecek değişkenler e'yi açıklayabiliyor mu?</h5>
       <div class="rs-yaz">Ŷ² ve Ŷ³ modelde gerçekten gerekliyse, kısıtlı modelin dışarıda bıraktığı etki e'nin içindedir; e ile bu değişkenler arasında bir ilişki görünür. Model doğruysa e'de yakalanacak bir şey kalmaz. LM testi bu soruyu yalnız <b>kısıtlı</b> modelle sorar: büyük modeli tahmin etmeye gerek yoktur. <b>Turuncu eğri</b>: e'nin Ŷ, Ŷ², Ŷ³ ile uydurulmuş deseni.</div>`,
-    3: () => `<h5>3. adım: Yardımcı regresyon, e modeldeki ve eklenen bütün değişkenlere regres edilir</h5>
+    3: () => `<h5>4. adım: Yardımcı regresyon, e modeldeki ve eklenen bütün değişkenlere regres edilir</h5>
       <div class="out">${cikti('e = f(ln DK, Ŷ², Ŷ³)', ['Sabit', 'ln DK', 'Ŷ²', 'Ŷ³'], R.aux)}</div>
       <div class="rs-yaz">ln DK de konur: e, EKK gereği ln DK ile ilişkisizdir, ama Ŷ² ve Ŷ³ ln DK ile ilişkilidir; ln DK'yı dışarıda bırakmak eklenenlerin kısmi etkisini bozar. Yardımcı regresyonun açıklama oranı <b>R²<sub>yard</sub> = ${R2}</b> → panoya. Kalıntılardaki değişimin %${(100 * R.R2).toFixed(1)}${sayiEk((100 * R.R2).toFixed(1), 'i')} açıklanıyor. ln DK tek başına e'nin hiçbir kısmını açıklamaz (e ln DK ile ilişkisizdir); R²<sub>yard</sub>'ın tamamı Ŷ² ve Ŷ³'ün eklenmesinden gelir.</div>`,
-    4: () => `<h5>4. adım: R²<sub>yard</sub> = ${R2}. Bu açıklama şans eseri olabilir mi?</h5>
+    4: () => `<h5>5. adım: R²<sub>yard</sub> = ${R2}. Bu açıklama şans eseri olabilir mi?</h5>
       <div class="rs-yaz">Modele ne eklenirse eklensin R² sıfırdan büyük çıkar. Deneme: Ŷ², Ŷ³ yerine ${R.m} tane <b>rastgele</b>, e ile ilgisiz değişken ekleyip yardımcı regresyonu 2000 kez tahmin ettik (gri çubuklar). Rastgele değişkenlerle R²<sub>yard</sub> ortalama <b>${S.ort.toFixed(3)}</b>; bizim R²<sub>yard</sub> (turuncu çizgi) <b>${R.R2.toFixed(4)}</b>. Bu kadar büyük R² ${S.buyuk === 0 ? 'denemelerin <b>hiçbirinde</b> çıkmadı: şansla açıklanamayacak kadar büyük.' : `denemelerin yalnız <b>%${(100 * S.buyuk).toFixed(1)}</b>${sayiEk((100 * S.buyuk).toFixed(1), 'inde')} çıktı: ${S.buyuk < 0.05 ? 'şansla açıklanamayacak kadar büyük.' : 'şansla açıklanabilir.'}`}</div>`,
-    5: () => `<h5>5. adım: Test istatistiği LM = nR²<sub>yard</sub>; H₀ altında χ²<sub>m</sub> dağılır. n ve m'yi önce siz bulun</h5>
+    5: () => `<h5>6. adım: Test istatistiği LM = nR²<sub>yard</sub>; H₀ altında χ²<sub>m</sub> dağılır. n ve m'yi önce siz bulun</h5>
       <div class="rs-sd-kutu"><label>n = <input id="lm-n" type="number" min="0" step="1"></label>
         <label>χ² serbestlik derecesi m = <input id="lm-m" type="number" min="0" step="1"></label>
         <button id="lm-kontrol">Kontrol et</button><button id="lm-goster">Cevabı göster</button>
         <div id="lm-geri-bildirim"></div></div>`,
-    6: () => `<h5>6. adım: nR² ne anlatır?</h5>
+    6: () => `<h5>7. adım: nR² ne anlatır?</h5>
       <div class="rs-yaz">R²<sub>yard</sub>, e'nin eklenen değişkenlerle açıklanan payıdır. H₀ doğruysa (eklenenlerin katsayıları sıfır) bu pay yalnız şansla oluşur ve yaklaşık m/n kadar küçüktür; n ile çarpınca nR² m civarında kalır. Eklenenler gerçekten gerekliyse R²<sub>yard</sub> sıfırdan uzak durur ve nR² büyür. Bu yüzden ölçü nR²'dir.</div>
       <div class="rs-f">LM = <span class="rs-sd">n</span> × <span class="rs-yeni">R²<sub>yard</sub></span> = ${Nn} × ${R2} = <b>${L}</b></div>
       <div class="rs-yaz">R²<sub>yard</sub> = 1 − Σε̂² / Σe² = 1 − ${R.SEps5.toFixed(5)} / <span class="rs-eski">${R.SE5.toFixed(5)}</span> = ${R2} (e'nin ortalaması sıfır olduğu için toplam kareler Σe²'dir). Bizim LM, H₀ altındaki ortalamanın (m = ${Mm}) yaklaşık ${(R.LMv / R.m).toFixed(1)} katı.</div>`,
-    7: () => `<h5>7. adım: Karar: LM = ${L}, χ²<sub>${R.m}</sub> dağılımının neresinde?</h5>
+    7: () => `<h5>8. adım: Karar: LM = ${L}, χ²<sub>${R.m}</sub> dağılımının neresinde?</h5>
       <div class="rs-yaz">H₀: eklenen değişkenlerin (Ŷ², Ŷ³) katsayıları sıfır, model doğru tanımlanmış. H₀ doğruysa LM, χ²<sub>${R.m}</sub> dağılımına uyar; değerlerin yalnız %5'i <b>χ² kritik = ${KR}</b>${sayiEk(R.kr.toFixed(3), 'den')} büyüktür (kırmızı bölge).</div>
       <div class="karar ${R.LMv > R.kr ? 'red' : 'kabul'}">${R.LMv > R.kr ? `LM = ${R.LMv.toFixed(2)} > ${R.kr.toFixed(3)}: kırmızı bölgede. H₀ reddedilir (p = ${pfmt(R.p)}). RESET ve Durbin-Watson ile aynı sonuç: model yanlış tanımlanmış.` : `LM = ${R.LMv.toFixed(2)} < ${R.kr.toFixed(3)}: H₀ reddedilemez (p = ${pfmt(R.p)}).`}</div>
-      <div class="rs-yaz">χ² büyük örneklem yaklaşımıdır. 4. adımdaki deneme oranı küçük örneklemdeki kesin p'yi (${pfmt(betai((R.n - R.aux.k) / 2, R.m / 2, 1 - R.aux.R2))}) yaklaşık olarak verir; bu RESET'teki F testinin p'sidir, çünkü F ve nR² aynı R²<sub>yard</sub>'ın iki dönüşümüdür. İkisi de %1'in altında, karar değişmez.</div>` };
+      <div class="rs-yaz">χ² büyük örneklem yaklaşımıdır. 5. adımdaki deneme oranı küçük örneklemdeki kesin p'yi (${pfmt(betai((R.n - R.aux.k) / 2, R.m / 2, 1 - R.aux.R2))}) yaklaşık olarak verir; bu RESET'teki F testinin p'sidir, çünkü F ve nR² aynı R²<sub>yard</sub>'ın iki dönüşümüdür. İkisi de %1'in altında, karar değişmez.</div>` };
   $('lm-icerik').innerHTML = ic[lmA]();
   if (lmA === 5) sdBagla('lm', [
     { id: 'lm-n', dogru: R.n, hata: v => v === R.n - 1 ? `n = ${v}: bu n − 1. LM'de n <b>gözlem sayısıdır</b> (1984-2003, ${R.n} yıl).`
@@ -1489,14 +1499,14 @@ function lmIcerik() {
   }
   if (lmA === 7) kararGrafigi('c-lm2', v => kiYog(v, R.m), R.kr, R.LMv, { xmax: 2 * Math.ceil(1.2 * Math.max(R.LMv, R.kr) / 2), adim: 2,
     yogEtiket: `χ²(${R.m}) yoğunluğu (H₀ doğruysa)`, xBaslik: 'LM = nR²', kritikEtiket: 'χ² kritik ' + R.kr.toFixed(3), hesapEtiket: 'LM = ' + R.LMv.toFixed(2) });
-  adimCubugu('lm-adimlar', LM_ADIM, lmA, lmGit);
-  $('lm-geri').disabled = lmA === 1; $('lm-ileri').disabled = lmA === LM_N;
+  adimCubugu('lm-adimlar', ['Hipotezler', ...LM_ADIM], lmA, lmGit, 0);
+  $('lm-geri').disabled = lmA === 0; $('lm-ileri').disabled = lmA === LM_N;
   lmPano();
   sunumdaSigdir($('lm-icerik'));
 }
-function lmGit(a) { lmA = Math.max(1, Math.min(LM_N, a)); lmIcerik(); }
+function lmGit(a) { lmA = Math.max(0, Math.min(LM_N, a)); lmIcerik(); }
 $('lm-geri').onclick = () => lmGit(lmA - 1); $('lm-ileri').onclick = () => lmGit(lmA + 1);
-adimliKaydet(document.querySelector('#s7 .lm-kutu'), () => lmA, LM_N, lmGit);
+adimliKaydet(document.querySelector('#s7 .lm-kutu'), () => lmA, LM_N, lmGit, 0);
 lmIcerik();
 
 // ---------- 8: Hausman simülasyonu ----------
@@ -1531,7 +1541,7 @@ function hCek() {
 // veri üretilir, 2000 deneme) → m = q̂² / Var(q̂) → χ² sd öğrenciye buldurulur → χ²₁'de karar (DWH sonucu da burada).
 // Ara değerler yuvarlanır (q̂ 7, Var(β̂₀) 4 anlamlı basamak, r 5 basamak), m bu değerlerden hesaplanır: 0.0078 (sunumla aynı).
 const HU_ADIM = ['EKK tahmini', 'Şüphe ve araç', 'IV tahmini', 'Fark şans eseri mi?', 'm istatistiği', 'Serbestlik derecesi', 'Karar'], HU_N = HU_ADIM.length;
-let huA = 1, huSdAcik = false, huSans = null;
+let huA = 0, huSdAcik = false, huSans = null;
 const HU = (() => {
   const y = ln(IHR).slice(1), x = ln(DK).slice(1), z = ln(DK).slice(0, -1), n = 19, o = ekk(y, [x]);
   const mx = ort(x), my = ort(y), mz = ort(z); let szy = 0, szx = 0, szz = 0, sxx = 0;
@@ -1565,26 +1575,29 @@ function huIcerik() {
   const B1 = `<span class="rs-yes">${hu6(R.biv)}</span>`, Q = `<span class="rs-ist">${f(R.q, 7)}</span>`, M = `<span class="rs-yeni">${R.m.toFixed(4)}</span>`;
   const S = huA === 4 ? huSansHesap() : null;
   const ic = {
-    1: () => `<h5>1. adım: EKK ile tahmin et (1985-2003, n = 19)</h5><div class="out">${cikti('EKK: ln IHR = f(ln DK)', ['Sabit', 'ln DK'], R.o)}</div>
+    0: () => `<h5>1. adım: Hipotezleri kur</h5>
+      <div class="hip"><p><b>H₀:</b> ln DK dışsal, hata terimiyle ilişkisiz, Cov(X, u) = 0. EKK ve IV aynı değere yakınsar, plim q̂ = plim(β̂₁ − β̂₀) = 0.</p><p><b>H₁:</b> ln DK içsel, Cov(X, u) ≠ 0. EKK tutarsız, IV tutarlı; plim q̂ ≠ 0.</p></div>
+      <div class="rs-yaz">Anlamlılık düzeyi %5. Sonraki adımlarda m = q̂² / Var(q̂) hesaplanır; m, χ² kritik değerini aşarsa H₀ reddedilir ve IV kullanılır.</div>`,
+    1: () => `<h5>2. adım: EKK ile tahmin et (1985-2003, n = 19)</h5><div class="out">${cikti('EKK: ln IHR = f(ln DK)', ['Sabit', 'ln DK'], R.o)}</div>
       <div class="rs-yaz">EKK eğimi <b>β̂₀ = ${B0}</b> ve varyansı <b>Var(β̂₀) = s(β̂₀)² = ${R.o.se[1].toFixed(6)}² = ${V0}</b> → panoya. ln DK dışsalsa EKK tutarlı ve etkindir.</div>`,
-    2: () => `<h5>2. adım: Şüphe: ln DK hata terimiyle ilişkili olabilir mi?</h5>
+    2: () => `<h5>3. adım: Şüphe: ln DK hata terimiyle ilişkili olabilir mi?</h5>
       <div class="rs-yaz">Kur ihracatı etkiler, ihracattan gelen döviz de kuru etkiler (eşanlılık). Bu durumda ln DK hata terimiyle ilişkilidir ve EKK tutarsızdır. Karşılaştırma için tutarlı bir tahminci gerekir: araç değişken (IV). Araç Z, X ile ilişkili ama hata terimiyle ilişkisiz olmalı. Bir dönem gecikmeli kur ln DK<sub>t−1</sub> geçmişte belirlenmiştir ve bugünkü kurla çok yakından ilişkilidir: <b>r = corr(ln DK<sub>t</sub>, ln DK<sub>t−1</sub>) = ${Rr}</b> → panoya. Gecikme yüzünden ilk yıl düşer, n = 19.</div>`,
-    3: () => `<h5>3. adım: IV tahmini ve fark q̂</h5>
+    3: () => `<h5>4. adım: IV tahmini ve fark q̂</h5>
       <div class="rs-yaz">Y yine X'e regres edilir; Z yalnız X'in hata teriminden arınmış kısmını kullanmak için girer (IV, Y'nin Z'ye regresyonu değildir). Sapmalarla: β̂₁ = Σyz / Σxz = ${R.szy.toFixed(4)} / ${R.szx.toFixed(4)} = <b>${B1}</b>, α̂₁ = ${f(R.aiv, 4)}.</div>
       <div class="rs-f">q̂ = <span class="rs-yes">β̂₁</span> − <span class="rs-eski">β̂₀</span> = ${R.biv.toFixed(7)} − ${R.o.b[1].toFixed(7)} = <b>${Q}</b></div>
       <div class="rs-yaz">İki tahmin altıncı basamakta ayrılıyor: ${hu6(R.biv)} − ${hu6(R.o.b[1])} → q̂ panoya.</div>`,
-    4: () => `<h5>4. adım: q̂ = ${Q}. Bu fark şans eseri olabilir mi?</h5>
+    4: () => `<h5>5. adım: q̂ = ${Q}. Bu fark şans eseri olabilir mi?</h5>
       <div class="rs-yaz">Deneme: ln DK'nın gerçekten dışsal olduğu (H₀) bir dünya kurduk. Gözlenen X ve Z aynı kalır; Y = α̂ + β̂₀X + rastgele hata ile yeniden üretilir, EKK ve IV yeniden tahmin edilir. 2000 deneme (gri çubuklar): H₀ altında bile q̂ sıfır çevresinde yayılır (standart sapma ${huBil(S.sdq)}). Bizim q̂ (turuncu çizgi) bu yayılımın ortasında: bu büyüklükte (mutlak değerce) fark ${S.buyuk === 0 ? 'denemelerin <b>hiçbirinde</b> çıkmadı: şansla açıklanamayacak kadar büyük.' : `denemelerin <b>%${(100 * S.buyuk).toFixed(1)}</b>${sayiEk((100 * S.buyuk).toFixed(1), 'inde')} çıktı: ${S.buyuk < 0.05 ? 'şansla açıklanamaz.' : 'şansla rahatça açıklanabilir.'}`}</div>`,
-    5: () => `<h5>5. adım: m istatistiği: fark, kendi standart hatasıyla karşılaştırılır</h5>
+    5: () => `<h5>6. adım: m istatistiği: fark, kendi standart hatasıyla karşılaştırılır</h5>
       <div class="rs-yaz">m = q̂² / Var(q̂): farkın karesi, farkın varyansına bölünür (standartlaştırılmış uzaklığın karesi). H₀ altında EKK etkin olduğu için Var(q̂) = Var(β̂₁) − Var(β̂₀). Basit regresyonda Var(β̂₁) = Var(β̂₀) / r², bu yüzden Var(q̂) = Var(β̂₀)(1 − r²) / r².</div>
       <div class="rs-f">Var(q̂) = <span class="frac"><span>${V0} × (1 − ${Rr}²)</span><span>${Rr}²</span></span> = ${huBil(R.vq)}</div>
       <div class="rs-f">m = <span class="frac"><span>q̂²</span><span>Var(q̂)</span></span> = <span class="frac"><span>(${Q})²</span><span>${huBil(R.vq)}</span></span> = <b>${M}</b></div>
       <div class="rs-yaz">Aynı sonuç: m = q̂²r² / [Var(β̂₀)(1 − r²)]. r 1'e çok yakın olduğu için (1 − r²) küçüktür; Var(q̂) küçük olsa da q̂ ondan da küçük.</div>`,
-    6: () => `<h5>6. adım: H₀ altında m ~ χ². Serbestlik derecesini önce siz bulun</h5>
+    6: () => `<h5>7. adım: H₀ altında m ~ χ². Serbestlik derecesini önce siz bulun</h5>
       <div class="rs-sd-kutu"><label>χ² serbestlik derecesi = <input id="hu-sd" type="number" min="0" step="1"></label>
         <button id="hu-kontrol">Kontrol et</button><button id="hu-goster">Cevabı göster</button>
         <div id="hu-geri-bildirim"></div></div>`,
-    7: () => `<h5>7. adım: Karar: m = ${M}, χ²₁ dağılımının neresinde?</h5>
+    7: () => `<h5>8. adım: Karar: m = ${M}, χ²₁ dağılımının neresinde?</h5>
       <div class="karar ${R.m > R.kr ? 'red' : 'kabul'}">${R.m > R.kr ? `m = ${R.m.toFixed(4)} > ${R.kr.toFixed(3)}: H₀ reddedilir (p = ${pfmt(R.p)}). ln DK içsel; IV kullanılmalı.` : `m = ${R.m.toFixed(4)} < ${R.kr.toFixed(3)}: H₀ reddedilemez (p = ${R.p.toFixed(3)}). ln DK'nın dışsal olduğu reddedilemiyor; EKK ve IV tahminleri arasında anlamlı fark yok, EKK kullanılabilir.`}</div>
       <div class="rs-yaz">Regresyon tabanlı biçim (DWH): ln DK araca regres edilir (birinci aşama t = ${R.fs.t[1].toFixed(2)}, F = ${R.fs.F.toFixed(0)}, güçlü araç), kalıntı v̂ ana modele eklenir: v̂'nin katsayısı ${f(R.dwh.b[2], 4)}, t = ${f(R.dwh.t[2], 3)}, p = ${R.dwh.p[2].toFixed(3)}. Aynı karar. Not: gecikmeli değişken, hatalar otokorelasyonsuzsa geçerli araçtır. u otokorelasyonluysa DK<sub>t−1</sub>, u<sub>t−1</sub> üzerinden u<sub>t</sub> ile ilişkilenir. Bu modelde EKK DW = ${R.dw.toFixed(2)} (n = 19, d<sub>L</sub> = 1.180); otokorelasyon belirtisi var, bu yüzden aracın geçerliliği, dolayısıyla testin kendisi de şüphelidir.</div>` };
   $('hu-icerik').innerHTML = ic[huA]();
@@ -1608,12 +1621,12 @@ function huIcerik() {
     ciz('c-hu2', cfg);
   }
   if (huA === 7) kararGrafigi('c-hu2', v => kiYog(v, 1), R.kr, R.m, { ymax: 2.5, adim: 1, hesapKaydir: 40, yogEtiket: 'χ²(1) yoğunluğu (H₀ doğruysa)', xBaslik: 'm', kritikEtiket: 'χ² kritik ' + R.kr.toFixed(3), hesapEtiket: 'm = ' + R.m.toFixed(4) });
-  adimCubugu('hu-adimlar', HU_ADIM, huA, huGit);
-  $('hu-geri').disabled = huA === 1; $('hu-ileri').disabled = huA === HU_N;
+  adimCubugu('hu-adimlar', ['Hipotezler', ...HU_ADIM], huA, huGit, 0);
+  $('hu-geri').disabled = huA === 0; $('hu-ileri').disabled = huA === HU_N;
   huPano();
   sunumdaSigdir($('hu-icerik'));
 }
-function huGit(a) { huA = Math.max(1, Math.min(HU_N, a)); huIcerik(); }
+function huGit(a) { huA = Math.max(0, Math.min(HU_N, a)); huIcerik(); }
 $('hu-geri').onclick = () => huGit(huA - 1); $('hu-ileri').onclick = () => huGit(huA + 1);
 // s9'un ok tuşu kaydı ithalat bloğunda (iki sekme tek kayıt).
 huIcerik();
@@ -1623,7 +1636,7 @@ huIcerik();
 // → t sd'si öğrenciye buldurulur → iki yanlı t'de karar. Zayıf araçla (F < 10) sonuç bilgi vermez.
 // Örneklem 1990-2002 (n = 13); gecikmeli araçta 1989 kuru ihracat tablosundan alınır, gözlem kaybı yok.
 const ITH_ADIM = ['Asıl model', 'Şüphe ve yöntem', '1. aşama: araç', '2. aşama: v̂', 't şans eseri mi?', 'Serbestlik derecesi', 'Karar'], ITH_N = ITH_ADIM.length;
-let ithA = 1, ithAr = 'lag', ithSdAcik = false, IH = null;
+let ithA = 0, ithAr = 'lag', ithSdAcik = false, IH = null;
 const ithSans = {};
 const tYog = (x, df) => Math.exp(gammaln((df + 1) / 2) - gammaln(df / 2) - 0.5 * Math.log(df * Math.PI) - (df + 1) / 2 * Math.log(1 + x * x / df));
 function ithHesap() {
@@ -1653,25 +1666,28 @@ function ithIcerik() {
   const S = ithA === 5 ? ithSansHesap() : null;
   const yuzde = v => (100 * v < 1 && v > 0 ? (100 * v).toFixed(2) : (100 * v).toFixed(1)); // %1'in altında iki basamak (1/2000 = %0.05)
   const ic = {
-    1: () => `<h5>1. adım: Asıl modeli EKK ile tahmin et (1990-2002, n = ${R.n})</h5><div class="out">${cikti('EKK: ln IT = f(ln PA, ln DK)', ['Sabit', 'ln PA', 'ln DK'], R.o)}</div>
+    0: () => `<h5>1. adım: Hipotezleri kur</h5>
+      <div class="hip"><p><b>H₀:</b> δ = 0; kur (ln DK) dışsal, EKK tutarlı.</p><p><b>H₁:</b> δ ≠ 0; kur içsel, EKK tutarsız.</p></div>
+      <div class="rs-yaz">δ, ikinci aşamada modele eklenen birinci aşama kalıntısının (v̂) katsayısıdır (5. adım). İki yanlı test, anlamlılık düzeyi %5; |t(δ̂)|, t kritik değerini aşarsa H₀ reddedilir.</div>`,
+    1: () => `<h5>2. adım: Asıl modeli EKK ile tahmin et (1990-2002, n = ${R.n})</h5><div class="out">${cikti('EKK: ln IT = f(ln PA, ln DK)', ['Sabit', 'ln PA', 'ln DK'], R.o)}</div>
       <div class="rs-yaz">Kurun katsayısı <b>β̂₂ = ${B}</b> → panoya. Kur dışsalsa bu tahmin tutarlıdır; içselse sapmalıdır.</div>`,
-    2: () => `<h5>2. adım: Şüphe: kur içsel olabilir mi? Hangi yöntemle sınarız?</h5>
+    2: () => `<h5>3. adım: Şüphe: kur içsel olabilir mi? Hangi yöntemle sınarız?</h5>
       <div class="rs-yaz">İthalat talebi dövize olan talebi, o da kuru etkiler: ln DK hata terimiyle ilişkili olabilir. İhracattaki m formülü yalnız tek açıklayıcılı modelde geçerlidir; burada iki açıklayıcı var. Regresyon tabanlı biçim (Durbin-Wu-Hausman, DWH) kullanılır: ln DK, araçla açıklanan kısım ve kalan kısım v diye ayrılır; ln DK'nın içsel olabilecek kısmı v'dedir. v̂ ana modele eklenir, katsayısı sıfır mı diye t testiyle bakılır.</div>
       <div class="warn-box">İki açıklayıcılı modelde m = q̂²r²/[Var(β̂₀)(1 − r²)] formülü geçerli değildir; regresyon tabanlı (DWH) biçim kullanılır. Pratik kural: birinci aşamada aracın F değeri 10'dan büyük olmalıdır (Staiger ve Stock, 1997).</div>
       <div class="rs-yaz">Araç adayları (yukarıdaki düğmeler): ln GSMH (gelir) ve ln DK<sub>t−1</sub> (bir önceki yılın kuru; 1989 kuru ihracat tablosundan alındığı için n = 13 korunur). Seçilen araç: <b>${R.zn}</b>.</div>`,
-    3: () => `<h5>3. adım: Birinci aşama: ln DK, dışsal açıklayıcıya (ln PA) ve araca (${R.zn}) regres edilir</h5>
+    3: () => `<h5>4. adım: Birinci aşama: ln DK, dışsal açıklayıcıya (ln PA) ve araca (${R.zn}) regres edilir</h5>
       <div class="out">${cikti(`1. aşama: ln DK = f(ln PA, ${R.zn})`, ['Sabit', 'ln PA', R.zn], R.fs)}</div>
       <div class="rs-yaz">ln PA dışsal olduğu için birinci aşamaya da girer. Aracın gücü: t(${R.zn}) = ${TZ}, <b>F = t² = ${FF}</b> → panoya; kalıntı v̂ saklanır. ${R.zayif ? `<b style="color:var(--hatali)">F &lt; 10: ${R.zn} zayıf araçtır; bu araçla yapılan Hausman testine güvenilmez.</b>` : `<b style="color:var(--dogru)">F &gt; 10: ${R.zn} güçlü araçtır.</b>`}</div>`,
-    4: () => `<h5>4. adım: İkinci aşama: v̂ ana modele eklenir</h5>
+    4: () => `<h5>5. adım: İkinci aşama: v̂ ana modele eklenir</h5>
       <div class="out">${cikti('2. aşama (DWH): ln IT = f(ln PA, ln DK, v̂)', ['Sabit', 'ln PA', 'ln DK', 'v̂'], R.dwh)}</div>
       <div class="rs-yaz">v̂, ln DK'nın araçla ve ln PA ile açıklanamayan kısmıdır. Kur içselse u ile ilişkili olan kısım budur ve ln IT'yi ayrıca açıklar (δ ≠ 0). H₀: δ = 0 (kur dışsal). <b>δ̂ = ${DL}</b>, <b>t(δ̂) = ${T}</b> → panoya.</div>`,
-    5: () => `<h5>5. adım: t(δ̂) = ${T}. Bu değer şans eseri olabilir mi?</h5>
+    5: () => `<h5>6. adım: t(δ̂) = ${T}. Bu değer şans eseri olabilir mi?</h5>
       <div class="rs-yaz">Deneme: kurun gerçekten dışsal olduğu (H₀) bir dünya kurduk. ln PA, ln DK ve v̂ aynı kalır; ln IT = EKK tahmini + rastgele hata ile yeniden üretilir ve ikinci aşama yeniden tahmin edilir. 2000 deneme (gri çubuklar, t değerleri). Mutlak değerce bizimki (turuncu) kadar büyük t ${S.buyuk === 0 ? 'denemelerin <b>hiçbirinde</b> çıkmadı: şansla açıklanamayacak kadar büyük.' : `denemelerin <b>%${yuzde(S.buyuk)}</b>${sayiEk(yuzde(S.buyuk), 'inde')} çıktı: ${S.buyuk < 0.05 ? 'şansla açıklanamayacak kadar büyük.' : 'şansla rahatça açıklanabilir.'}`}${R.zayif ? ` Ama tek araçta t(v̂), aracı ana modele eklemekle aynı t'yi verir; bu büyüklük ln GSMH'nin ithalatı doğrudan açıkladığını gösterir, kurun içselliğini değil.` : ''}</div>`,
-    6: () => `<h5>6. adım: H₀ altında t(δ̂) ~ t(n − k). Serbestlik derecesini önce siz bulun</h5>
+    6: () => `<h5>7. adım: H₀ altında t(δ̂) ~ t(n − k). Serbestlik derecesini önce siz bulun</h5>
       <div class="rs-sd-kutu"><label>t serbestlik derecesi = n − k = <input id="ith-sd" type="number" min="0" step="1"></label>
         <button id="ith-kontrol">Kontrol et</button><button id="ith-goster">Cevabı göster</button>
         <div id="ith-geri-bildirim"></div></div>`,
-    7: () => `<h5>7. adım: Karar: t(δ̂) = ${T}, t(${R.sd}) dağılımının neresinde?</h5>
+    7: () => `<h5>8. adım: Karar: t(δ̂) = ${T}, t(${R.sd}) dağılımının neresinde?</h5>
       <div class="rs-yaz">H₀: δ = 0, kur dışsal. İki yanlı %5: |t| &gt; ${R.tk.toFixed(3)} ise H₀ reddedilir (kırmızı bölgeler).</div>
       ${R.zayif ? `<div class="karar red" id="hu-ith-karar">|t| = ${Math.abs(R.t).toFixed(3)} ${Math.abs(R.t) > R.tk ? '&gt;' : '&lt;'} ${R.tk.toFixed(3)}, ama F = ${R.F.toFixed(2)} &lt; 10. ${R.zn} hem zayıf hem geçersiz araçtır; bu sonuç kurun içselliğini göstermez.</div>
         <div class="rs-yaz">Tek araçta t(v̂), aracı ana modele eklemekle aynı t'yi verir. |t| = ${Math.abs(R.t).toFixed(2)}, gelirin ithalatı doğrudan açıkladığını gösterir; gelir modelden dışlanamaz.</div>`
@@ -1697,19 +1713,19 @@ function ithIcerik() {
   }
   if (ithA === 7) kararGrafigi('c-ith2', v => tYog(v, R.sd), R.tk, R.t, { iki: true, adim: 1, yogEtiket: `t(${R.sd}) yoğunluğu (H₀ doğruysa)`, xBaslik: 't(δ̂)',
     kritikEtiket: 't kritik ' + R.tk.toFixed(3), kritikSolEtiket: 't kritik ' + f(-R.tk, 3), hesapEtiket: 't = ' + f(R.t, 3), hesapAlt: true });
-  adimCubugu('ith-adimlar', ITH_ADIM, ithA, ithGit);
-  $('ith-geri').disabled = ithA === 1; $('ith-ileri').disabled = ithA === ITH_N;
+  adimCubugu('ith-adimlar', ['Hipotezler', ...ITH_ADIM], ithA, ithGit, 0);
+  $('ith-geri').disabled = ithA === 0; $('ith-ileri').disabled = ithA === ITH_N;
   ithPano();
   sunumdaSigdir($('ith-icerik'));
 }
-function ithGit(a) { ithA = Math.max(1, Math.min(ITH_N, a)); ithIcerik(); }
+function ithGit(a) { ithA = Math.max(0, Math.min(ITH_N, a)); ithIcerik(); }
 $('ith-geri').onclick = () => ithGit(ithA - 1); $('ith-ileri').onclick = () => ithGit(ithA + 1);
 // s9'da iki sekme var; sunumda ok tuşu açık olan sekmenin adımlarını gezer (adimla bölümdeki ilk kaydı kullanır, bu yüzden tek kayıt).
 // İhracatın son adımından sonra ileri ok İthalat sekmesini açar; İthalatın ilk adımından geri ok İhracatın son adımına döner.
 (() => { const ihr = () => $('hu-ihr').style.display !== 'none', sekme = h => document.querySelector(`.hu-b[data-h="${h}"]`).click();
   ADIMLI.push({ el: document.querySelector('#s9 .hu-sekmeler'),
-    ileri: () => ihr() ? (huA < HU_N ? (huGit(huA + 1), true) : (sekme('ith'), ithGit(1), true)) : (ithA < ITH_N ? (ithGit(ithA + 1), true) : false),
-    geri: () => ihr() ? (huA > 1 ? (huGit(huA - 1), true) : false) : (ithA > 1 ? (ithGit(ithA - 1), true) : (sekme('ihr'), huGit(HU_N), true)) }); })();
+    ileri: () => ihr() ? (huA < HU_N ? (huGit(huA + 1), true) : (sekme('ith'), ithGit(0), true)) : (ithA < ITH_N ? (ithGit(ithA + 1), true) : false),
+    geri: () => ihr() ? (huA > 0 ? (huGit(huA - 1), true) : false) : (ithA > 0 ? (ithGit(ithA - 1), true) : (sekme('ihr'), huGit(HU_N), true)) }); })();
 // Araç seçimi 1. ve 2. adımda görünür bir şey değiştirmez: etkisinin göründüğü 3. adıma (birinci aşama) geç; sonraki adımlarda o adım yeni araçla güncellenir.
 grupla([...document.querySelectorAll('.ar-b')], b => { ithAr = b.dataset.a; ithHesap(); ithGit(ithA <= 2 ? 3 : ithA); });
 grupla([...document.querySelectorAll('.hu-b')], b => { $('hu-ihr').style.display = b.dataset.h === 'ihr' ? '' : 'none'; $('hu-ith').style.display = b.dataset.h === 'ith' ? '' : 'none'; sunumdaSigdir($('hu-ith')); });
@@ -1781,7 +1797,7 @@ const mC = ekk(VM, [GS2]), mD = ekk(VM, [PA2]), mE = ekk(VM, [GS2, PA2]), jC = e
 // → iki F birlikte, sınırlılıklar. R²'ler 1'e çok yakın (D 0.999638, E 0.999663): R² biçimi yuvarlamaya çok duyarlı (dört basamakla F = 3.33, doğrusu 0.76).
 // Bu yüzden F aynı formülün Σe² biçimiyle, 5 basamağa yuvarlanmış Σe²'lerden hesaplanır (sunum notuyla aynı: F = 0.76 = t², F kritik(1, 10) = 4.96).
 const YN_ADIM = ['İki rakip model', 'Kapsayan model E', 'Azalış şans eseri mi?', 'F oranı', 'Karar', 'İki F birlikte'], YN_N = YN_ADIM.length;
-let ynA = 1, ynS = 'D', ynSdAcik = false;
+let ynA = 0, ynS = 'D', ynSdAcik = false;
 const ynSans = {}, YN_TOHUM = { C: 31, D: 32 };
 const YN = (() => {
   const sE = +mE.ssr.toFixed(5), n = mE.n, k = mE.k, sd = n - k, Fk = kritik(v => pF(v, 1, sd)), R4 = r => +r.R2.toFixed(4);
@@ -1815,29 +1831,32 @@ function ynIcerik() {
   const satir = s => { const r = YN[s].r; return `<tr class="${s === ynS ? 'sin' : ''}"><td>${YN[s].ad}</td><td>VM = ${f(r.b[0], 4)} + ${r.b[1].toFixed(4)} ${YN[s].var1}</td><td>${r.t[1].toFixed(2)}</td><td>${r.R2.toFixed(6)}</td><td>${YN[s].sK.toFixed(5)}</td></tr>`; };
   const kararSatir = s => { const Q = YN[s]; return `<tr class="${Q.red ? 'ret' : 'kabul'} ${s === ynS ? 'sin' : ''}"><td>${Q.ad}</td><td>${Q.hk} = 0 (${Q.eklenen} gereksiz)</td><td>${Q.F.toFixed(2)}</td><td>${pfmt(Q.p)}</td><td>${Q.s} ${Q.red ? 'reddedilir' : 'reddedilemez'}</td></tr>`; };
   const ic = {
-    1: () => `<h5>1. adım: İki rakip model, C ve D</h5>
+    0: () => `<h5>1. adım: Hipotezleri kur</h5>
+      <div class="hip"><p><b>H₀:</b> ${R.hk} = 0; ${R.eklenen} ${R.s} modeline bir şey katmıyor, ${R.s} modeli yeterli.</p><p><b>H₁:</b> ${R.hk} ≠ 0; ${R.eklenen} açıklamaya katkı yapıyor, ${R.s} modeli yetersiz.</p></div>
+      <div class="rs-yaz">Kapsayan model E: VM = c₁ + c₂ GSMH + c₃ PA + u. Anlamlılık düzeyi %5. Öteki model yukarıdaki düğmeyle seçilir; test iki model için de yapılır. F, F kritik değerini aşarsa H₀ reddedilir.</div>`,
+    1: () => `<h5>2. adım: İki rakip model, C ve D</h5>
       <table class="yn-tab"><tr><th>Model</th><th>Tahmin</th><th>t (eğim)</th><th>R²</th><th>Σe²</th></tr>${satir('C')}${satir('D')}</table>
       <div class="rs-yaz">İki modelin de bağımlı değişkeni VM. C yalnız GSMH'yi, D yalnız PA'yı içerir; biri ötekinin kısıtlı hâli değildir (<b>yuvalanmamış</b>). Hangisinin kısıtlı, hangisinin kısıtsız olduğu belli olmadığı için klasik F testi doğrudan kurulamaz. D'nin Σe²'si daha küçük (R²'si daha büyük), ama bu bir sınama değildir; fark şans eseri mi, iki model de mi eksik, bilemeyiz. Kalıntı kareleri toplamları (Σe²) → panoya.</div>`,
-    2: () => `<h5>2. adım: Kapsayan model E, iki modelin değişkenlerini birlikte içerir</h5>
+    2: () => `<h5>3. adım: Kapsayan model E, iki modelin değişkenlerini birlikte içerir</h5>
       <div class="out">${cikti('Model E: VM = c₁ + c₂ GSMH + c₃ PA + u', ['Sabit', 'GSMH', 'PA'], mE)}</div>
       <div class="rs-yaz">C ve D, E'nin kısıtlı hâlleridir: C doğruysa c₃ = 0, D doğruysa c₂ = 0. Böylece her model için bir yuvalanmış F testi kurulur. Sınanan model <b>${R.ad}</b>, H₀: ${R.hk} = 0 (${R.eklenen}, ${R.s}'ye bir şey katmıyor). Kısıtlı model ${R.s}, kısıtsız model E; eklenen değişken ${R.eklenen}. <b>Σe²<sub>E</sub> = ${E}</b> → panoya. F için iki serbestlik derecesi gerekiyor. <b>Önce siz bulun:</b></div>
       <div class="rs-sd-kutu"><label>f₁ (eklenen değişken sayısı) = <input id="yn-f1" type="number" min="0" step="1"></label>
         <label>f₂ = n − k = <input id="yn-f2" type="number" min="0" step="1"></label>
         <button id="yn-kontrol">Kontrol et</button><button id="yn-goster">Cevabı göster</button>
         <div id="yn-geri-bildirim"></div></div>`,
-    3: () => `<h5>3. adım: Σe² ${K} → ${E} azaldı. Bu azalış şans eseri olabilir mi?</h5>
+    3: () => `<h5>4. adım: Σe² ${K} → ${E} azaldı. Bu azalış şans eseri olabilir mi?</h5>
       <div class="rs-yaz">Modele ne eklenirse eklensin Σe² azalır. Deneme: ${R.s} modeline ${R.eklenen} yerine <b>rastgele</b>, VM ile ilgisiz bir değişken ekleyip 2000 kez tahmin ettik (gri çubuklar). Rastgele değişken Σe²'yi ortalama <b>${S.ort.toFixed(5)}</b> azaltıyor; ${R.eklenen} ise (turuncu çizgi) <b>${R.az.toFixed(5)}</b>. ${S.buyuk === 0 ? 'Bu kadar azalış denemelerin <b>hiçbirinde</b> çıkmadı: şansla açıklanamayacak kadar büyük.' : `Bu kadar azalış denemelerin <b>%${yz}</b>${sayiEk(yz, 'inde')} çıktı: ${S.buyuk < 0.05 ? 'şansla açıklanamayacak kadar büyük.' : 'şansla rahatça açıklanabilir.'}`}</div>`,
-    4: () => `<h5>4. adım: "Şans eseri mi?" sorusunu tek sayıya çevir: F oranı</h5>
-      <div class="rs-yaz">Pay, eklenen değişkenin (${R.eklenen}) açıkladığı ek kısımdır: Σe² azalışı, eklenen değişken başına (÷ f₁). Payda, kapsayan modelde hâlâ açıklanamayan kısımdır: Σe²<sub>E</sub>, serbestlik derecesi başına (÷ f₂); H₀ doğruysa (sınanan model yeterliyse) rastgele bir değişkenin ortalamada getireceği azalış budur.${R.s === 'C' ? ` 3. adımdaki ortalama (${ynSansHesap().ort.toFixed(2)}) daha büyük, çünkü C'nin kalıntıları PA'nın etkisini de taşıyor.` : ''}</div>
+    4: () => `<h5>5. adım: "Şans eseri mi?" sorusunu tek sayıya çevir: F oranı</h5>
+      <div class="rs-yaz">Pay, eklenen değişkenin (${R.eklenen}) açıkladığı ek kısımdır: Σe² azalışı, eklenen değişken başına (÷ f₁). Payda, kapsayan modelde hâlâ açıklanamayan kısımdır: Σe²<sub>E</sub>, serbestlik derecesi başına (÷ f₂); H₀ doğruysa (sınanan model yeterliyse) rastgele bir değişkenin ortalamada getireceği azalış budur.${R.s === 'C' ? ` 4. adımdaki ortalama (${ynSansHesap().ort.toFixed(2)}) daha büyük, çünkü C'nin kalıntıları PA'nın etkisini de taşıyor.` : ''}</div>
       <div class="rs-f">F = <span class="frac"><span>(<span class="rs-eski">Σe²<sub>${R.s}</sub></span> − <span class="rs-yeni">Σe²<sub>E</sub></span>) / <span class="rs-m">f₁</span></span><span><span class="rs-yeni">Σe²<sub>E</sub></span> / <span class="rs-sd">f₂</span></span></span>
       = <span class="frac"><span>(${K} − ${E}) / ${Mm}</span><span>${E} / ${SD}</span></span>
       = <span class="frac"><span>${R.az.toFixed(5)}</span><span>${R.payda.toFixed(6)}</span></span> = <b>${Fs}</b></div>
       <div class="rs-yaz">Aynı F, R²'lerle de yazılır: [(R²<sub>E</sub> − R²<sub>${R.s}</sub>) / f₁] / [(1 − R²<sub>E</sub>) / f₂]. Ama R²'ler 1'e çok yakın (${R.r.R2.toFixed(6)} ve ${mE.R2.toFixed(6)}); dört basamaklı R²'lerle F = ${R.F4.toFixed(2)} çıkar, doğrusu ${Fs}. Yuvarlamaya bu kadar duyarlı olduğu için Σe² biçimini kullanıyoruz. ${R.F < 1 ? `F 1'in altında: ${R.ekNin} getirdiği azalış, rastgele bir değişkenden beklenenden bile az.` : `${R.ekNin} getirdiği azalış, H₀ doğru olsaydı beklenecek azalışın ${R.F.toFixed(1)} katı.`}</div>`,
-    5: () => `<h5>5. adım: Karar: F, F(f₁ = ${Mm}, f₂ = ${SD}) dağılımının neresinde?</h5>
+    5: () => `<h5>6. adım: Karar: F, F(f₁ = ${Mm}, f₂ = ${SD}) dağılımının neresinde?</h5>
       <div class="rs-yaz">H₀: ${R.hk} = 0 (${R.s} modeli yeterli). H₀ doğruysa F, F(1, ${YN.sd}) dağılımına uyar; değerlerin yalnız %5'i <b>F kritik = ${Fks}</b>${sayiEk(Fks, 'den')} büyüktür (kırmızı bölge). Tabloda <b>f₁ = 1 üst satır (pay), f₂ = ${YN.sd} sol sütun (payda)</b>.</div>
       <div class="karar ${R.red ? 'red' : 'kabul'}">${R.red ? `F = ${Fs} > ${Fks}, kırmızı bölgede. H₀ reddedilir (p = ${pfmt(R.p)}). ${R.eklenen}, ${R.s} modelinin açıklayamadığını açıklıyor; ${R.s} modeli reddedilir.` : `F = ${Fs} < ${Fks}, kırmızı bölgede değil. H₀ reddedilemez (p = ${pfmt(R.p)}). ${R.eklenen}, ${R.s} modeline anlamlı bir katkı yapmıyor; ${R.s} modeli reddedilemez (veri ${R.s} ile tutarlı).`}</div>
-      <div class="rs-yaz">Tek kısıtta F = t²: E'de ${R.ekNin} t'si ${f(R.tE, 3)}, karesi ${(R.tE ** 2).toFixed(R.F < 10 ? 3 : 2)}. 3. adımdaki deneme oranı da p değerine yakın.</div>`,
-    6: () => `<h5>6. adım: İki F'yi birlikte yorumla</h5>
+      <div class="rs-yaz">Tek kısıtta F = t²: E'de ${R.ekNin} t'si ${f(R.tE, 3)}, karesi ${(R.tE ** 2).toFixed(R.F < 10 ? 3 : 2)}. 4. adımdaki deneme oranı da p değerine yakın.</div>`,
+    6: () => `<h5>7. adım: İki F'yi birlikte yorumla</h5>
       <table class="yn-tab"><tr><th>Sınanan model</th><th>H₀ (E'de)</th><th>F</th><th>p</th><th>Karar</th></tr>${kararSatir('C')}${kararSatir('D')}</table>
       <div class="rs-yaz">C reddedilir, D reddedilemez: <b>D modeli (VM = f(PA)) seçilir</b>. Genel kural: biri reddedilir öteki reddedilemezse reddedilemeyen seçilir; ikisi de reddedilirse iki model de eksiktir, ikisinin bilgisini taşıyan daha geniş bir model aranır; ikisi de reddedilemezse veri iki modeli ayırt edemiyor demektir.</div>
       <div class="rs-yaz"><b>Sınırlılıklar.</b> GSMH ile PA arasındaki korelasyon ${egimKor().toFixed(3)}. Bu kadar güçlü çoklu doğrusallık standart hataları büyütür, testin gücünü düşürür; GSMH'nin anlamsız çıkması kısmen bundan olabilir, "D reddedilemez" sonucu temkinle okunmalı. Kapsayan model E yapaydır, ekonomik bir anlamı olmayabilir; yalnız sınama aracıdır. J testi aynı soruyu kapsayan model kurmadan sorar (aşağıda).</div>` };
@@ -1863,17 +1882,17 @@ function ynIcerik() {
   }
   if (ynA === 5) kararGrafigi('c-yn', v => fYog(v, 1, YN.sd), YN.Fk, R.F, { ymax: 1.2, yogEtiket: `F(1, ${YN.sd}) yoğunluğu (H₀ doğruysa)`, xBaslik: 'F',
     kritikEtiket: 'F kritik ' + Fks, hesapEtiket: 'F = ' + Fs });
-  adimCubugu('yn-adimlar', YN_ADIM, ynA, ynGit);
-  $('yn-geri').disabled = ynA === 1; $('yn-ileri').disabled = ynA === YN_N;
+  adimCubugu('yn-adimlar', ['Hipotezler', ...YN_ADIM], ynA, ynGit, 0);
+  $('yn-geri').disabled = ynA === 0; $('yn-ileri').disabled = ynA === YN_N;
   ynPano();
   sunumdaSigdir($('yn-icerik'));
 }
 const kor = (a, b) => { const ma = ort(a), mb = ort(b); let sab = 0, saa = 0, sbb = 0; a.forEach((v, i) => { sab += (v - ma) * (b[i] - mb); saa += (v - ma) ** 2; sbb += (b[i] - mb) ** 2; }); return sab / Math.sqrt(saa * sbb); };
 const egimKor = () => { const a = GS2, b = PA2, ma = ort(a), mb = ort(b); let sab = 0, saa = 0, sbb = 0; a.forEach((v, i) => { sab += (v - ma) * (b[i] - mb); saa += (v - ma) ** 2; sbb += (b[i] - mb) ** 2; }); return sab / Math.sqrt(saa * sbb); };
-function ynGit(a) { ynA = Math.max(1, Math.min(YN_N, a)); ynIcerik(); }
+function ynGit(a) { ynA = Math.max(0, Math.min(YN_N, a)); ynIcerik(); }
 $('yn-geri').onclick = () => ynGit(ynA - 1); $('yn-ileri').onclick = () => ynGit(ynA + 1);
 // Sunum modunda sağ/sol ok önce adımları gezer, son adımdan sonra slayta (J testi) geçer.
-adimliKaydet(document.querySelector('#s13 .yn-kutu'), () => ynA, YN_N, ynGit);
+adimliKaydet(document.querySelector('#s13 .yn-kutu'), () => ynA, YN_N, ynGit, 0);
 // Sınanan model seçimi 1. adımda yalnız tablo vurgusunu değiştirir; H₀ ve kısıtlı model 2. adımda görünür: oraya geç, sonraki adımlarda o adımda kalıp güncelle.
 grupla([...document.querySelectorAll('.yn-b')], b => { ynS = b.dataset.y; ynGit(ynA === 1 ? 2 : ynA); });
 $('yn-veri').innerHTML = `<tr><th>Yıl</th><th>VM</th><th>PA</th><th>GSMH</th></tr>` + YIL2.map((yy, i) => `<tr><td>${yy}</td><td>${VM[i]}</td><td>${PA2[i]}</td><td>${GS2[i]}</td></tr>`).join('');
@@ -1885,7 +1904,7 @@ ynIcerik();
 // → iki yanlı t(10)'da karar → iki yön birlikte (işaret tablosu, J ile F ilişkisi) → bilgi ölçütleri (AIC, SC).
 // Tek açıklayıcılı modellerde Ŷ^D = b₁ + b₂ PA olduğundan Ŷ^D eklemek PA eklemekle aynı sütun uzayını verir: J'nin t'si E'deki t'ye tam eşittir.
 const J_ADIM = ['Neden J?', 'Rakip model, Ŷ', 'Ŷ ekle, t', 't şans eseri mi?', 'Serbestlik derecesi', 'Karar', 'İki yön birlikte', 'Bilgi ölçütleri'], J_N = J_ADIM.length;
-let jA = 1, jY = 'CD', jSdAcik = false;
+let jA = 0, jY = 'CD', jSdAcik = false;
 const jSans = {}, J_TOHUM = { CD: 41, DC: 40 };
 const J = (() => {
   const sd = jC.n - jC.k, tk = kritik(v => pT(v, sd));
@@ -1916,33 +1935,36 @@ function jIcerik() {
   const jt = `${J.DC.red ? 1 : 0}${J.CD.red ? 1 : 0}`, on = x => x === jt ? ' class="on"' : '';
   const kabul = x => `<span class="j-kabul">${x}</span>`, ret = x => `<span class="j-ret">${x}</span>`;
   const ic = {
-    1: () => `<h5>1. adım: J testinin fikri: rakibin bilgisini tek değişkende toplamak</h5>
-      <div class="rs-yaz">Kapsayan model E'de rakibin her değişkeni ayrı ayrı eklenir. Davidson ve MacKinnon (1981) rakip modelin bütün bilgisini <b>tek bir değişkende</b> toplar: rakibin uydurulmuş değeri Ŷ. Rakip modelde kaç açıklayıcı olursa olsun tek bir t testi yeter. Sınanan model doğruysa rakibin Ŷ'si ona bir şey katmaz (kapsayıcılık ilkesi). Bu örnekte iki model de tek açıklayıcılı; J'nin F testiyle aynı sonucu verdiğini 7. adımda göreceğiz.</div>
+    0: () => `<h5>1. adım: Hipotezleri kur</h5>
+      <div class="hip"><p><b>H₀:</b> ${k3} = 0; ${R.s} modeli doğru; ${yd} modelinin uydurulmuş değeri (${Yh}) ona bir şey katmaz.</p><p><b>H₁:</b> ${k3} ≠ 0; ${Yh} açıklamaya katkı yapıyor; ${R.s} modeli yetersiz.</p></div>
+      <div class="rs-yaz">Sınanacak model: VM = ${R.kat}₁ + ${R.kat}₂ ${R.sVar} + ${k3} ${Yh} + u. İki yanlı test, anlamlılık düzeyi %5. Öteki yön yukarıdaki düğmeyle seçilir.</div>`,
+    1: () => `<h5>2. adım: J testinin fikri: rakibin bilgisini tek değişkende toplamak</h5>
+      <div class="rs-yaz">Kapsayan model E'de rakibin her değişkeni ayrı ayrı eklenir. Davidson ve MacKinnon (1981) rakip modelin bütün bilgisini <b>tek bir değişkende</b> toplar: rakibin uydurulmuş değeri Ŷ. Rakip modelde kaç açıklayıcı olursa olsun tek bir t testi yeter. Sınanan model doğruysa rakibin Ŷ'si ona bir şey katmaz (kapsayıcılık ilkesi). Bu örnekte iki model de tek açıklayıcılı; J'nin F testiyle aynı sonucu verdiğini 8. adımda göreceğiz.</div>
       <div class="rs-yaz">Seçilen yön: <b>${R.s} modelini sınıyoruz</b>. ${R.s} modeline ${yd} modelinin Ŷ'si eklenir: VM = ${R.kat}₁ + ${R.kat}₂ ${R.sVar} + ${k3} ${Yh} + u, H₀: ${k3} = 0 (${R.s}, ${yd} modelini kapsıyor). Öteki yön yukarıdaki düğmeyle seçilir; J testi iki yönde de yapılır.</div>`,
-    2: () => `<h5>2. adım: Rakip modeli (${yd}) tahmin et, uydurulmuş değerleri (${Yh}) sakla</h5>
+    2: () => `<h5>3. adım: Rakip modeli (${yd}) tahmin et, uydurulmuş değerleri (${Yh}) sakla</h5>
       <div class="out">${cikti(R.rAd, ['Sabit', R.rVar], R.rakip)}</div>
       <div class="rs-yaz">${Yh} = ${f(R.rakip.b[0], 4)} + ${R.rakip.b[1].toFixed(4)} ${R.rVar}: ${yd} modelinin VM için öngördüğü değerler (turuncu çizgi). ${yd}'nin VM hakkında bildiği her şey bu tek seride toplanır. Ŷ'nin kaynağı → panoya.</div>`,
-    3: () => `<h5>3. adım: ${Yh}'yi ${R.s} modeline ekle</h5>
+    3: () => `<h5>4. adım: ${Yh}'yi ${R.s} modeline ekle</h5>
       <div class="out" id="j-out">${cikti(`${R.s} + Ŷ^${yd}: VM = ${R.kat}1 + ${R.kat}2 ${R.sVar} + ${R.kat}3 Ŷ^${yd}`, ['Sabit', R.sVar, 'Ŷ^' + yd], R.r)}</div>
       <div class="rs-f">t = <span class="frac"><span>${k3s}</span><span>se(${k3s})</span></span> = <span class="frac"><span>${B}</span><span>${SE}</span></span> = <b>${T}</b></div>
       <div class="rs-yaz" id="j-acik">${R.sVar} modelde dururken ${Yh} VM'yi ${R.red ? 'hâlâ güçlü biçimde açıklıyor' : 'ek olarak açıklamıyor'}: ${k3s} = ${B}. ${R.red ? `${yd}'nin bilgisi ${R.s}'ye bir şey katıyor gibi görünüyor.` : `${yd}'nin bilgisi ${R.s}'ye bir şey katmıyor gibi görünüyor.`} Katsayı, std. hata ve t → panoya.</div>`,
-    4: () => `<h5>4. adım: t = ${T}. Bu değer şans eseri olabilir mi?</h5>
+    4: () => `<h5>5. adım: t = ${T}. Bu değer şans eseri olabilir mi?</h5>
       <div class="rs-yaz">Deneme: ${Yh} yerine sahte bir rakip kullandık. VM, kendisiyle ilgisiz rastgele bir değişkene göre tahmin edildi; bu sahte modelin uydurulmuş değeri ${R.s} modeline eklendi ve t saklandı; 2000 deneme (gri çubuklar, |t|). Mutlak değerce bizimki (turuncu) kadar büyük t ${S.buyuk === 0 ? 'denemelerin <b>hiçbirinde</b> çıkmadı: şansla açıklanamayacak kadar büyük.' : `denemelerin <b>%${yz}</b>${sayiEk(yz, 'inde')} çıktı: ${S.buyuk < 0.05 ? 'şansla açıklanamayacak kadar büyük.' : 'şansla rahatça açıklanabilir.'}`}</div>`,
-    5: () => `<h5>5. adım: H₀ altında t ~ t(n − k). Serbestlik derecesini önce siz bulun</h5>
+    5: () => `<h5>6. adım: H₀ altında t ~ t(n − k). Serbestlik derecesini önce siz bulun</h5>
       <div class="rs-sd-kutu"><label>t serbestlik derecesi = n − k = <input id="j-sd" type="number" min="0" step="1"></label>
         <button id="j-kontrol">Kontrol et</button><button id="j-goster">Cevabı göster</button>
         <div id="j-geri-bildirim"></div></div>`,
-    6: () => `<h5>6. adım: Karar: t = ${T}, t(${J.sd}) dağılımının neresinde?</h5>
+    6: () => `<h5>7. adım: Karar: t = ${T}, t(${J.sd}) dağılımının neresinde?</h5>
       <div class="rs-yaz">H₀: ${k3} = 0 (${R.s}, ${yd} modelini kapsıyor). İki yanlı %5: |t| &gt; ${TK} ise H₀ reddedilir (kırmızı bölgeler).</div>
       <div class="karar ${R.red ? 'red' : 'kabul'}">${R.red ? `|t| = ${Math.abs(R.t).toFixed(3)} &gt; ${TK}, H₀ reddedilir (p = ${pfmt(R.p)}). ${yd}'nin bilgisi ${R.s}'ye bir şey katıyor; ${R.s}, ${yd} modelini kapsamıyor. ${R.s} modeli reddedilir.` : `|t| = ${Math.abs(R.t).toFixed(3)} &lt; ${TK}, H₀ reddedilemez (p = ${pfmt(R.p)}). ${yd}'nin bilgisi ${R.s}'ye bir şey katmıyor; ${R.s}, ${yd} modelini kapsıyor. ${R.s} modeli reddedilemez.`}</div>`,
-    7: () => `<h5>7. adım: İki yönü birlikte yorumla</h5>
+    7: () => `<h5>8. adım: İki yönü birlikte yorumla</h5>
       <table class="isaret"><tr><th></th><th class="${jY === 'CD' && !J.CD.red ? 'yon' : ''}">α₃ = 0 reddedilmez</th><th class="${jY === 'CD' && J.CD.red ? 'yon' : ''}">α₃ = 0 reddedilir</th></tr>
         <tr><td class="${jY === 'DC' && !J.DC.red ? 'yon' : ''}">β₃ = 0 reddedilmez</td><td id="jt-00"${on('00')}>Hem ${kabul('C')} hem ${kabul('D')} kabul</td><td id="jt-01"${on('01')}>${kabul('D kabul')}, ${ret('C ret')}</td></tr>
         <tr><td class="${jY === 'DC' && J.DC.red ? 'yon' : ''}">β₃ = 0 reddedilir</td><td id="jt-10"${on('10')}>${kabul('C kabul')}, ${ret('D ret')}</td><td id="jt-11"${on('11')}>İkisi de ${ret('ret')}</td></tr></table>
       <p class="note">α₃: C'ye eklenen Ŷ<sup>D</sup>'nin katsayısı (t = ${f(J.CD.t, 3)}). β₃: D'ye eklenen Ŷ<sup>C</sup>'nin katsayısı (t = ${f(J.DC.t, 3)}). Mavi çerçeve seçilen yönün sonucu.</p>
       <div class="warn-box" id="j-esit"><b>J ile F.</b> Ŷ<sup>D</sup> = ${f(mD.b[0], 4)} + ${mD.b[1].toFixed(4)} PA, PA'nın doğrusal fonksiyonudur; Ŷ<sup>D</sup> eklemek PA eklemekle aynı regresyonu verir. Bu yüzden J'nin t'leri E'deki t'lere tam eşittir: Ŷ<sup>D</sup>'nin t'si ${jC.t[2].toFixed(3)} = E'de PA'nın t'si ${mE.t[2].toFixed(3)}; Ŷ<sup>C</sup>'nin t'si ${f(jD.t[2], 3)} = E'de GSMH'nin t'si ${f(mE.t[1], 3)}; üç regresyonun R²'si de ${mE.R2.toFixed(6)}. Tek kısıtta F = t²: ${jC.t[2].toFixed(3)}² = ${YN.C.F.toFixed(2)}, (${f(jD.t[2], 3)})² = ${(jD.t[2] ** 2).toFixed(3)} ≈ ${YN.D.F.toFixed(2)}; yuvalanmamış F testindeki iki F. Bu örnekte J yeni bilgi vermez ve çoklu doğrusallığı da gidermez; Ŷ<sup>D</sup> ile GSMH arasındaki korelasyon da ${kor(mD.fit, GS2).toFixed(3)}. Modeller birden fazla açıklayıcı içerdiğinde iki test ayrışır.</div>
       <div class="rs-yaz">Sonuç: ${kabul('D kabul')}, ${ret('C ret')}; yuvalanmamış F testiyle aynı. İkisi de reddedilirse iki model de eksiktir, ikisinin bilgisini taşıyan daha geniş bir model aranır; ikisi de reddedilemezse veri iki modeli ayırt edemez. Rakip modelde birden çok açıklayıcı olduğunda küçük örneklemde J testi doğru H₀'ı gereğinden sık reddeder; bu örnekte t tam t(${J.sd}) dağılımına uyar.</div>`,
-    8: () => `<h5>8. adım: Bilgi ölçütleri aynı sonucu veriyor mu?</h5>
+    8: () => `<h5>9. adım: Bilgi ölçütleri aynı sonucu veriyor mu?</h5>
       <div class="rs-yaz">AIC: C ${mC.aic.toFixed(3)}, D ${mD.aic.toFixed(3)}, E ${mE.aic.toFixed(3)}. SC: C ${mC.sc.toFixed(3)}, D ${mD.sc.toFixed(3)}, E ${mE.sc.toFixed(3)}. Küçük değer daha iyidir; iki ölçüt de <b>D modelini</b> seçiyor. Bilgi ölçütleri sınama değildir, p değeri vermez; ama sonuç J ve yuvalanmamış F testleriyle aynı yönde.</div>` };
   $('j-icerik').innerHTML = ic[jA]();
   if (jA === 5) sdBagla('j', [{ id: 'j-sd', dogru: J.sd, hata: v => v === J.n - 2 ? `sd = ${v}: ${Yh} unutulmuş. J regresyonunda k = 3 katsayı var: sabit, ${R.sVar}, Ŷ.`
@@ -1968,15 +1990,15 @@ function jIcerik() {
     kritikEtiket: 't kritik ' + TK, kritikSolEtiket: 't kritik ' + f(-J.tk, 3), hesapEtiket: 't = ' + f(R.t, 3), hesapAlt: true });
   if (jA === 8) ciz('c-aic', { type: 'bar', data: { labels: ['C: f(GSMH)', 'D: f(PA)', 'E: f(GSMH, PA)'], datasets: [{ label: 'AIC', data: [mC.aic, mD.aic, mE.aic], backgroundColor: C.teal }, { label: 'SC', data: [mC.sc, mD.sc, mE.sc], backgroundColor: C.orange }] },
     options: { maintainAspectRatio: false, plugins: { title: { display: true, text: 'Bilgi ölçütleri (küçük daha iyi)' } } } });
-  adimCubugu('j-adimlar', J_ADIM, jA, jGit);
-  $('j-geri').disabled = jA === 1; $('j-ileri').disabled = jA === J_N;
+  adimCubugu('j-adimlar', ['Hipotezler', ...J_ADIM], jA, jGit, 0);
+  $('j-geri').disabled = jA === 0; $('j-ileri').disabled = jA === J_N;
   jPano();
   sunumdaSigdir($('j-icerik'));
 }
-function jGit(a) { jA = Math.max(1, Math.min(J_N, a)); jIcerik(); }
+function jGit(a) { jA = Math.max(0, Math.min(J_N, a)); jIcerik(); }
 $('j-geri').onclick = () => jGit(jA - 1); $('j-ileri').onclick = () => jGit(jA + 1);
 // Sunumda F kutusu ve J kutusu ayrı slaytlarda: ok tuşu görünen kutunun adımlarını gezer, F'nin son adımından sonra J slaytına, J'nin son adımından sonra s14'e geçer.
-adimliKaydet(document.querySelector('#s13 .j-kutu'), () => jA, J_N, jGit);
+adimliKaydet(document.querySelector('#s13 .j-kutu'), () => jA, J_N, jGit, 0);
 // Yön seçimi 1. adımda yalnız metni değiştirir; rakip model ve Ŷ 2. adımda görünür: oraya geç, sonraki adımlarda o adımda kalıp güncelle.
 grupla([...document.querySelectorAll('.j-b')], b => { jY = b.dataset.j; jGit(jA === 1 ? 2 : jA); });
 jIcerik();
