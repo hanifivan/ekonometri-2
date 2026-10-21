@@ -1668,7 +1668,10 @@ function ithHesap() {
   const y = ln(IT), p = ln(PA), d = ln(DK.slice(6, 19)), lag = ithAr === 'lag', z = lag ? ln(DK.slice(5, 18)) : ln(GSMH), zn = lag ? 'ln DK t−1' : 'ln GSMH';
   const o = ekk(y, [p, d]), fs = ekk(d, [p, z]), dwh = ekk(y, [p, d, fs.e]), F = fs.t[2] ** 2, sd = dwh.n - dwh.k, tk = kritik(v => pT(v, sd));
   let dn = 0; for (let i = 1; i < o.n; i++) dn += (o.e[i] - o.e[i - 1]) ** 2;
-  IH = { dw: dn / o.ssr, y, p, d, z, zn, lag, o, fs, dwh, F, zayif: F < 10, t: dwh.t[3], pv: dwh.p[3], sd, tk, n: o.n, s: Math.sqrt(o.ssr / (o.n - o.k)) };
+  // sly: eski slaytın (70-72) yaptığı gibi ln DK yerine aracın kendisi konur; iv: doğru IV (2SAEKK) kur katsayısı; r: corr(ln DK, araç).
+  const sly = ekk(y, [p, z]), iv = ekk(y, [p, fs.fit]).b[2], md = ort(d), mz = ort(z);
+  const r = d.reduce((a, v, i) => a + (v - md) * (z[i] - mz), 0) / Math.sqrt(d.reduce((a, v) => a + (v - md) ** 2, 0) * z.reduce((a, v) => a + (v - mz) ** 2, 0));
+  IH = { dw: dn / o.ssr, y, p, d, z, zn, lag, o, fs, dwh, F, zayif: F < 10, t: dwh.t[3], pv: dwh.p[3], sd, tk, n: o.n, s: Math.sqrt(o.ssr / (o.n - o.k)), sly, iv, r };
 }
 // H₀ denemesi: kur dışsal olsun. ln PA, ln DK ve v̂ sabit; ln IT = EKK tahmini + normal hata ile yeniden üretilir, ikinci aşama yeniden tahmin edilir, t(δ̂) saklanır.
 function ithSansHesap() {
@@ -1715,10 +1718,15 @@ function ithIcerik() {
     7: () => `<h5>8. adım: Karar: t(δ̂) = ${T}, t(${R.sd}) dağılımının neresinde?</h5>
       <div class="rs-yaz">H₀: δ = 0, kur dışsal. İki yanlı %5: |t| &gt; ${R.tk.toFixed(3)} ise H₀ reddedilir (kırmızı bölgeler).</div>
       ${R.zayif ? `<div class="karar red" id="hu-ith-karar">|t| = ${Math.abs(R.t).toFixed(3)} ${Math.abs(R.t) > R.tk ? '&gt;' : '&lt;'} ${R.tk.toFixed(3)}, ama F = ${R.F.toFixed(2)} &lt; 10. ${R.zn} hem zayıf hem geçersiz araçtır; bu sonuç kurun içselliğini göstermez.</div>
-        <div class="rs-yaz">Tek araçta t(v̂), aracı ana modele eklemekle aynı t'yi verir. |t| = ${Math.abs(R.t).toFixed(2)}, gelirin ithalatı doğrudan açıkladığını gösterir; gelir modelden dışlanamaz.</div>`
+        <div class="rs-yaz">Tek araçta t(v̂), aracı ana modele eklemekle aynı t'yi verir. |t| = ${Math.abs(R.t).toFixed(2)}, gelirin ithalatı doğrudan açıkladığını gösterir; gelir modelden dışlanamaz.</div>
+        <details class="kd"><summary>Eski slayttaki GSMH hesabı neden Hausman testi değil?</summary><div class="kd-body">
+          <div class="rs-yaz">Slaytta ln DK modelden çıkarılıp yerine ln GSMH konuyor: ln IT = ${f(R.sly.b[0], 3)} + ${f(R.sly.b[1], 3)} ln PA + ${f(R.sly.b[2], 3)} ln GSMH (R² = ${R.sly.R2.toFixed(3)}). Sonra q̂ = 0.937 − 0.108 = 0.829 ve m = 13.095 bulunuyor. Ama bu katsayı kurun IV tahmini değil, <b>GSMH'nin katsayısıdır</b> (gelir esnekliği); q̂ iki farklı parametreyi birbirinden çıkarır, m'nin anlamı kalmaz.</div>
+          <div class="rs-yaz">IV yönteminde araç, şüpheli değişkenin yerine konmaz; onu açıklamak için kullanılır (4. adımdaki birinci aşama). ln GSMH ile doğru kurulan IV tahmini kur katsayısı için ${f(R.iv, 3)} verir; aracın F'si ${R.F.toFixed(2)} olduğundan bu tahmin de güvenilmez. Slayttaki r = 0.142 de veriyle tutmaz: corr(ln DK, ln GSMH) = ${R.r.toFixed(3)}. Slayt 62'deki ihracat örneğinde aynı hesap yapılmıştır (1.171 − 0.179); orada ln DK<sub>t−1</sub> kullanılır.</div></div></details>`
         : `<div class="karar ${Math.abs(R.t) > R.tk ? 'red' : 'kabul'}" id="hu-ith-karar">Araç güçlü (F = ${R.F.toFixed(0)}). |t(v̂)| = ${Math.abs(R.t).toFixed(3)} ${Math.abs(R.t) > R.tk ? `&gt; ${R.tk.toFixed(3)}: H₀ reddedilir (p = ${R.pv.toFixed(3)}). Kur içsel; IV ile tahmin edilmeli.` : `&lt; ${R.tk.toFixed(3)}: H₀ reddedilemez (p = ${R.pv.toFixed(3)}). Kurun dışsal olduğu reddedilemiyor; EKK kullanılabilir.`}</div>
         <div class="rs-yaz">Bu modelde DW = ${R.dw.toFixed(2)} (n = ${R.n}, d<sub>U</sub> = 1.562); otokorelasyon belirtisi yok, gecikmeli kur geçerli araç sayılabilir.</div>`}` };
   $('ith-icerik').innerHTML = ic[ithA]();
+  // Eski slayt kutusu açılıp kapanınca sunum sahnesi yeniden sığdırılır (grafik sahne dışına taşmasın).
+  const kd = $('ith-icerik').querySelector('details'); if (kd) kd.ontoggle = () => sunumdaSigdir(kd);
   if (ithA === 6) sdBagla('ith', [{ id: 'ith-sd', dogru: R.sd, hata: v => v === R.n - 3 ? `sd = ${v}: v̂ unutulmuş. İkinci aşamada k = 4 katsayı var: sabit, ln PA, ln DK, v̂.`
       : v === R.n - 2 ? `sd = ${v}: yalnız sabit ve bir eğim sayılmış. İkinci aşamada k = 4 katsayı var.`
       : v === R.n ? `sd = ${v}: bu gözlem sayısı (n). sd = n − k.` : v === R.n - 1 ? `sd = ${v}: bu n − 1. sd = n − k, k ikinci aşamadaki bütün katsayılar.`
