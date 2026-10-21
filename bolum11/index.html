@@ -1238,7 +1238,7 @@ function rsIcerik() {
   const S = rsSans, artis = R.r1 ? R.R1 - R.R0 : 0;
   const ic = {
     0: () => `<h5>1. adım: Hipotezleri kur</h5>
-      <div class="hip"><p><b>H₀:</b> model doğru tanımlanmış. Ŷ'nin kuvvetleri modele eklenirse katsayıları sıfırdır (${(R.ad.length ? R.ad : ['Ŷ²', 'Ŷ³']).map((a, i) => ['γ₁', 'γ₂'][i]).join(' = ')} = 0).</p><p><b>H₁:</b> katsayılardan en az biri sıfırdan farklı; model yanlış tanımlanmış (dışlanmış değişken ya da yanlış fonksiyon kalıbı).</p></div>
+      <div class="hip"><p><b>H₀:</b> Model spesifikasyonu doğrudur; Ŷ'nin kuvvetleri modele eklenirse katsayıları sıfırdır (${(R.ad.length ? R.ad : ['Ŷ²', 'Ŷ³']).map((a, i) => ['γ₁', 'γ₂'][i]).join(' = ')} = 0).</p><p><b>H₁:</b> Model spesifikasyonu yanlıştır; katsayılardan en az biri sıfırdan farklı (dışlanmış değişken ya da yanlış fonksiyon kalıbı).</p></div>
       <div class="rs-yaz">Sınanacak model: ${R.yn} = β₀ + β₁ ${R.xn} + ${(R.ad.length ? R.ad : ['Ŷ²', 'Ŷ³']).map((a, i) => ['γ₁', 'γ₂'][i] + a).join(' + ')} + u. Anlamlılık düzeyi %5. Sonraki adımlarda F istatistiği kurulur; F, F kritik değerini aşarsa H₀ reddedilir.</div>`,
     1: () => `<h5>2. adım: Asıl modeli tahmin et</h5><div class="out">${cikti(`${R.yn} = f(${R.xn})`, ['Sabit', R.xn], R.r0)}</div>
       <div class="rs-yaz">Bu modelin R²'si <b>R²<sub>eski</sub> = ${E}</b> → panoya. Tahmin edilen değerleri (Ŷ) ve kalıntıları (û) saklıyoruz.</div>`,
@@ -1260,7 +1260,7 @@ function rsIcerik() {
       = <span class="frac"><span>${R.pay.toFixed(5)}</span><span>${R.payda.toFixed(5)}</span></span> = <b>${R.F.toFixed(2)}</b></div>
       <div class="rs-yaz">Eklenen terimler işe yaramıyorsa F ≈ 1 civarında olur (kazanç, rastgele bir terimin getireceği kadar). F 1'den çok büyükse terimler gerçekten bir şey yakalamıştır. Bizim F, bir terimin getirdiği kazancın rastgele beklentinin ${R.F.toFixed(1)} katı olduğunu söylüyor.</div>`,
     6: () => !R.r1 ? yok : `<h5>7. adım: Karar: F, F(f₁ = ${Mm}, f₂ = ${SD}) dağılımının neresinde?</h5>
-      <div class="rs-yaz">H₀: model doğru tanımlanmış (${R.ad.join(', ')} katsayıları sıfır). H₀ doğruysa F, F(f₁, f₂) dağılımına uyar; değerlerin yalnız %5'i <b>F kritik = ${R.Fk.toFixed(2)}</b>${sayiEk(R.Fk.toFixed(2), 'den')} büyüktür (kırmızı bölge). Tabloda <b>f₁ = ${R.m} üst satır (pay), f₂ = ${R.sd} sol sütun (payda)</b>.</div>
+      <div class="rs-yaz">H₀: model spesifikasyonu doğrudur (${R.ad.join(', ')} katsayıları sıfır). H₀ doğruysa F, F(f₁, f₂) dağılımına uyar; değerlerin yalnız %5'i <b>F kritik = ${R.Fk.toFixed(2)}</b>${sayiEk(R.Fk.toFixed(2), 'den')} büyüktür (kırmızı bölge). Tabloda <b>f₁ = ${R.m} üst satır (pay), f₂ = ${R.sd} sol sütun (payda)</b>.</div>
       <div class="karar ${R.p < 0.05 ? 'red' : 'kabul'}">${R.p < 0.05 ? `F = ${R.F.toFixed(2)} > ${R.Fk.toFixed(2)}: kırmızı bölgede. H₀ reddedilir, model yanlış tanımlanmış (p = ${pfmt(R.p)}).` : `F = ${R.F.toFixed(2)} < ${R.Fk.toFixed(2)}: kırmızı bölgede değil. H₀ reddedilemez (p = ${pfmt(R.p)}).`}</div>
       <div class="rs-yaz">${R.ihr ? 'RESET bir sorun olduğunu söyler, ne olduğunu söylemez: fonksiyon kalıbını değiştirin ya da dışlanmış değişken arayın.' : 'Küçük örneklemde (n = 13) testin gücü düşüktür: reddedememek modelin kesin doğru olduğunu göstermez.'}</div>` };
   $('rs-icerik').innerHTML = ic[rsA]();
@@ -1377,7 +1377,7 @@ function dwIcerik() {
   const S = dwA === 5 ? dwSansHesap() : null, e3 = v => v < 0 ? `(${f(v, 3)})` : f(v, 3);
   const ic = {
     0: () => `<h5>1. adım: Hipotezleri kur</h5>
-      <div class="hip"><p><b>H₀:</b> ρ = 0; ardışık kalıntılar arasında ilişki (örüntü) yok, model doğru tanımlanmış.</p><p><b>H₁:</b> ρ &gt; 0; ardışık kalıntılar birbirine bağlı (dışlanmış değişken, yanlış fonksiyon kalıbı ya da otokorelasyon).</p></div>
+      <div class="hip"><p><b>H₀:</b> Model spesifikasyonu doğrudur; ardışık kalıntılar arasında ilişki (örüntü) yok (ρ = 0).</p><p><b>H₁:</b> Model spesifikasyonu yanlıştır; ardışık kalıntılar birbirine bağlı (ρ &gt; 0; dışlanmış değişken, yanlış fonksiyon kalıbı ya da otokorelasyon).</p></div>
       <div class="rs-yaz">Kalıntılar için e<sub>t</sub> = ρ e<sub>t−1</sub> + v<sub>t</sub> düşünülür. Tek yanlı test, anlamlılık düzeyi %5. Sonraki adımlarda d istatistiği hesaplanır; d, d<sub>L</sub>'nin altına düşerse H₀ reddedilir.</div>`,
     1: () => `<h5>2. adım: Asıl modeli tahmin et, kalıntıları al</h5><div class="out">${cikti('ln IHR = f(ln DK)', ['Sabit', 'ln DK'], r7)}</div>
       <div class="rs-yaz">Kalıntılar e<sub>t</sub> = ln IHR<sub>t</sub> − (α̂₁ + α̂₂ ln DK<sub>t</sub>). Kareleri toplamı <b>Σe² = ${DE}</b> → panoya. Bu toplam, kalıntıları hangi sıraya dizersek dizelim aynıdır.</div>`,
@@ -1400,7 +1400,7 @@ function dwIcerik() {
         <button id="dw-kontrol">Kontrol et</button><button id="dw-goster">Cevabı göster</button>
         <div id="dw-geri-bildirim"></div></div>`,
     7: () => `<h5>8. adım: Karar: d = ${D}, 0-4 şeridinin neresinde?</h5>
-      <div class="rs-yaz">H₀: kalıntılarda örüntü yok (model doğru tanımlanmış). d &lt; d<sub>L</sub> ise H₀ reddedilir; d<sub>L</sub> ile d<sub>U</sub> arasında test karar vermez (kararsız bölge).</div>
+      <div class="rs-yaz">H₀: model spesifikasyonu doğrudur (kalıntılarda örüntü yok). d &lt; d<sub>L</sub> ise H₀ reddedilir; d<sub>L</sub> ile d<sub>U</sub> arasında test karar vermez (kararsız bölge).</div>
       ${dwSerit(R.d)}
       <div class="karar ${R.d < DW_L ? 'red' : R.d > DW_U ? 'kabul' : ''}">${R.d < DW_L ? `${R.ad[0].toUpperCase() + R.ad.slice(1)} ile d = ${R.d.toFixed(3)} &lt; d<sub>L</sub> = ${DW_L}: kırmızı bölgede. H₀ reddedilir. ${R.zaman ? 'Kalıntılarda sistematik örüntü var; bu tanımlama hatasının ya da otokorelasyonun belirtisi olabilir.' : 'Kalıntılarda sistematik örüntü var, model yanlış tanımlanmış (tanımlama hatası).'}` : R.d > DW_U ? `d = ${R.d.toFixed(3)} &gt; d<sub>U</sub> = ${DW_U}: H₀ reddedilemez.` : `d = ${R.d.toFixed(3)} kararsız bölgede: test karar vermez.`}</div>
       <div class="rs-yaz">${O.ad[0].toUpperCase() + O.ad.slice(1)} ile d = ${O.d.toFixed(3)}; ${O.d < DW_L ? 'o da' : ''} d<sub>L</sub>'nin ${O.d < DW_L ? 'altında' : 'üstünde'}. ${R.zaman ? 'Tanımlama hatasını sınamak için kalıntılar şüphelenilen değişkene (DK) göre sıralanır; o sırada da H₀ reddedildiği için model yanlış tanımlanmış (RESET ile aynı sonuç).' : 'RESET ile aynı sonuç. DK sırası şüphelenilen değişkeni doğrudan sınar; ln DK ile ilişki doğrusal değil ya da bir değişken dışlanmış.'}</div>` };
@@ -1483,7 +1483,7 @@ function lmIcerik() {
   const ic = {
     0: () => `<h5>1. adım: Hipotezleri kur</h5>
       <div class="rs-yaz">β₃ ve β₄, sınırlandırılmamış modelin (Y<sub>i</sub> = β₁ + β₂X<sub>i</sub> + β₃X<sub>i</sub>² + β₄X<sub>i</sub>³ + u<sub>i</sub>; 2. adım) X² ve X³ katsayılarıdır.</div>
-      <div class="hip"><p><b>H₀:</b> model spesifikasyonu doğrudur; sınırlamalar geçerli (β₃ = β₄ = 0), doğrusal maliyet fonksiyonu yeterli.</p><p><b>H₁:</b> model spesifikasyonu yanlıştır; β₃ ve β₄'ten en az biri sıfırdan farklı.</p></div>
+      <div class="hip"><p><b>H₀:</b> Model spesifikasyonu doğrudur; sınırlamalar geçerli (β₃ = β₄ = 0), doğrusal maliyet fonksiyonu yeterli.</p><p><b>H₁:</b> Model spesifikasyonu yanlıştır; β₃ ve β₄'ten en az biri sıfırdan farklı.</p></div>
       <div class="rs-yaz">Anlamlılık düzeyi %5. Sonraki adımlarda χ²<sub>hes</sub> = nR²<sub>yard</sub> hesaplanır; χ²<sub>hes</sub> &gt; χ²<sub>tab</sub> ise H₀ reddedilir. Slaytta (37-38) aynı test altı adımda yazılır ve hipotez 3. adımdır; sınav kâğıdında slayttaki sıra kullanılır.</div>`,
     1: () => `<h5>2. adım: Sınırlandırılmamış ve sınırlandırılmış model</h5>
       <div class="eq c">Y<sub>i</sub> = β₁ + β₂X<sub>i</sub> + β₃X<sub>i</sub>² + β₄X<sub>i</sub>³ + u<sub>i</sub><span class="lbl">sınırlandırılmamış model</span></div>
@@ -1639,7 +1639,7 @@ function huIcerik() {
   const S = huA === 4 ? huSansHesap() : null;
   const ic = {
     0: () => `<h5>1. adım: Hipotezleri kur</h5>
-      <div class="hip"><p><b>H₀:</b> ln DK dışsal, hata terimiyle ilişkisiz, Cov(X, u) = 0. EKK ve IV aynı değere yakınsar, plim q̂ = plim(β̂₁ − β̂₀) = 0.</p><p><b>H₁:</b> ln DK içsel, Cov(X, u) ≠ 0. EKK tutarsız, IV tutarlı; plim q̂ ≠ 0.</p></div>
+      <div class="hip"><p><b>H₀:</b> Model spesifikasyonu doğrudur; ln DK dışsal, hata terimiyle ilişkisiz, Cov(X, u) = 0. EKK ve IV aynı değere yakınsar, plim q̂ = plim(β̂₁ − β̂₀) = 0.</p><p><b>H₁:</b> Model spesifikasyonu yanlıştır; ln DK içsel, Cov(X, u) ≠ 0. EKK tutarsız, IV tutarlı; plim q̂ ≠ 0.</p></div>
       <div class="rs-yaz">Anlamlılık düzeyi %5. Sonraki adımlarda m = q̂² / Var(q̂) hesaplanır; m, χ² kritik değerini aşarsa H₀ reddedilir ve IV kullanılır.</div>`,
     1: () => `<h5>2. adım: EKK ile tahmin et (1985-2003, n = 19)</h5><div class="out">${cikti('EKK: ln IHR = f(ln DK)', ['Sabit', 'ln DK'], R.o)}</div>
       <div class="rs-yaz">EKK eğimi <b>β̂₀ = ${B0}</b> ve varyansı <b>Var(β̂₀) = s(β̂₀)² = ${R.o.se[1].toFixed(6)}² = ${V0}</b> → panoya. ln DK dışsalsa EKK tutarlı ve etkindir.</div>`,
@@ -1733,7 +1733,7 @@ function ithIcerik() {
   const yuzde = v => (100 * v < 1 && v > 0 ? (100 * v).toFixed(2) : (100 * v).toFixed(1)); // %1'in altında iki basamak (1/2000 = %0.05)
   const ic = {
     0: () => `<h5>1. adım: Hipotezleri kur</h5>
-      <div class="hip"><p><b>H₀:</b> δ = 0; kur (ln DK) dışsal, EKK tutarlı.</p><p><b>H₁:</b> δ ≠ 0; kur içsel, EKK tutarsız.</p></div>
+      <div class="hip"><p><b>H₀:</b> Model spesifikasyonu doğrudur; kur (ln DK) dışsal, EKK tutarlı (δ = 0).</p><p><b>H₁:</b> Model spesifikasyonu yanlıştır; kur içsel, EKK tutarsız (δ ≠ 0).</p></div>
       <div class="rs-yaz">δ, ikinci aşamada modele eklenen birinci aşama kalıntısının (v̂) katsayısıdır (5. adım). İki yanlı test, anlamlılık düzeyi %5; |t(δ̂)|, t kritik değerini aşarsa H₀ reddedilir.</div>`,
     1: () => `<h5>2. adım: Asıl modeli EKK ile tahmin et (1990-2002, n = ${R.n})</h5><div class="out">${cikti('EKK: ln IT = f(ln PA, ln DK)', ['Sabit', 'ln PA', 'ln DK'], R.o)}</div>
       <div class="rs-yaz">Kurun katsayısı <b>β̂₂ = ${B}</b> → panoya. Kur dışsalsa bu tahmin tutarlıdır; içselse sapmalıdır.</div>`,
@@ -1746,7 +1746,7 @@ function ithIcerik() {
       <div class="rs-yaz">ln PA dışsal olduğu için birinci aşamaya da girer. Aracın gücü: t(${R.zn}) = ${TZ}, <b>F = t² = ${FF}</b> → panoya; kalıntı v̂ saklanır. ${R.zayif ? `<b style="color:var(--hatali)">F &lt; 10: ${R.zn} zayıf araçtır; bu araçla yapılan Hausman testine güvenilmez.</b>` : `<b style="color:var(--dogru)">F &gt; 10: ${R.zn} güçlü araçtır.</b>`}</div>`,
     4: () => `<h5>5. adım: İkinci aşama: v̂ ana modele eklenir</h5>
       <div class="out">${cikti('2. aşama (DWH): ln IT = f(ln PA, ln DK, v̂)', ['Sabit', 'ln PA', 'ln DK', 'v̂'], R.dwh)}</div>
-      <div class="rs-yaz">v̂, ln DK'nın araçla ve ln PA ile açıklanamayan kısmıdır. Kur içselse u ile ilişkili olan kısım budur ve ln IT'yi ayrıca açıklar (δ ≠ 0). H₀: δ = 0 (kur dışsal). <b>δ̂ = ${DL}</b>, <b>t(δ̂) = ${T}</b> → panoya.</div>`,
+      <div class="rs-yaz">v̂, ln DK'nın araçla ve ln PA ile açıklanamayan kısmıdır. Kur içselse u ile ilişkili olan kısım budur ve ln IT'yi ayrıca açıklar (δ ≠ 0). H₀: model spesifikasyonu doğrudur (δ = 0, kur dışsal). <b>δ̂ = ${DL}</b>, <b>t(δ̂) = ${T}</b> → panoya.</div>`,
     5: () => `<h5>6. adım: t(δ̂) = ${T}. Bu değer şans eseri olabilir mi?</h5>
       <div class="rs-yaz">Deneme: kurun gerçekten dışsal olduğu (H₀) bir dünya kurduk. ln PA, ln DK ve v̂ aynı kalır; ln IT = EKK tahmini + rastgele hata ile yeniden üretilir ve ikinci aşama yeniden tahmin edilir. 2000 deneme (gri çubuklar, t değerleri). Mutlak değerce bizimki (turuncu) kadar büyük t ${S.buyuk === 0 ? 'denemelerin <b>hiçbirinde</b> çıkmadı: şansla açıklanamayacak kadar büyük.' : `denemelerin <b>%${yuzde(S.buyuk)}</b>${sayiEk(yuzde(S.buyuk), 'inde')} çıktı: ${S.buyuk < 0.05 ? 'şansla açıklanamayacak kadar büyük.' : 'şansla rahatça açıklanabilir.'}`}${R.zayif ? ` Ama tek araçta t(v̂), aracı ana modele eklemekle aynı t'yi verir; bu büyüklük ln GSMH'nin ithalatı doğrudan açıkladığını gösterir, kurun içselliğini değil.` : ''}</div>`,
     6: () => `<h5>7. adım: H₀ altında t(δ̂) ~ t(n − k). Serbestlik derecesini önce siz bulun</h5>
@@ -1754,7 +1754,7 @@ function ithIcerik() {
         <button id="ith-kontrol">Kontrol et</button><button id="ith-goster">Cevabı göster</button>
         <div id="ith-geri-bildirim"></div></div>`,
     7: () => `<h5>8. adım: Karar: t(δ̂) = ${T}, t(${R.sd}) dağılımının neresinde?</h5>
-      <div class="rs-yaz">H₀: δ = 0, kur dışsal. İki yanlı %5: |t| &gt; ${R.tk.toFixed(3)} ise H₀ reddedilir (kırmızı bölgeler).</div>
+      <div class="rs-yaz">H₀: model spesifikasyonu doğrudur (δ = 0, kur dışsal). İki yanlı %5: |t| &gt; ${R.tk.toFixed(3)} ise H₀ reddedilir (kırmızı bölgeler).</div>
       ${R.zayif ? `<div class="karar red" id="hu-ith-karar">|t| = ${Math.abs(R.t).toFixed(3)} ${Math.abs(R.t) > R.tk ? '&gt;' : '&lt;'} ${R.tk.toFixed(3)}, ama F = ${R.F.toFixed(2)} &lt; 10. ${R.zn} hem zayıf hem geçersiz araçtır; bu sonuç kurun içselliğini göstermez.</div>
         <div class="rs-yaz">Tek araçta t(v̂), aracı ana modele eklemekle aynı t'yi verir. |t| = ${Math.abs(R.t).toFixed(2)}, gelirin ithalatı doğrudan açıkladığını gösterir; gelir modelden dışlanamaz.</div>
         <details class="kd"><summary>Bu dersin 2009 sürümündeki GSMH hesabı neden Hausman testi değil?</summary><div class="kd-body">
@@ -1905,14 +1905,14 @@ function ynIcerik() {
   const kararSatir = s => { const Q = YN[s]; return `<tr class="${Q.red ? 'ret' : 'kabul'} ${s === ynS ? 'sin' : ''}"><td>${Q.ad}</td><td>${Q.hk} = 0 (${Q.eklenen} gereksiz)</td><td>${Q.F.toFixed(2)}</td><td>${pfmt(Q.p)}</td><td>${Q.s} ${Q.red ? 'reddedilir' : 'reddedilemez'}</td></tr>`; };
   const ic = {
     0: () => `<h5>1. adım: Hipotezleri kur</h5>
-      <div class="hip"><p><b>H₀:</b> ${R.hk} = 0; ${R.eklenen} ${R.s} modeline bir şey katmıyor, ${R.s} modeli yeterli.</p><p><b>H₁:</b> ${R.hk} ≠ 0; ${R.eklenen} açıklamaya katkı yapıyor, ${R.s} modeli yetersiz.</p></div>
+      <div class="hip"><p><b>H₀:</b> Model spesifikasyonu doğrudur; ${R.s} modeli yeterli, ${R.eklenen} ona bir şey katmıyor (${R.hk} = 0).</p><p><b>H₁:</b> Model spesifikasyonu yanlıştır; ${R.s} modeli yetersiz, ${R.eklenen} açıklamaya katkı yapıyor (${R.hk} ≠ 0).</p></div>
       <div class="rs-yaz">Kapsayan model E: VM = c₁ + c₂ GSMH + c₃ PA + u. Anlamlılık düzeyi %5. Öteki model yukarıdaki düğmeyle seçilir; test iki model için de yapılır. F, F kritik değerini aşarsa H₀ reddedilir.</div>`,
     1: () => `<h5>2. adım: İki rakip model, C ve D</h5>
       <table class="yn-tab"><tr><th>Model</th><th>Tahmin</th><th>t (eğim)</th><th>R²</th><th>Σe²</th></tr>${satir('C')}${satir('D')}</table>
       <div class="rs-yaz">İki modelin de bağımlı değişkeni VM. C yalnız GSMH'yi, D yalnız PA'yı içerir; biri ötekinin kısıtlı hâli değildir (<b>yuvalanmamış</b>). Hangisinin kısıtlı, hangisinin kısıtsız olduğu belli olmadığı için klasik F testi doğrudan kurulamaz. D'nin Σe²'si daha küçük (R²'si daha büyük), ama bu bir sınama değildir; fark şans eseri mi, iki model de mi eksik, bilemeyiz. Kalıntı kareleri toplamları (Σe²) → panoya.</div>`,
     2: () => `<h5>3. adım: Kapsayan model E, iki modelin değişkenlerini birlikte içerir</h5>
       <div class="out">${cikti('Model E: VM = c₁ + c₂ GSMH + c₃ PA + u', ['Sabit', 'GSMH', 'PA'], mE)}</div>
-      <div class="rs-yaz">C ve D, E'nin kısıtlı hâlleridir: C doğruysa c₃ = 0, D doğruysa c₂ = 0. Böylece her model için bir yuvalanmış F testi kurulur. Sınanan model <b>${R.ad}</b>, H₀: ${R.hk} = 0 (${R.eklenen}, ${R.s}'ye bir şey katmıyor). Kısıtlı model ${R.s}, kısıtsız model E; eklenen değişken ${R.eklenen}. <b>Σe²<sub>E</sub> = ${E}</b> → panoya. F için iki serbestlik derecesi gerekiyor. <b>Önce siz bulun:</b></div>
+      <div class="rs-yaz">C ve D, E'nin kısıtlı hâlleridir: C doğruysa c₃ = 0, D doğruysa c₂ = 0. Böylece her model için bir yuvalanmış F testi kurulur. Sınanan model <b>${R.ad}</b>, H₀: model spesifikasyonu doğrudur (${R.hk} = 0; ${R.eklenen}, ${R.s}'ye bir şey katmıyor). Kısıtlı model ${R.s}, kısıtsız model E; eklenen değişken ${R.eklenen}. <b>Σe²<sub>E</sub> = ${E}</b> → panoya. F için iki serbestlik derecesi gerekiyor. <b>Önce siz bulun:</b></div>
       <div class="rs-sd-kutu"><label>f₁ (eklenen değişken sayısı) = <input id="yn-f1" type="number" min="0" step="1"></label>
         <label>f₂ = n − k = <input id="yn-f2" type="number" min="0" step="1"></label>
         <button id="yn-kontrol">Kontrol et</button><button id="yn-goster">Cevabı göster</button>
@@ -1926,7 +1926,7 @@ function ynIcerik() {
       = <span class="frac"><span>${R.az.toFixed(5)}</span><span>${R.payda.toFixed(6)}</span></span> = <b>${Fs}</b></div>
       <div class="rs-yaz">Aynı F, R²'lerle de yazılır: [(R²<sub>E</sub> − R²<sub>${R.s}</sub>) / f₁] / [(1 − R²<sub>E</sub>) / f₂]. Ama R²'ler 1'e çok yakın (${R.r.R2.toFixed(6)} ve ${mE.R2.toFixed(6)}); dört basamaklı R²'lerle F = ${R.F4.toFixed(2)} çıkar, doğrusu ${Fs}. Yuvarlamaya bu kadar duyarlı olduğu için Σe² biçimini kullanıyoruz. ${R.F < 1 ? `F 1'in altında: ${R.ekNin} getirdiği azalış, rastgele bir değişkenden beklenenden bile az.` : `${R.ekNin} getirdiği azalış, H₀ doğru olsaydı beklenecek azalışın ${R.F.toFixed(1)} katı.`}</div>`,
     5: () => `<h5>6. adım: Karar: F, F(f₁ = ${Mm}, f₂ = ${SD}) dağılımının neresinde?</h5>
-      <div class="rs-yaz">H₀: ${R.hk} = 0 (${R.s} modeli yeterli). H₀ doğruysa F, F(1, ${YN.sd}) dağılımına uyar; değerlerin yalnız %5'i <b>F kritik = ${Fks}</b>${sayiEk(Fks, 'den')} büyüktür (kırmızı bölge). Tabloda <b>f₁ = 1 üst satır (pay), f₂ = ${YN.sd} sol sütun (payda)</b>.</div>
+      <div class="rs-yaz">H₀: model spesifikasyonu doğrudur (${R.s} modeli yeterli, ${R.hk} = 0). H₀ doğruysa F, F(1, ${YN.sd}) dağılımına uyar; değerlerin yalnız %5'i <b>F kritik = ${Fks}</b>${sayiEk(Fks, 'den')} büyüktür (kırmızı bölge). Tabloda <b>f₁ = 1 üst satır (pay), f₂ = ${YN.sd} sol sütun (payda)</b>.</div>
       <div class="karar ${R.red ? 'red' : 'kabul'}">${R.red ? `F = ${Fs} > ${Fks}, kırmızı bölgede. H₀ reddedilir (p = ${pfmt(R.p)}). ${R.eklenen}, ${R.s} modelinin açıklayamadığını açıklıyor; ${R.s} modeli reddedilir.` : `F = ${Fs} < ${Fks}, kırmızı bölgede değil. H₀ reddedilemez (p = ${pfmt(R.p)}). ${R.eklenen}, ${R.s} modeline anlamlı bir katkı yapmıyor; ${R.s} modeli reddedilemez (veri ${R.s} ile tutarlı).`}</div>
       <div class="rs-yaz">Tek kısıtta F = t²: E'de ${R.ekNin} t'si ${f(R.tE, 3)}, karesi ${(R.tE ** 2).toFixed(R.F < 10 ? 3 : 2)}. 4. adımdaki deneme oranı da p değerine yakın.</div>`,
     6: () => `<h5>7. adım: İki F'yi birlikte yorumla</h5>
@@ -2009,11 +2009,11 @@ function jIcerik() {
   const kabul = x => `<span class="j-kabul">${x}</span>`, ret = x => `<span class="j-ret">${x}</span>`;
   const ic = {
     0: () => `<h5>1. adım: Hipotezleri kur</h5>
-      <div class="hip"><p><b>H₀:</b> ${k3} = 0; ${R.s} modeli doğru; ${yd} modelinin uydurulmuş değeri (${Yh}) ona bir şey katmaz.</p><p><b>H₁:</b> ${k3} ≠ 0; ${Yh} açıklamaya katkı yapıyor; ${R.s} modeli yetersiz.</p></div>
+      <div class="hip"><p><b>H₀:</b> Model spesifikasyonu doğrudur; ${R.s} modeli yeterli, ${yd} modelinin uydurulmuş değeri (${Yh}) ona bir şey katmaz (${k3} = 0).</p><p><b>H₁:</b> Model spesifikasyonu yanlıştır; ${R.s} modeli yetersiz, ${Yh} açıklamaya katkı yapıyor (${k3} ≠ 0).</p></div>
       <div class="rs-yaz">Sınanacak model: VM = ${R.kat}₁ + ${R.kat}₂ ${R.sVar} + ${k3} ${Yh} + u. İki yanlı test, anlamlılık düzeyi %5. Öteki yön yukarıdaki düğmeyle seçilir.</div>`,
     1: () => `<h5>2. adım: J testinin fikri: rakibin bilgisini tek değişkende toplamak</h5>
       <div class="rs-yaz">Kapsayan model E'de rakibin her değişkeni ayrı ayrı eklenir. Davidson ve MacKinnon (1981) rakip modelin bütün bilgisini <b>tek bir değişkende</b> toplar: rakibin uydurulmuş değeri Ŷ. Rakip modelde kaç açıklayıcı olursa olsun tek bir t testi yeter. Sınanan model doğruysa rakibin Ŷ'si ona bir şey katmaz (kapsayıcılık ilkesi). Bu örnekte iki model de tek açıklayıcılı; J'nin F testiyle aynı sonucu verdiğini 8. adımda göreceğiz.</div>
-      <div class="rs-yaz">Seçilen yön: <b>${R.s} modelini sınıyoruz</b>. ${R.s} modeline ${yd} modelinin Ŷ'si eklenir: VM = ${R.kat}₁ + ${R.kat}₂ ${R.sVar} + ${k3} ${Yh} + u, H₀: ${k3} = 0 (${R.s}, ${yd} modelini kapsıyor). Öteki yön yukarıdaki düğmeyle seçilir; J testi iki yönde de yapılır.</div>`,
+      <div class="rs-yaz">Seçilen yön: <b>${R.s} modelini sınıyoruz</b>. ${R.s} modeline ${yd} modelinin Ŷ'si eklenir: VM = ${R.kat}₁ + ${R.kat}₂ ${R.sVar} + ${k3} ${Yh} + u, H₀: model spesifikasyonu doğrudur (${k3} = 0; ${R.s}, ${yd} modelini kapsıyor). Öteki yön yukarıdaki düğmeyle seçilir; J testi iki yönde de yapılır.</div>`,
     2: () => `<h5>3. adım: Rakip modeli (${yd}) tahmin et, uydurulmuş değerleri (${Yh}) sakla</h5>
       <div class="out">${cikti(R.rAd, ['Sabit', R.rVar], R.rakip)}</div>
       <div class="rs-yaz">${Yh} = ${f(R.rakip.b[0], 4)} + ${R.rakip.b[1].toFixed(4)} ${R.rVar}: ${yd} modelinin VM için öngördüğü değerler (turuncu çizgi). ${yd}'nin VM hakkında bildiği her şey bu tek seride toplanır. Ŷ'nin kaynağı → panoya.</div>`,
@@ -2028,7 +2028,7 @@ function jIcerik() {
         <button id="j-kontrol">Kontrol et</button><button id="j-goster">Cevabı göster</button>
         <div id="j-geri-bildirim"></div></div>`,
     6: () => `<h5>7. adım: Karar: t = ${T}, t(${J.sd}) dağılımının neresinde?</h5>
-      <div class="rs-yaz">H₀: ${k3} = 0 (${R.s}, ${yd} modelini kapsıyor). İki yanlı %5: |t| &gt; ${TK} ise H₀ reddedilir (kırmızı bölgeler).</div>
+      <div class="rs-yaz">H₀: model spesifikasyonu doğrudur (${k3} = 0; ${R.s}, ${yd} modelini kapsıyor). İki yanlı %5: |t| &gt; ${TK} ise H₀ reddedilir (kırmızı bölgeler).</div>
       <div class="karar ${R.red ? 'red' : 'kabul'}">${R.red ? `|t| = ${Math.abs(R.t).toFixed(3)} &gt; ${TK}, H₀ reddedilir (p = ${pfmt(R.p)}). ${yd}'nin bilgisi ${R.s}'ye bir şey katıyor; ${R.s}, ${yd} modelini kapsamıyor. ${R.s} modeli reddedilir.` : `|t| = ${Math.abs(R.t).toFixed(3)} &lt; ${TK}, H₀ reddedilemez (p = ${pfmt(R.p)}). ${yd}'nin bilgisi ${R.s}'ye bir şey katmıyor; ${R.s}, ${yd} modelini kapsıyor. ${R.s} modeli reddedilemez.`}</div>`,
     7: () => `<h5>8. adım: İki yönü birlikte yorumla</h5>
       <table class="isaret"><tr><th></th><th class="${jY === 'CD' && !J.CD.red ? 'yon' : ''}">α₃ = 0 reddedilmez</th><th class="${jY === 'CD' && J.CD.red ? 'yon' : ''}">α₃ = 0 reddedilir</th></tr>
