@@ -669,7 +669,7 @@
   <div class="section-body">
     <div class="grid2">
       <div class="card"><h4>Durbin-Watson d ile tanımlama hatası</h4>Model tahmin edilir; gözlemler şüphelenilen değişkene göre sıralanır; sıralı kalıntılardan d hesaplanır. Kalıntılarda sistematik örüntü varsa ardışık kalıntılar birbirine benzer, d küçük çıkar. d &lt; d<sub>L</sub> ise tanımlama hatası vardır.</div>
-      <div class="card"><h4>Eklenen değişkenler için LM testi</h4>Kısıtlı modelin kalıntıları, modeldeki ve eklenmesi düşünülen bütün değişkenlere regres edilir. H₀: eklenenlerin katsayıları sıfır. Büyük örneklemde nR² ~ χ²<sub>m</sub> (m: eklenen değişken sayısı).</div>
+      <div class="card"><h4>Eklenen değişkenler için LM testi</h4>Sınırlandırılmış model EKK ile tahmin edilir, kalıntıları (û) sınırlandırılmamış modelin bütün açıklayıcı değişkenlerine regres edilir. H₀: sınırlamalar geçerli, model spesifikasyonu doğru. Büyük örneklemde χ²<sub>hes</sub> = nR² ~ χ²<sub>c</sub> (c: sınırlama sayısı). Sınanan, modele girmesi düşünülen değişkenlerin kendisidir; Ŷ², Ŷ³ RESET'in terimleridir.</div>
     </div>
     <h4 class="yeni-slayt dw-bas" style="margin-top:1rem">Durbin-Watson d adım adım: ihracat modeli ln IHR = α₁ + α₂ ln DK + u (1984-2003)</h4>
     <div class="rs-kutu dw-kutu" data-adimli>
@@ -691,15 +691,15 @@
       <div class="chart-wrap-sm rs-grafik" id="dw-grafik2"><canvas id="c-dw2"></canvas></div>
       <div class="rs-gez"><button id="dw-geri">‹ Önceki adım</button><button id="dw-ileri">Sonraki adım ›</button></div>
     </div>
-    <h4 class="yeni-slayt dw-bas" style="margin-top:1rem">Eklenen değişkenler için LM testi adım adım: aynı ihracat modeli, Ŷ² ve Ŷ³ eklenmek isteniyor</h4>
+    <h4 class="yeni-slayt dw-bas" style="margin-top:1rem">Eklenen değişkenler için LM testi adım adım: toplam maliyet modeli (Kısım 5), X² ve X³ modele girmeli mi?</h4>
     <div class="rs-kutu lm-kutu" data-adimli>
       <div class="rs-pano dw-pano lm-pano">
-        <div class="rs-hucre eski" id="lm-p-e"><span>Σe² (kısıtlı model)</span><b>?</b><i>2. adım</i></div>
-        <div class="rs-hucre yeni" id="lm-p-r2"><span>R²<sub>yard</sub></span><b>?</b><i>4. adım</i></div>
+        <div class="rs-hucre eski" id="lm-p-e"><span>Σû² (sınırlandırılmış model)</span><b>?</b><i>3. adım</i></div>
+        <div class="rs-hucre yeni" id="lm-p-r2"><span>R² (yardımcı regresyon)</span><b>?</b><i>4. adım</i></div>
         <div class="rs-hucre sd" id="lm-p-n"><span>n</span><b>?</b><i>6. adım</i></div>
-        <div class="rs-hucre m" id="lm-p-m"><span>sd = m (eklenen)</span><b>?</b><i>6. adım</i></div>
-        <div class="rs-hucre tl" id="lm-p-k"><span>χ²<sub>m</sub> kritik (%5)</span><b>?</b><i>6. adım</i></div>
-        <div class="rs-hucre ist" id="lm-p-lm"><span>LM = nR²<sub>yard</sub></span><b>?</b><i>7. adım</i></div>
+        <div class="rs-hucre m" id="lm-p-m"><span>c (sınırlama sayısı)</span><b>?</b><i>6. adım</i></div>
+        <div class="rs-hucre tl" id="lm-p-k"><span>χ²<sub>tab</sub> (sd = c, %5)</span><b>?</b><i>6. adım</i></div>
+        <div class="rs-hucre ist" id="lm-p-lm"><span>χ²<sub>hes</sub> = nR²</span><b>?</b><i>7. adım</i></div>
       </div>
       <div class="rs-adimlar" id="lm-adimlar"></div>
       <div class="rs-icerik" id="lm-icerik"></div>
@@ -1431,93 +1431,99 @@ grupla([...document.querySelectorAll('.dw-b')], b => { dwS = b.dataset.s; DW = d
 DW = dwOlc(dwS); dwIcerik();
 
 // ---------- 7: LM testi, eklenen değişkenler (adım adım) ----------
-// Kurgu: kısıtlı model, kalıntılar e → neden LM: e'de Ŷ², Ŷ³ ile açıklanabilecek desen var mı (grafik) → yardımcı regresyon, R²yard
-// → "bu R² şans eseri mi?" (Ŷ², Ŷ³ yerine 2 rastgele değişken, 2000 deneme) → n ve sd öğrenciye buldurulur, χ² tablosu → nR² → χ²₂ yoğunluğunda karar.
-// R²yard 4 basamağa yuvarlanır, LM bundan hesaplanır (sunumla aynı: 20 × 0.4912 = 9.82).
-const LM_ADIM = ['Kısıtlı model', 'Neden LM?', 'Yardımcı regresyon', 'R² şans eseri mi?', 'n ve sd', 'nR²', 'Karar'], LM_N = LM_ADIM.length;
+// Kurgu (2009 slaytı, 52-56): sınırlandırılmamış Y = β₁ + β₂X + β₃X² + β₄X³ + u, sınırlandırılmış Y = α₁ + α₂X + v (β₃ = β₄ = 0)
+// → sınırlandırılmış model EKK, û → û, sınırlandırılmamış modelin bütün açıklayıcılarına (X, X², X³) regres edilir, R²
+// → "bu R² şans eseri mi?" (X², X³ yerine 2 rastgele değişken, 2000 deneme) → n ve c öğrenciye buldurulur, χ² tablosu → nR² → χ²_c yoğunluğunda karar.
+// Veri Kısım 5'teki Gujarati toplam maliyet örneği (MX, MY). R² 4 basamağa yuvarlanır, χ²hes bundan hesaplanır: 10 × 0.9896 = 9.896.
+const LM_ADIM = ['Modeller', 'Sınırlandırılmış model', 'Yardımcı regresyon', 'R² şans eseri mi?', 'n ve c', 'χ²hes = nR²', 'Karar'], LM_N = LM_ADIM.length;
 let lmA = 0, lmSdAcik = false, lmSans = null;
 const LM_TOHUM = 25;
 const LM = (() => {
-  const x = ln(DK), fh = r7.fit, ek = [fh.map(v => v * v), fh.map(v => v ** 3)], aux = ekk(r7.e, [x, ...ek]);
-  const R2 = +aux.R2.toFixed(4), n = r7.n, m = ek.length, LMv = n * R2, kr = kritik(v => pKi(v, m));
-  const SE = r7.e.reduce((a, v) => a + v * v, 0), SEps = aux.e.reduce((a, v) => a + v * v, 0);
-  return { x, fh, ek, aux, R2, n, m, LMv, kr, p: pKi(LMv, m), SE: +SE.toFixed(4), SE5: +SE.toFixed(5), SEps5: +SEps.toFixed(5) };
+  const x = MX, ek = [x.map(v => v * v), x.map(v => v ** 3)], r0 = ekk(MY, [x]), aux = ekk(r0.e, [x, ...ek]);
+  const R2 = +aux.R2.toFixed(4), n = r0.n, c = ek.length, LMv = n * R2, kr = kritik(v => pKi(v, c));
+  const SE = r0.e.reduce((a, v) => a + v * v, 0), SW = aux.e.reduce((a, v) => a + v * v, 0);
+  return { x, ek, r0, aux, R2, n, c, LMv, kr, p: pKi(LMv, c), SE: +SE.toFixed(4), SW: +SW.toFixed(4) };
 })();
-// Şans denemesi: Ŷ², Ŷ³ yerine 2 rastgele, e ile ilgisiz değişken eklenirse yardımcı regresyonun R²'si ne çıkar? 2000 tekrar.
+// Şans denemesi: X², X³ yerine 2 rastgele, û ile ilgisiz değişken konursa yardımcı regresyonun R²'si ne çıkar? 2000 tekrar.
 function lmSansHesap() {
   if (lmSans) return lmSans;
   const rr = mulberry32(LM_TOHUM), r2 = [];
   const nr = () => { let u = 0; while (u === 0) u = rr(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * rr()); };
-  for (let t = 0; t < 2000; t++) r2.push(ekk(r7.e, [LM.x, ...Array.from({ length: LM.m }, () => r7.e.map(() => nr()))]).R2);
+  for (let t = 0; t < 2000; t++) r2.push(ekk(LM.r0.e, [LM.x, ...Array.from({ length: LM.c }, () => LM.r0.e.map(() => nr()))]).R2);
   return lmSans = { r2, ort: ort(r2), buyuk: r2.filter(v => v >= LM.aux.R2).length / r2.length };
 }
 function lmPano() {
   const sdGor = lmSdAcik || lmA >= 6;
-  panoYaz('lm-p-e', LM.SE.toFixed(4), lmA >= 1); panoYaz('lm-p-r2', LM.R2.toFixed(4), lmA >= 3);
-  panoYaz('lm-p-n', String(LM.n), sdGor); panoYaz('lm-p-m', String(LM.m), sdGor); panoYaz('lm-p-k', LM.kr.toFixed(3), sdGor);
-  panoYaz('lm-p-lm', LM.LMv.toFixed(2), lmA >= 6);
+  panoYaz('lm-p-e', LM.SE.toFixed(4), lmA >= 2); panoYaz('lm-p-r2', LM.R2.toFixed(4), lmA >= 3);
+  panoYaz('lm-p-n', String(LM.n), sdGor); panoYaz('lm-p-m', String(LM.c), sdGor); panoYaz('lm-p-k', LM.kr.toFixed(3), sdGor);
+  panoYaz('lm-p-lm', LM.LMv.toFixed(3), lmA >= 6);
 }
 function lmIcerik() {
   const R = LM, E = `<span class="rs-eski">${R.SE.toFixed(4)}</span>`, R2 = `<span class="rs-yeni">${R.R2.toFixed(4)}</span>`;
-  const Nn = `<span class="rs-sd">${R.n}</span>`, Mm = `<span class="rs-m">${R.m}</span>`, KR = `<span class="rs-tl">${R.kr.toFixed(3)}</span>`, L = `<span class="rs-ist">${R.LMv.toFixed(2)}</span>`;
+  const Nn = `<span class="rs-sd">${R.n}</span>`, Cc = `<span class="rs-m">${R.c}</span>`, KR = `<span class="rs-tl">${R.kr.toFixed(3)}</span>`, L = `<span class="rs-ist">${R.LMv.toFixed(3)}</span>`;
+  const b0 = R.r0.b, ba = R.aux.b, sg = (v, d = 4) => (v < 0 ? '− ' : '+ ') + Math.abs(v).toFixed(d), sb = (v, d = 4) => (v < 0 ? '−' : '') + Math.abs(v).toFixed(d);
   const S = lmA === 4 ? lmSansHesap() : null;
   const ic = {
     0: () => `<h5>1. adım: Hipotezleri kur</h5>
-      <div class="hip"><p><b>H₀:</b> eklenmesi düşünülen değişkenlerin (Ŷ², Ŷ³) katsayıları sıfır; kısıtlı model yeterli, doğru tanımlanmış.</p><p><b>H₁:</b> bu katsayılardan en az biri sıfırdan farklı; kısıtlı model yanlış tanımlanmış.</p></div>
-      <div class="rs-yaz">Anlamlılık düzeyi %5. Sonraki adımlarda LM = nR²<sub>yard</sub> hesaplanır; LM, χ² kritik değerini aşarsa H₀ reddedilir.</div>`,
-    1: () => `<h5>2. adım: Kısıtlı modeli tahmin et, kalıntıları al</h5><div class="out">${cikti('ln IHR = f(ln DK)', ['Sabit', 'ln DK'], r7)}</div>
-      <div class="rs-yaz">Kısıtlı model, eklenmek istenen değişkenler (Ŷ², Ŷ³) olmadan tahmin edilen asıl modeldir. Kalıntılar e<sub>t</sub> saklanır; kareleri toplamı <b>Σe² = ${E}</b> → panoya. e, modelin açıklayamadığı kısımdır.</div>`,
-    2: () => `<h5>3. adım: Neden LM? Eklenecek değişkenler e'yi açıklayabiliyor mu?</h5>
-      <div class="rs-yaz">Ŷ² ve Ŷ³ modelde gerçekten gerekliyse, kısıtlı modelin dışarıda bıraktığı etki e'nin içindedir; e ile bu değişkenler arasında bir ilişki görünür. Model doğruysa e'de yakalanacak bir şey kalmaz. LM testi bu soruyu yalnız <b>kısıtlı</b> modelle sorar: büyük modeli tahmin etmeye gerek yoktur. <b>Turuncu eğri</b>: e'nin Ŷ, Ŷ², Ŷ³ ile uydurulmuş deseni.</div>`,
-    3: () => `<h5>4. adım: Yardımcı regresyon, e modeldeki ve eklenen bütün değişkenlere regres edilir</h5>
-      <div class="out">${cikti('e = f(ln DK, Ŷ², Ŷ³)', ['Sabit', 'ln DK', 'Ŷ²', 'Ŷ³'], R.aux)}</div>
-      <div class="rs-yaz">ln DK de konur: e, EKK gereği ln DK ile ilişkisizdir, ama Ŷ² ve Ŷ³ ln DK ile ilişkilidir; ln DK'yı dışarıda bırakmak eklenenlerin kısmi etkisini bozar. Yardımcı regresyonun açıklama oranı <b>R²<sub>yard</sub> = ${R2}</b> → panoya. Kalıntılardaki değişimin %${(100 * R.R2).toFixed(1)}${sayiEk((100 * R.R2).toFixed(1), 'i')} açıklanıyor. ln DK tek başına e'nin hiçbir kısmını açıklamaz (e ln DK ile ilişkisizdir); R²<sub>yard</sub>'ın tamamı Ŷ² ve Ŷ³'ün eklenmesinden gelir.</div>`,
-    4: () => `<h5>5. adım: R²<sub>yard</sub> = ${R2}. Bu açıklama şans eseri olabilir mi?</h5>
-      <div class="rs-yaz">Modele ne eklenirse eklensin R² sıfırdan büyük çıkar. Deneme: Ŷ², Ŷ³ yerine ${R.m} tane <b>rastgele</b>, e ile ilgisiz değişken ekleyip yardımcı regresyonu 2000 kez tahmin ettik (gri çubuklar). Rastgele değişkenlerle R²<sub>yard</sub> ortalama <b>${S.ort.toFixed(3)}</b>; bizim R²<sub>yard</sub> (turuncu çizgi) <b>${R.R2.toFixed(4)}</b>. Bu kadar büyük R² ${S.buyuk === 0 ? 'denemelerin <b>hiçbirinde</b> çıkmadı: şansla açıklanamayacak kadar büyük.' : `denemelerin yalnız <b>%${(100 * S.buyuk).toFixed(1)}</b>${sayiEk((100 * S.buyuk).toFixed(1), 'inde')} çıktı: ${S.buyuk < 0.05 ? 'şansla açıklanamayacak kadar büyük.' : 'şansla açıklanabilir.'}`}</div>`,
-    5: () => `<h5>6. adım: Test istatistiği LM = nR²<sub>yard</sub>; H₀ altında χ²<sub>m</sub> dağılır. n ve m'yi önce siz bulun</h5>
+      <div class="hip"><p><b>H₀:</b> model spesifikasyonu doğrudur; sınırlamalar geçerli (β₃ = β₄ = 0), doğrusal maliyet fonksiyonu yeterli.</p><p><b>H₁:</b> model spesifikasyonu yanlıştır; β₃ ve β₄'ten en az biri sıfırdan farklı.</p></div>
+      <div class="rs-yaz">Anlamlılık düzeyi %5. Sonraki adımlarda χ²<sub>hes</sub> = nR² hesaplanır; χ²<sub>hes</sub> &gt; χ²<sub>tab</sub> ise H₀ reddedilir.</div>`,
+    1: () => `<h5>2. adım: Sınırlandırılmamış ve sınırlandırılmış model</h5>
+      <div class="eq c">Y<sub>i</sub> = β₁ + β₂X<sub>i</sub> + β₃X<sub>i</sub>² + β₄X<sub>i</sub>³ + u<sub>i</sub><span class="lbl">sınırlandırılmamış model</span></div>
+      <div class="eq c">Y<sub>i</sub> = α₁ + α₂X<sub>i</sub> + v<sub>i</sub><span class="lbl">sınırlandırılmış model (β₃ = β₄ = 0)</span></div>
+      <div class="rs-yaz">Y toplam maliyet, X üretim (Kısım 5'teki veri, n = 10). Sınırlandırılmış model, sınırlandırılmamış modelde β₃ = β₄ = 0 konarak elde edilir; sıfıra eşitlenen her katsayı bir sınırlamadır, <b>c</b> sınırlama sayısıdır. Sınanan değişkenler X² ve X³'tür, yani sınırlandırılmamış modelin kendi değişkenleri. Ŷ'nin kuvvetleri (Ŷ², Ŷ³) burada kullanılmaz; onlar RESET'in yardımcı terimleridir. LM testinin kolaylığı: yalnız sınırlandırılmış model tahmin edilir.</div>`,
+    2: () => `<h5>3. adım: Sınırlandırılmış modeli EKK ile tahmin et, û<sub>i</sub>'yi al</h5><div class="out">${cikti('Y = f(X)', ['Sabit', 'X'], R.r0)}</div>
+      <div class="eq c">Ŷ<sub>i</sub> = ${sb(b0[0], 3)} ${sg(b0[1], 3)}X<sub>i</sub>, &nbsp; û<sub>i</sub> = Y<sub>i</sub> − Ŷ<sub>i</sub></div>
+      <div class="rs-yaz">Kalıntılar û<sub>i</sub> saklanır; kareleri toplamı <b>Σû² = ${E}</b> → panoya. Model doğruysa û'da X² ve X³'ün yakalayacağı bir şey kalmaz. <b>Turuncu eğri</b>: û'nun X, X², X³ ile uydurulmuş deseni; kalıntılar önce artı, sonra eksi, sonra yine artı.</div>`,
+    3: () => `<h5>4. adım: Yardımcı regresyon: û, sınırlandırılmamış modelin bütün açıklayıcılarına regres edilir</h5>
+      <div class="eq c">û<sub>i</sub> = β₁ + β₂X<sub>i</sub> + β₃X<sub>i</sub>² + β₄X<sub>i</sub>³ + w<sub>i</sub></div>
+      <div class="out">${cikti('û = f(X, X², X³)', ['Sabit', 'X', 'X²', 'X³'], R.aux)}</div>
+      <div class="eq c">û<sub>i</sub> = ${sb(ba[0])} ${sg(ba[1])}X<sub>i</sub> ${sg(ba[2])}X<sub>i</sub>² ${sg(ba[3])}X<sub>i</sub>³ + ŵ<sub>i</sub>, &nbsp; R² = ${R2}</div>
+      <div class="rs-yaz">Sağ tarafa X de konur, çünkü sınırlandırılmamış modelde vardır. X tek başına û'yu açıklamaz (EKK gereği û ile X ilişkisizdir); R²'nin tamamı X² ve X³'ten gelir. Kalıntılardaki değişimin %${(100 * R.R2).toFixed(2)}${sayiEk((100 * R.R2).toFixed(2), 'i')} açıklanıyor → <b>R² = ${R2}</b> panoya.</div>`,
+    4: () => `<h5>5. adım: R² = ${R2}. Bu açıklama şans eseri olabilir mi?</h5>
+      <div class="rs-yaz">Modele ne eklenirse eklensin R² sıfırdan büyük çıkar, n küçükken daha da büyük. Deneme: X², X³ yerine ${R.c} tane <b>rastgele</b>, û ile ilgisiz değişken koyup yardımcı regresyonu 2000 kez tahmin ettik (gri çubuklar). Rastgele değişkenlerle R² ortalama <b>${S.ort.toFixed(3)}</b>; bizim R² (turuncu çizgi) <b>${R.R2.toFixed(4)}</b>. Bu kadar büyük R² ${S.buyuk === 0 ? 'denemelerin <b>hiçbirinde</b> çıkmadı: şansla açıklanamayacak kadar büyük.' : `denemelerin yalnız <b>%${(100 * S.buyuk).toFixed(1)}</b>${sayiEk((100 * S.buyuk).toFixed(1), 'inde')} çıktı: ${S.buyuk < 0.05 ? 'şansla açıklanamayacak kadar büyük.' : 'şansla açıklanabilir.'}`}</div>`,
+    5: () => `<h5>6. adım: χ²<sub>hes</sub> = nR²; H₀ altında χ²<sub>c</sub> dağılır. n ve c'yi önce siz bulun</h5>
       <div class="rs-sd-kutu"><label>n = <input id="lm-n" type="number" min="0" step="1"></label>
-        <label>χ² serbestlik derecesi m = <input id="lm-m" type="number" min="0" step="1"></label>
+        <label>c (sınırlama sayısı) = <input id="lm-m" type="number" min="0" step="1"></label>
         <button id="lm-kontrol">Kontrol et</button><button id="lm-goster">Cevabı göster</button>
         <div id="lm-geri-bildirim"></div></div>`,
-    6: () => `<h5>7. adım: nR² ne anlatır?</h5>
-      <div class="rs-yaz">R²<sub>yard</sub>, e'nin eklenen değişkenlerle açıklanan payıdır. H₀ doğruysa (eklenenlerin katsayıları sıfır) bu pay yalnız şansla oluşur ve yaklaşık m/n kadar küçüktür; n ile çarpınca nR² m civarında kalır. Eklenenler gerçekten gerekliyse R²<sub>yard</sub> sıfırdan uzak durur ve nR² büyür. Bu yüzden ölçü nR²'dir.</div>
-      <div class="rs-f">LM = <span class="rs-sd">n</span> × <span class="rs-yeni">R²<sub>yard</sub></span> = ${Nn} × ${R2} = <b>${L}</b></div>
-      <div class="rs-yaz">R²<sub>yard</sub> = 1 − Σε̂² / Σe² = 1 − ${R.SEps5.toFixed(5)} / <span class="rs-eski">${R.SE5.toFixed(5)}</span> = ${R2} (e'nin ortalaması sıfır olduğu için toplam kareler Σe²'dir). Bizim LM, H₀ altındaki ortalamanın (m = ${Mm}) yaklaşık ${(R.LMv / R.m).toFixed(1)} katı.</div>`,
-    7: () => `<h5>8. adım: Karar: LM = ${L}, χ²<sub>${R.m}</sub> dağılımının neresinde?</h5>
-      <div class="rs-yaz">H₀: eklenen değişkenlerin (Ŷ², Ŷ³) katsayıları sıfır, model doğru tanımlanmış. H₀ doğruysa LM, χ²<sub>${R.m}</sub> dağılımına uyar; değerlerin yalnız %5'i <b>χ² kritik = ${KR}</b>${sayiEk(R.kr.toFixed(3), 'den')} büyüktür (kırmızı bölge).</div>
-      <div class="karar ${R.LMv > R.kr ? 'red' : 'kabul'}">${R.LMv > R.kr ? `LM = ${R.LMv.toFixed(2)} > ${R.kr.toFixed(3)}: kırmızı bölgede. H₀ reddedilir (p = ${pfmt(R.p)}). RESET ve Durbin-Watson ile aynı sonuç: model yanlış tanımlanmış.` : `LM = ${R.LMv.toFixed(2)} < ${R.kr.toFixed(3)}: H₀ reddedilemez (p = ${pfmt(R.p)}).`}</div>
-      <div class="rs-yaz">χ² büyük örneklem yaklaşımıdır. 5. adımdaki deneme oranı küçük örneklemdeki kesin p'yi (${pfmt(betai((R.n - R.aux.k) / 2, R.m / 2, 1 - R.aux.R2))}) yaklaşık olarak verir; bu RESET'teki F testinin p'sidir, çünkü F ve nR² aynı R²<sub>yard</sub>'ın iki dönüşümüdür. İkisi de %1'in altında, karar değişmez.</div>` };
+    6: () => `<h5>7. adım: Test istatistiği χ²<sub>hes</sub> = nR²</h5>
+      <div class="rs-f">χ²<sub>hes</sub> = <span class="rs-sd">n</span> × <span class="rs-yeni">R²</span> = ${Nn} × ${R2} = <b>${L}</b></div>
+      <div class="rs-yaz">R² = 1 − Σŵ² / Σû² = 1 − ${R.SW.toFixed(4)} / ${E} = ${R2} (û'nun ortalaması sıfır olduğu için toplam kareler Σû²'dir). H₀ doğruysa X² ve X³ û'yu yalnız şansla açıklar, R² küçük kalır ve nR² c civarında olur. X² ve X³ gerçekten gerekliyse R² sıfırdan uzak durur, nR² büyür. Bizim χ²<sub>hes</sub>, H₀ altındaki ortalamanın (c = ${Cc}) yaklaşık ${(R.LMv / R.c).toFixed(1)} katı.</div>`,
+    7: () => `<h5>8. adım: Karar: χ²<sub>hes</sub> = ${L}, χ²<sub>${R.c}</sub> dağılımının neresinde?</h5>
+      <div class="rs-yaz">H₀ doğruysa nR², χ²<sub>${R.c}</sub> dağılımına uyar; değerlerin yalnız %5'i <b>χ²<sub>tab</sub> = ${KR}</b>${sayiEk(R.kr.toFixed(3), 'den')} büyüktür (kırmızı bölge).</div>
+      <div class="karar ${R.LMv > R.kr ? 'red' : 'kabul'}">${R.LMv > R.kr ? `χ²<sub>hes</sub> = ${R.LMv.toFixed(3)} > χ²<sub>tab</sub> = ${R.kr.toFixed(3)}: H₀ reddedilir (p = ${pfmt(R.p)}). Doğrusal maliyet fonksiyonu yanlış tanımlanmış; X² ve X³ modele alınmalı (kübik maliyet fonksiyonu).` : `χ²<sub>hes</sub> = ${R.LMv.toFixed(3)} < χ²<sub>tab</sub> = ${R.kr.toFixed(3)}: H₀ reddedilemez (p = ${pfmt(R.p)}).`}</div>
+      <div class="rs-yaz">χ² büyük örneklem yaklaşımıdır; n = ${R.n} küçüktür. Aynı sınırlamanın F testi aynı R²'den kurulur: F = (R² / c) / ((1 − R²) / (n − k)), k = ${R.aux.k}; p = ${pfmt(betai((R.n - R.aux.k) / 2, R.c / 2, 1 - R.aux.R2))}. Karar değişmez.</div>` };
   $('lm-icerik').innerHTML = ic[lmA]();
   if (lmA === 5) sdBagla('lm', [
-    { id: 'lm-n', dogru: R.n, hata: v => v === R.n - 1 ? `n = ${v}: bu n − 1. LM'de n <b>gözlem sayısıdır</b> (1984-2003, ${R.n} yıl).`
-      : v === R.n - R.aux.k ? `n = ${v}: bu yardımcı regresyonun serbestlik derecesi (n − k). LM'de n <b>gözlem sayısıdır</b>.`
-      : v === R.n - 2 ? `n = ${v}: bu kısıtlı modelin serbestlik derecesi (n − k). LM'de n <b>gözlem sayısıdır</b>.`
-      : `n = ${v} değil: gözlem sayısını bulun (1984-2003).` },
-    { id: 'lm-m', dogru: R.m, hata: v => v === R.m + 1 ? `m = ${v}: ln DK de sayılmış. ln DK kısıtlı modelde zaten var; m yalnız <b>eklenen</b> değişkenlerin (Ŷ², Ŷ³) sayısıdır.`
-      : v === R.aux.k ? `m = ${v}: bu yardımcı regresyondaki bütün katsayılar (sabit dahil). m yalnız <b>eklenen</b> değişkenlerin sayısıdır.`
-      : v === 1 ? `m = 1: Ŷ² ve Ŷ³ iki ayrı değişkendir; H₀ iki katsayıyı birlikte sınar.`
-      : v === R.n - R.aux.k ? `m = ${v}: bu n − k, F testinin payda serbestlik derecesidir. χ² testinde tek serbestlik derecesi vardır: eklenen değişken sayısı.`
-      : `m = ${v} değil: kısıtlı modele eklenmek istenen değişkenleri sayın.` }],
-    () => `Doğru. n = ${R.n} gözlem. m = ${R.m}: eklenen değişkenler <span class="rs-kat">1. Ŷ²</span> <span class="rs-kat">2. Ŷ³</span>; ln DK ve sabit kısıtlı modelde zaten var, sayılmaz.
-      χ² tablosunda sd = ${R.m} satırı, %5 sütunundan <b>χ²<sub>${R.m}</sub> kritik = ${R.kr.toFixed(3)}</b> okunur → panoya.`,
+    { id: 'lm-n', dogru: R.n, hata: v => v === R.n - 1 ? `n = ${v}: bu n − 1. nR²'de n <b>gözlem sayısıdır</b> (X = 1, …, ${R.n}).`
+      : v === R.n - R.aux.k ? `n = ${v}: bu yardımcı regresyonun serbestlik derecesi (n − k). nR²'de n <b>gözlem sayısıdır</b>.`
+      : v === R.n - 2 ? `n = ${v}: bu sınırlandırılmış modelin serbestlik derecesi (n − k). nR²'de n <b>gözlem sayısıdır</b>.`
+      : `n = ${v} değil: gözlem sayısını bulun (X = 1, …, ${R.n}).` },
+    { id: 'lm-m', dogru: R.c, hata: v => v === R.c + 1 ? `c = ${v}: X de sayılmış. X sınırlandırılmış modelde zaten var; c yalnız sıfıra eşitlenen katsayıların (β₃, β₄) sayısıdır.`
+      : v === R.aux.k ? `c = ${v}: bu yardımcı regresyondaki bütün katsayılar (sabit dahil). c yalnız <b>sınırlamaların</b> sayısıdır.`
+      : v === 1 ? `c = 1: β₃ = 0 ve β₄ = 0 iki ayrı sınırlamadır; H₀ ikisini birlikte sınar.`
+      : v === R.n - R.aux.k ? `c = ${v}: bu n − k, F testinin payda serbestlik derecesidir. χ² testinde tek serbestlik derecesi vardır: sınırlama sayısı.`
+      : `c = ${v} değil: sınırlandırılmış modele geçerken sıfıra eşitlenen katsayıları sayın.` }],
+    () => `Doğru. n = ${R.n} gözlem. c = ${R.c}: sınırlamalar <span class="rs-kat">1. β₃ = 0</span> <span class="rs-kat">2. β₄ = 0</span>; sabit ve X her iki modelde de var, sayılmaz.
+      χ² tablosunda sd = ${R.c} satırı, %5 sütunundan <b>χ²<sub>tab</sub> = ${R.kr.toFixed(3)}</b> okunur → panoya.`,
     lmSdAcik, () => { lmSdAcik = true; lmPano(); });
   $('lm-grafik').style.display = lmA === 2 ? '' : 'none';
   $('lm-grafik2').style.display = lmA === 4 || lmA === 7 ? '' : 'none';
   if (lmA === 2) {
-    // Turuncu eğri: e'nin Ŷ, Ŷ², Ŷ³ ile uydurulmuş deseni (eklenen terimlerin yakalayabileceği desen).
-    const lo = Math.min(...R.fh), hi = Math.max(...R.fh), u = ekk(r7.e, [R.fh, R.ek[0], R.ek[1]]), xs = Array.from({ length: 80 }, (_, i) => lo + (hi - lo) * i / 79);
+    // Turuncu eğri: û'nun X, X², X³ ile uydurulmuş deseni (yardımcı regresyonun yakalayacağı desen).
+    const xs = Array.from({ length: 91 }, (_, i) => 1 + 9 * i / 90);
     ciz('c-lm', { type: 'scatter', data: { datasets: [
-      { label: 'e – Ŷ (kısıtlı modelin kalıntıları)', data: R.fh.map((v, i) => ({ x: v, y: r7.e[i] })), backgroundColor: C.teal },
-      { label: 'Ŷ² ve Ŷ³ ile yakalanabilecek desen', type: 'line', data: xs.map(v => ({ x: v, y: u.b[0] + u.b[1] * v + u.b[2] * v * v + u.b[3] * v ** 3 })), borderColor: C.orange, borderWidth: 3, pointRadius: 0 }] },
-      options: { maintainAspectRatio: false, scales: { x: { title: { display: true, text: 'Ŷ = tahmin edilen ln IHR' } }, y: { title: { display: true, text: 'e' } } } } });
+      { label: 'û – X (sınırlandırılmış modelin kalıntıları)', data: R.x.map((v, i) => ({ x: v, y: R.r0.e[i] })), backgroundColor: C.teal },
+      { label: 'X² ve X³ ile yakalanabilecek desen', type: 'line', data: xs.map(v => ({ x: v, y: ba[0] + ba[1] * v + ba[2] * v * v + ba[3] * v ** 3 })), borderColor: C.orange, borderWidth: 3, pointRadius: 0 }] },
+      options: { maintainAspectRatio: false, scales: { x: { title: { display: true, text: 'X: üretim' } }, y: { title: { display: true, text: 'û' } } } } });
   }
   if (lmA === 4) {
-    const H = hist([S.r2], -0.0125, 0.8125, 33), cfg = histCfg(H.lab.map(v => (+v).toFixed(2)), [{ l: `Rastgele ${R.m} değişken eklenince R²yard (2000 deneme)`, d: H.h[0], c: C.gray }], 'R²yard');
-    cfg.plugins = [histCizgi(-0.0125, 0.8125, 33, [[R.aux.R2, C.orange, 'bizim R²yard = ' + R.R2.toFixed(4)]])];
+    const H = hist([S.r2], -0.0125, 1.0125, 41), cfg = histCfg(H.lab.map(v => (+v).toFixed(2)), [{ l: `Rastgele ${R.c} değişken konunca R² (2000 deneme)`, d: H.h[0], c: C.gray }], 'R² (yardımcı regresyon)');
+    cfg.plugins = [histCizgi(-0.0125, 1.0125, 41, [[R.aux.R2, C.orange, 'bizim R² = ' + R.R2.toFixed(4)]])];
     ciz('c-lm2', cfg);
   }
-  if (lmA === 7) kararGrafigi('c-lm2', v => kiYog(v, R.m), R.kr, R.LMv, { xmax: 2 * Math.ceil(1.2 * Math.max(R.LMv, R.kr) / 2), adim: 2,
-    yogEtiket: `χ²(${R.m}) yoğunluğu (H₀ doğruysa)`, xBaslik: 'LM = nR²', kritikEtiket: 'χ² kritik ' + R.kr.toFixed(3), hesapEtiket: 'LM = ' + R.LMv.toFixed(2) });
+  if (lmA === 7) kararGrafigi('c-lm2', v => kiYog(v, R.c), R.kr, R.LMv, { xmax: 2 * Math.ceil(1.2 * Math.max(R.LMv, R.kr) / 2), adim: 2,
+    yogEtiket: `χ²(${R.c}) yoğunluğu (H₀ doğruysa)`, xBaslik: 'χ²hes = nR²', kritikEtiket: 'χ²tab ' + R.kr.toFixed(3), hesapEtiket: 'χ²hes = ' + R.LMv.toFixed(3) });
   adimCubugu('lm-adimlar', ['Hipotezler', ...LM_ADIM], lmA, lmGit, 0);
   $('lm-geri').disabled = lmA === 0; $('lm-ileri').disabled = lmA === LM_N;
   lmPano();
