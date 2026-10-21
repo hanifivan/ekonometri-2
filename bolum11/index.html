@@ -698,7 +698,7 @@
 <section class="section" id="s8">
   <div class="section-header"><span class="num">8</span>Eklenen Değişkenler için LM Testi</div>
   <div class="section-body">
-    <div class="card"><h4>Eklenen değişkenler için LM (Lagrange çarpanı) testi</h4>Sınırlandırılmış model EKK ile tahmin edilir, kalıntıları (û) sınırlandırılmamış modelin bütün açıklayıcı değişkenlerine regres edilir. H₀: sınırlamalar geçerli, model spesifikasyonu doğru. Büyük örneklemde χ²<sub>hes</sub> = nR²<sub>yard</sub> ~ χ²<sub>c</sub> (R²<sub>yard</sub>: yardımcı regresyonun R²'si; c: sınırlama sayısı). Sınanan, modele girmesi düşünülen değişkenlerin kendisidir; Ŷ², Ŷ³ RESET'in terimleridir.</div>
+    <div class="card"><h4>Eklenen değişkenler için LM (Lagrange çarpanı) testi</h4>Sınırlandırılmış model EKK ile tahmin edilir, kalıntıları (û) sınırlandırılmamış modelin bütün açıklayıcı değişkenlerine regres edilir. H₀: Model spesifikasyonu doğrudur (sınırlamalar geçerli). Büyük örneklemde χ²<sub>hes</sub> = nR²<sub>yard</sub> ~ χ²<sub>c</sub> (R²<sub>yard</sub>: yardımcı regresyonun R²'si; c: sınırlama sayısı). Sınanan, modele girmesi düşünülen değişkenlerin kendisidir; Ŷ², Ŷ³ RESET'in terimleridir.</div>
     <h4 class="yeni-slayt dw-bas" style="margin-top:1rem">Eklenen değişkenler için LM testi adım adım: toplam maliyet modeli (5. başlıktaki veri), X² ve X³ modele girmeli mi?</h4>
     <p>Soru: 6. başlıktaki RESET modelde bir sorun olduğunu söyler, ne olduğunu söylemez. Eksik olabilecek değişkenler önceden belliyse (burada X² ve X³) onlar doğrudan sınanır: eklenen değişkenler için LM testi. Veri, 5. başlıkta kalıntıları incelenen toplam maliyet verisidir; doğrusal modelin kalıntılarındaki artı, eksi, artı dalgası X² ve X³'e işaret ediyordu.</p>
     <div class="rs-kutu lm-kutu" data-adimli>
@@ -725,6 +725,7 @@
   <div class="section-header"><span class="num">9</span>Hausman Testinin Mantığı</div>
   <div class="section-body">
     <p>Açıklayıcı değişken hata terimiyle ilişkiliyse (eşanlılık, ölçme hatası, dışlanmış değişken) EKK tutarsız olur. Hausman testi iki tahminciyi karşılaştırır:</p>
+    <div class="hip"><p><b>H₀:</b> Model spesifikasyonu doğrudur; X dışsal, hata terimiyle ilişkisiz (Cov(X, u) = 0).</p><p><b>H₁:</b> Model spesifikasyonu yanlıştır; X içsel (Cov(X, u) ≠ 0).</p></div>
     <div class="grid2">
       <div class="card"><h4>EKK tahmincisi β̂₀</h4>H₀ altında (X dışsal) tutarlı ve etkin. H₁ altında (X içsel) tutarsız.</div>
       <div class="card"><h4>Araç değişken (IV) tahmincisi β̂₁</h4>Z, X ile ilişkili ama hata terimiyle ilişkisiz bir araçtır. β̂₁ = Σyz / Σxz. H₀ ve H₁ altında tutarlı, ama H₀ altında etkin değil.</div>
