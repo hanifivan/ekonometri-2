@@ -453,6 +453,73 @@
   body.sunum .s13-giris, body.sunum .s14-eq { display: none; }
   body.sunum #s16 .tscroll { max-height: none; } body.sunum #l-tablo { font-size: 14px; } body.sunum #l-tablo td, body.sunum #l-tablo th { padding: 1px 6px; }
   body.sunum #s8 .chart-wrap, body.sunum #s11 .chart-wrap, body.sunum #s13 .chart-wrap { height: 270px; }
+  /* ===== Veri Analizi 3. bölümden (2026-11-03): geri bildirim ve odak modu ===== */
+  .widget { margin: 1rem 0; }
+  .hero .ipucu { font-size: 13px; opacity: .85; margin: .7rem auto 0; max-width: 46em; line-height: 1.6; }
+  #sunum-ac, #sunum-bar { display: none !important; }
+  /* ===== geri bildirim ===== */
+  .section-header .gb { margin-left: auto; font-size: 12px; font-weight: 600; color: #fff; background: rgba(255,255,255,.14); padding: 3px 11px; border-radius: 14px; text-decoration: none; white-space: nowrap; }
+  .section-header .gb:hover { background: rgba(255,255,255,.28); }
+  .gb-alt { text-align: center; font-size: 12px; color: var(--gray); margin: 0 0 2rem; }
+  @media(max-width:700px) { .section-header .gb { font-size: 0; padding: 3px 8px; } .section-header .gb::before { content: "✉"; font-size: 14px; } }
+  /* ===== ODAK: tıklanan blok tam ekranı kaplar (araştırma yöntemleri notundaki düzen) ===== */
+  [data-odak] .section-body > p, [data-odak] .section-body > ol, [data-odak] .section-body > .tw, [data-odak] .section-body .card, [data-odak] .section-body > .info-box,
+  [data-odak] .section-body > .warn-box, [data-odak] .section-body > .formula, [data-odak] .section-body > .widget, [data-odak] .section-body > .grid3, [data-odak] .section-body > .grid4 { cursor: zoom-in; transition: outline-color .15s; outline: 2px solid transparent; outline-offset: 3px; border-radius: 6px; }
+  [data-odak] .section-body > p:hover, [data-odak] .section-body > ol:hover, [data-odak] .section-body > .tw:hover, [data-odak] .section-body .card:hover, [data-odak] .section-body > .info-box:hover,
+  [data-odak] .section-body > .warn-box:hover, [data-odak] .section-body > .formula:hover, [data-odak] .section-body > .widget:hover { outline-color: #cfe3ea; }
+  [data-odak] .section-body .widget input, [data-odak] .section-body .widget select, [data-odak] .section-body .widget button { cursor: pointer; }
+  [data-odak] .section-body .widget input[type=text], [data-odak] .section-body .widget input[inputmode] { cursor: text; }
+  [data-odak] .section-header { cursor: zoom-in; }
+  #odak { display: none; position: fixed; inset: 0; background: var(--navy); z-index: 500; --u: clamp(18px, min(2.2vw, 3.5vh), 52px); font-size: var(--u); color: #1a1a1a; }
+  #odak.acik { display: flex; flex-direction: column; }
+  #odak .odak-bas { color: #fff; font-size: .9em; font-weight: 700; padding: .45em 1.2em; display: flex; align-items: center; gap: .6em; border-bottom: 2px solid var(--teal); }
+  #odak .odak-bas .num { background: var(--teal); width: 1.5em; height: 1.5em; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: .8em; }
+  #odak .odak-bas .gb { margin-left: auto; font-size: .55em; color: #fff; background: rgba(255,255,255,.14); padding: .25em .9em; border-radius: 1em; text-decoration: none; }
+  #odak .odak-ic { flex: 1; display: flex; align-items: center; justify-content: center; padding: .8em 1.6em; overflow: auto; min-height: 0; cursor: zoom-out; }
+  #odak .odak-ic > * { cursor: zoom-out; width: min(94vw, 46em); max-height: 86vh; overflow: auto; animation: odakGel .25s ease; background: #fff; border-radius: .4em; padding: .8em 1.2em; margin: 0; }
+  #odak .odak-ic > .widget, #odak .odak-ic > .grid3, #odak .odak-ic > .grid4, #odak .odak-ic > .tw { width: min(96vw, 62em); cursor: default; }
+  #odak .odak-ic > .grid3, #odak .odak-ic > .grid4 { background: transparent; padding: 0; }
+  .odak-surum { display: none; }
+  #odak .odak-ic > .odak-surum { display: block; width: min(94vw, 58em); line-height: 1.5; }
+  #odak .odak-surum .g { font-size: 1.05em; font-weight: 700; color: var(--navy); margin: .2em 0 .4em; }
+  #odak .odak-surum ul { margin: 0 0 .4em 1.3em; padding: 0; } #odak .odak-surum li { margin-bottom: .35em; } #odak .odak-surum li::marker { color: var(--teal); } #odak .odak-surum strong { color: var(--teal); }
+  #odak .odak-ic > p, #odak .odak-ic > ol { font-size: 1em; line-height: 1.55; }
+  #odak .odak-ic > ol { padding-left: 2.2em; }
+  #odak .odak-ic > .card { font-size: 1em; line-height: 1.5; }
+  #odak .odak-ic > .card h4, #odak .kd-soru h4 { font-size: 1.1em !important; margin-bottom: .3em !important; }
+  #odak .odak-ic > .formula { font-size: 1.15em; }
+  #odak .odak-ic > .info-box, #odak .odak-ic > .warn-box { font-size: 1em; line-height: 1.55; }
+  #odak .widget { font-size: .62em; line-height: 1.5; }
+  #odak .widget .soru { font-size: 1.25em; }
+  #odak .widget .cozum .adim { font-size: 1.2em; }
+  #odak .widget .cozum .adim .renkli { font-size: .95em; }
+  #odak .widget table { font-size: 1.02em; } #odak .widget td input { font-size: 1em; width: 5em; padding: 0 .3em; height: 1.45em; }
+  #odak .widget .soru { padding: .5em .9em; margin-top: 0; } #odak .widget .cozum .adim { padding: .4em .8em; margin: .3em 0; }
+  #odak .widget .chart-wrap { height: 32vh; } #odak .widget .chart-wrap-sm { height: 27vh; }
+  #odak .odak-ic > .formula.uzun { font-size: .8em; }
+  #odak #vr-kap table { font-size: .95em; } #odak #vr-kap .ad-hucre b { font-size: 1.3em; } #odak #vr-kap .ad-pano { margin-bottom: .3em; } #odak #vr-kap .ad-adimlar { margin-bottom: .3em; }
+  #odak .widget .stat-grid { margin-top: .5em; } #odak .widget .info-box { margin-top: .5em; padding: .5em .8em; }
+  #odak .widget .stat-card .value { font-size: 1.6em !important; } #odak .widget .stat-card .label { font-size: .9em; }
+  #odak .widget .info-box, #odak .widget .ad-yaz { font-size: 1.1em; }
+  #odak .widget button { font-size: 1em; } #odak .widget .controls label { font-size: 1.05em; }
+  #odak .ad-f { font-size: 1.6em; } #odak .ad-hucre b { font-size: 1.7em; } #odak .ad-hucre span { font-size: 1em; }
+  #odak .ad-giris { font-size: 1.1em; }
+  @keyframes odakGel { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: none; } }
+  #odak .odak-alt { color: #a8c8d8; font-size: .5em; padding: .5em 1.6em; display: flex; justify-content: space-between; gap: 1em; }
+  #odak .odak-alt b { color: #fff; }
+  .ek { display: none; }
+  #odak .ek.acik { display: block; margin-top: .7em; padding: .6em .9em; border-radius: .35em; font-size: .92em; line-height: 1.45; animation: fragGel .3s ease; }
+  #odak .ek b { display: inline-block; font-size: .7em; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: .1em .6em; border-radius: 1em; color: #fff; margin: 0 .5em .2em 0; vertical-align: middle; }
+  #odak .ek-ornek { background: #EBF4FA; color: #1f3350; } #odak .ek-ornek b { background: #378ADD; }
+  #odak .ek-tartis { background: #F7F5FF; color: #2b2550; } #odak .ek-tartis b { background: #7F77DD; }
+  #odak .ek-sayi { background: #FDF3E7; color: #4a3a20; } #odak .ek-sayi b { background: #EF9F27; }
+  /* Bölüm 14 öğeleri odakta (Veri Analizi düzenindeki gibi em ölçülü) */
+  #odak .widget .eq { font-size: 1.15em; } #odak .widget .out { font-size: .85em; } #odak .widget .rs-yaz, #odak .widget .rs-icerik h5 { font-size: 1.1em; }
+  #odak .widget .rs-hucre span { font-size: .85em; } #odak .widget .rs-hucre b { font-size: 1.5em; } #odak .widget .rs-adimlar button { font-size: .85em; }
+  #odak .widget .rs-f { font-size: 1.5em; } #odak .widget .karar { font-size: 1.1em; } #odak .widget .rs-sd-kutu { font-size: 1.1em; }
+  #odak .widget .card, #odak .widget .warn-box, #odak .widget p, #odak .widget table.ornek { font-size: 1.1em; } #odak .widget h4 { font-size: 1.2em; }
+  #odak .widget .tscroll { max-height: 70vh; } #odak .widget .rs-gez { display: none; }
+  #odak .odak-ic > table { width: min(96vw, 62em); background: #fff; font-size: .7em; } #odak .odak-ic > .eq { font-size: 1.1em; }
 </style>
 </head>
 <body>
@@ -500,6 +567,7 @@
   <h1>Ekonometri II</h1>
   <p>14. Bölüm: Dağıtılmış Gecikme ve Otoregresiv Modeller.<br>Simülasyonlar ve ders verisiyle yapılan bütün tahminler tarayıcıda canlı hesaplanıyor.</p>
   <div class="yazar">Doç. Dr. M. Hanifi VAN<span>Van Yüzüncü Yıl Üniversitesi, İİBF Ekonometri Bölümü</span></div>
+  <div class="ipucu">Projeksiyonda: bir kutuya tıklayın, tam ekran büyür. → ya da boşluk tuşu adımları ve sonraki kutuyu açar, ← geri, Esc kapatır.</div>
   <div class="badges">
     <a class="badge" style="background:#028090" href="#s1">Gecikme</a>
     <a class="badge" style="background:#1D9E75" href="#s4">Almon</a>
@@ -507,6 +575,7 @@
     <a class="badge" style="background:#378ADD" href="#s13">Otoregresiv modellerin tahmini</a>
   </div>
   <div class="indir">
+    <a href="../bolum11/">← 11. Bölüm: Model Seçimi</a>
     <a href="ekonometri2_bolum14.pdf" download>⤓ Sunum (PDF)</a>
     <a href="bolum14_veriler.xlsx" download>⤓ Veriler (Excel)</a>
   </div>
@@ -514,7 +583,7 @@
 
 <!-- ================= Kısım 1 ================= -->
 <div class="part-title">Kısım 1 · Gecikme</div>
-<section class="section" id="s1">
+<section class="section" data-odak="1" id="s1">
   <div class="section-header"><span class="num">1</span>Statik, Dağıtılmış Gecikme ve Otoregresiv Modeller</div>
   <div class="section-body">
     <p>Y değişkeni X'teki bir değişmeye çoğu zaman hemen değil, belli bir zaman boşluğundan sonra cevap verir. Bu zaman boşluğuna <b>gecikme</b>, ilgili modele de gecikmeli ilişki denir.</p>
@@ -530,7 +599,7 @@
   </div>
 </section>
 
-<section class="section" id="s2">
+<section class="section" data-odak="1" id="s2">
   <div class="section-header"><span class="num">2</span>Kısa ve Uzun Dönem Çarpanları</div>
   <div class="section-body">
     <div class="grid2">
@@ -543,6 +612,7 @@
         <div class="formula"><math xmlns="http://www.w3.org/1998/Math/MathML" displaystyle="true"><mrow><msub><mi>Y</mi><mi>t</mi></msub><mo>=</mo><mi>α</mi><mo>+</mo><mn>0,5</mn><msub><mi>X</mi><mi>t</mi></msub><mo>+</mo><mn>0,375</mn><msub><mi>X</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow></math><br><math xmlns="http://www.w3.org/1998/Math/MathML" displaystyle="true"><mrow><mo>+</mo><mspace width="0.167em" /><mn>0,125</mn><msub><mi>X</mi><mrow><mi>t</mi><mo>−</mo><mn>2</mn></mrow></msub><mo>+</mo><msub><mi>u</mi><mi>t</mi></msub></mrow></math></div>
         Uzun dönem çarpanı 0,5 + 0,375 + 0,125 = 1: gelirdeki kalıcı bir birimlik artış sonunda tüketimi bir birim artırır.</div>
     </div>
+    <div class="widget">
     <h4 class="yeni-slayt" style="margin-top:1rem">Deneyin: katsayıları değiştirin, X'teki artışın Y'ye yolculuğunu izleyin</h4>
     <div class="controls">
       <span class="kayd"><label>β₀ = <b id="c-b0-l">0,50</b></label><input type="range" id="c-b0" min="0" max="1" step="0.025" value="0.5"></span>
@@ -559,10 +629,11 @@
       <div class="stat-card"><div class="label">Ortalama gecikme Σiβᵢ / Σβᵢ</div><div class="value" id="c-og">0,625</div></div>
     </div>
     <p class="note" id="c-not"></p>
+    </div>
   </div>
 </section>
 
-<section class="section" id="s3">
+<section class="section" data-odak="1" id="s3">
   <div class="section-header"><span class="num">3</span>Dağıtılmış Gecikme Modelinin Doğrudan EKK ile Tahmini</div>
   <div class="section-body">
     <p>Sonlu gecikmeli model ilke olarak EKK ile tahmin edilebilir. Ancak üç sakıncası vardır:</p>
@@ -571,6 +642,7 @@
       <div class="card"><h4>2. Serbestlik derecesi kaybı</h4>Her gecikme bir katsayı ve bir gözlem götürür. Gözlem azsa testler ve güven aralıkları sağlıksızlaşır.</div>
       <div class="card"><h4>3. Çoklu doğrusal bağlantı</h4>X<sub>t</sub>, X<sub>t−1</sub>, X<sub>t−2</sub>, … birbirine çok benzer. Katsayılar dalgalanır, işaretleri bile değişebilir.</div>
     </div>
+    <div class="widget">
     <h4 class="yeni-slayt" style="margin-top:1rem">Deneyin: X ne kadar kalıcıysa EKK tahminleri o kadar dağınık</h4>
     <p>Gerçek gecikme katsayıları (lacivert) tümsek biçimli, k = 6. Her çekişte n gözlemlik yeni bir örnek üretilir ve 7 gecikme katsayısı EKK ile tahmin edilir (kırmızı).</p>
     <div class="controls">
@@ -584,12 +656,13 @@
       <div class="stat-card"><div class="label">Serbestlik derecesi n − k − 2</div><div class="value" id="e-sd">.</div></div>
       <div class="stat-card"><div class="label">Negatif tahmin (gerçekte hepsi ≥ 0)</div><div class="value" id="e-neg">.</div></div>
     </div>
+    </div>
   </div>
 </section>
 
 <!-- ================= Kısım 2 ================= -->
 <div class="part-title">Kısım 2 · Almon Polinom Gecikme Modeli</div>
-<section class="section" id="s4">
+<section class="section" data-odak="1" id="s4">
   <div class="section-header"><span class="num">4</span>Polinom Gecikme ve Z Değişkenleri</div>
   <div class="section-body">
     <p>Almon, gecikme katsayılarının gecikme uzunluğu i'nin uygun dereceden bir polinomu olduğunu varsayar. Böylece k + 1 katsayı yerine r + 1 polinom katsayısı tahmin edilir.</p>
@@ -602,6 +675,7 @@
       <div class="step" style="background:#EF9F27">3. Y, Z'ler üzerine EKK ile regres edilir</div>
       <div class="step" style="background:#378ADD">4. β<sub>i</sub> = Σ a<sub>j</sub> i<sup>j</sup> geri hesaplanır</div>
     </div>
+    <div class="widget">
     <h4 class="yeni-slayt" style="margin-top:1rem">Deneyin: r ve k seçin, Z değişkenleri ve kazanılan serbestlik derecesi</h4>
     <div class="controls">
       <span class="kayd"><label>Polinom derecesi r = <b id="z-r-l">2</b></label><input type="range" id="z-r" min="1" max="4" step="1" value="2"></span>
@@ -609,28 +683,34 @@
     </div>
     <div id="z-liste"></div>
     <div id="z-ozet"></div>
+    </div>
   </div>
 </section>
 
-<section class="section" id="s5">
+<section class="section" data-odak="1" id="s5">
   <div class="section-header"><span class="num">5</span>Almon Uygulaması: Tüketim ve Gelir, 1976-1990</div>
   <div class="section-body">
     <p>Cari tüketim Y<sub>t</sub>, cari gelir X<sub>t</sub> ve geçmiş gelirlere bağlıdır. Polinom derecesi r = 2. Gecikme sayısını seçin; Z'ler, EKK tahmini ve β'lar canlı hesaplanır.</p>
+    <div class="widget">
     <div class="controls"><label>Gecikme sayısı</label><button class="a-k active" data-k="2">k = 2 (sunumdaki)</button><button class="a-k" data-k="3">k = 3</button><button class="a-k" data-k="4">k = 4</button></div>
     <div class="grid2">
       <div class="tscroll"><table id="a-tablo"></table></div>
       <div><div class="out" id="a-cikti"></div><div id="a-b"></div></div>
     </div>
+    </div>
+    <div class="widget">
     <h4 class="yeni-slayt" style="margin-top:1rem">Almon β'ları ve sınırsız EKK β'ları</h4>
     <div class="chart-wrap-sm kwn"><canvas id="c-almon"></canvas></div>
     <div id="a-uyari"></div>
+    </div>
   </div>
 </section>
 
-<section class="section" id="s6">
+<section class="section" data-odak="1" id="s6">
   <div class="section-header"><span class="num">6</span>Sınırsız EKK mı, Almon mu? (simülasyon)</div>
   <div class="section-body">
     <p>Bölüm 3'teki tümsek biçimli gerçek katsayılarla (k = 6) 300 örnek üretilir. Her örnekte 7 katsayı iki yolla tahmin edilir: sınırsız EKK ve Almon (r = 2). Gerçek katsayılar tam bir parabol değildir; Almon küçük bir sapma pahasına varyansı düşürür.</p>
+    <div class="widget">
     <div class="controls">
       <span class="kayd"><label>X'in kalıcılığı φ = <b id="s-phi-l">0,90</b></label><input type="range" id="s-phi" min="0" max="0.98" step="0.02" value="0.9"></span>
       <span class="kayd"><label>n = <b id="s-n-l">40</b></label><input type="range" id="s-n" min="20" max="200" step="10" value="40"></span>
@@ -646,12 +726,14 @@
       <div class="stat-card"><div class="label">Uzun dönem çarpanı: gerçek / EKK ort. / Almon ort.</div><div class="value" id="s-ud" style="font-size:16px">.</div></div>
     </div>
     <p class="note">RMSE: tahminin gerçek katsayıdan ortalama uzaklığı (sapma ve varyans birlikte). φ'yi düşürün ya da n'yi büyütün: fark kapanır.</p>
+    </div>
   </div>
 </section>
 
-<section class="section" id="s7">
+<section class="section" data-odak="1" id="s7">
   <div class="section-header"><span class="num">7</span>Almon Uygulaması: İngiltere'de Şarap Tüketimi, 1995-2002</div>
   <div class="section-body">
+    <div class="widget">
     <div class="grid2">
       <div><table id="w-tablo" class="ornek"></table></div>
       <div>
@@ -662,12 +744,13 @@
         <details class="cevap"><summary>Çözümü göster</summary><div id="w-cozum"></div></details>
       </div>
     </div>
+    </div>
   </div>
 </section>
 
 <!-- ================= Kısım 3 ================= -->
 <div class="part-title">Kısım 3 · Koyck ve Beklenti Modelleri</div>
-<section class="section" id="s8">
+<section class="section" data-odak="1" id="s8">
   <div class="section-header"><span class="num">8</span>Koyck Modeli: Geometrik Gecikme</div>
   <div class="section-body">
     <p>Koyck, sınırsız gecikmeli modeldeki katsayıların geometrik bir dizi halinde azaldığını varsayar. λ azalma oranı, 1 − λ uyum hızıdır.</p>
@@ -684,6 +767,7 @@
         <b>Medyan gecikme</b> −log 2 / log λ: toplam etkinin yarısının gerçekleştiği süre<br>
         Y<sub>t−1</sub> stokastiktir ve v<sub>t</sub> ile ilişkilidir; v<sub>t</sub> otokorelasyonludur. EKK tutarsızdır, Durbin-Watson d kullanılamaz (Bölüm 13 ve 15).</div>
     </div>
+    <div class="widget">
     <h4 class="yeni-slayt" style="margin-top:1rem">Deneyin: λ'yı değiştirin</h4>
     <div class="controls">
       <span class="kayd"><label>λ = <b id="k-l-l">0,50</b></label><input type="range" id="k-l" min="0.05" max="0.95" step="0.01" value="0.5"></span>
@@ -697,18 +781,21 @@
       <div class="stat-card"><div class="label">Aynı dönemde gerçekleşen pay (1 − λ)</div><div class="value" id="k-ilk">.</div></div>
     </div>
     <div class="warn-box"><b>Dikkat:</b> Ortalama gecikme, etkinin belli bir yüzdesinin gerçekleştiği süre değildir; gecikmelerin β<sub>k</sub> ağırlıklı ortalamasıdır. "Etkinin yarısı kaç dönemde?" sorusunun cevabı medyan gecikmedir.</div>
+    </div>
   </div>
 </section>
 
-<section class="section" id="s9">
+<section class="section" data-odak="1" id="s9">
   <div class="section-header"><span class="num">9</span>Koyck Uygulamaları</div>
   <div class="section-body">
+    <div class="widget">
     <div class="controls"><button class="ku-b active" data-u="st">Studenmund: tüketim, 1964-1994</button><button class="ku-b" data-u="pp">Kişi başına tüketim (PPCE)</button></div>
     <div id="ku-icerik"></div>
+    </div>
   </div>
 </section>
 
-<section class="section" id="s10">
+<section class="section" data-odak="1" id="s10">
   <div class="section-header"><span class="num">10</span>Cagan'ın Uyumcu Beklenti Modeli</div>
   <div class="section-body">
     <div class="grid2">
@@ -722,6 +809,7 @@
         <div class="eq c">v<sub>t</sub> = u<sub>t</sub> − (1 − γ)u<sub>t−1</sub></div>
         γβ₁: kısa dönem etki; β₁: uzun dönem etki. Model Koyck ile aynı biçimdedir (λ = 1 − γ); v<sub>t</sub> otokorelasyonlu ve Y<sub>t−1</sub> ile ilişkili, EKK tutarsız.</div>
     </div>
+    <div class="widget">
     <h4 class="yeni-slayt" style="margin-top:1rem">Deneyin: gerçekleşen X ve beklenen X*</h4>
     <div class="controls">
       <span class="kayd"><label>γ = <b id="g-g-l">0,30</b></label><input type="range" id="g-g" min="0.05" max="1" step="0.05" value="0.3"></span>
@@ -729,10 +817,11 @@
     </div>
     <div class="chart-wrap kwn"><canvas id="c-cagan"></canvas></div>
     <p class="note" id="g-not"></p>
+    </div>
   </div>
 </section>
 
-<section class="section" id="s11">
+<section class="section" data-odak="1" id="s11">
   <div class="section-header"><span class="num">11</span>Nerlove'un Kısmi İyileştirme Modeli</div>
   <div class="section-body">
     <div class="grid2">
@@ -744,6 +833,7 @@
         <div class="eq c"><b>Y<sub>t</sub> = δβ₀ + δβ₁X<sub>t</sub> + (1 − δ)Y<sub>t−1</sub> + δu<sub>t</sub></b></div>
         δβ₁: kısa dönem etki; β₁: uzun dönem etki. Hata terimi δu<sub>t</sub>: u<sub>t</sub> otokorelasyonsuzsa δu<sub>t</sub> de otokorelasyonsuzdur, EKK tutarlıdır (küçük örneklerde sapmalı).</div>
     </div>
+    <div class="widget">
     <h4 class="yeni-slayt" style="margin-top:1rem">Deneyin: istenen stok 60'tan 100'e çıkıyor</h4>
     <div class="controls"><span class="kayd"><label>δ = <b id="n-d-l">0,25</b></label><input type="range" id="n-d" min="0.05" max="1" step="0.05" value="0.25"></span></div>
     <div class="chart-wrap kwn"><canvas id="c-nerlove"></canvas></div>
@@ -754,10 +844,11 @@
       <div class="stat-card"><div class="label">Yarılanma süresi</div><div class="value" id="n-yar">.</div></div>
     </div>
     <div class="warn-box"><b>Dikkat:</b> 1/δ, açığın tamamen kapandığı süre değildir. Açık geometrik olarak kapanır ve hiçbir sonlu dönemde tamamen kapanmaz: k dönem sonra kalan açık oranı (1 − δ)<sup>k</sup>'dir.</div>
+    </div>
   </div>
 </section>
 
-<section class="section" id="s12">
+<section class="section" data-odak="1" id="s12">
   <div class="section-header"><span class="num">12</span>Aynı Regresyon, İki Yorum</div>
   <div class="section-body">
     <table class="ornek" style="font-size:13.5px">
@@ -768,18 +859,21 @@
       <tr><td>Hata terimi</td><td>otokorelasyonlu</td><td>u<sub>t</sub> otokorelasyonsuzsa otokorelasyonsuz</td></tr>
       <tr><td>EKK</td><td style="color:#E24B4A;font-weight:700">Tutarsız (ADY gerekir)</td><td style="color:#1D9E75;font-weight:700">Tutarlı</td></tr>
     </table>
+    <div class="widget">
     <h4 class="yeni-slayt" style="margin-top:1rem">Uygulama: tahmin sonucunu girin, iki yorumu da okuyun</h4>
     <div class="controls"><button class="u-b active" data-u="abd">ABD tüketimi, 1946-1972 (çeyreklik)</button><button class="u-b" data-u="gida">Gıda harcaması, 1965-1989 (log-log)</button></div>
     <div id="u-icerik"></div>
+    </div>
   </div>
 </section>
 
 <!-- ================= Kısım 4 ================= -->
 <div class="part-title">Kısım 4 · Otoregresiv Modellerin Tahmini</div>
-<section class="section" id="s13">
+<section class="section" data-odak="1" id="s13">
   <div class="section-header"><span class="num">13</span>EKK Neden Tutarsız? (simülasyon)</div>
   <div class="section-body">
     <p class="s13-giris kwn">Gerçek model Y<sub>t</sub> = 1 + X<sub>t</sub> + 0,6 Y<sub>t−1</sub> + v<sub>t</sub>. Her örnekte λ = 0,6 iki yolla tahmin edilir: EKK ve Liviatan'ın alet değişken yöntemi (Y<sub>t−1</sub> yerine X<sub>t−1</sub>). 300 örnek.</p>
+    <div class="widget">
     <div class="controls"><label>Hata terimi</label><button class="m-b active" data-m="koyck">Koyck / uyumcu beklenti: v<sub>t</sub> = u<sub>t</sub> − 0,6u<sub>t−1</sub></button><button class="m-b" data-m="kismi">Kısmi iyileştirme: v<sub>t</sub> = δu<sub>t</sub></button></div>
     <div class="controls"><label>n</label><button class="m-n active" data-n="25">25</button><button class="m-n" data-n="100">100</button><button class="m-n" data-n="400">400</button></div>
     <div class="chart-wrap kwn"><canvas id="c-tut"></canvas></div>
@@ -789,10 +883,11 @@
       <div class="stat-card"><div class="label">Std. sapma: EKK / ADY</div><div class="value" id="m-sd" style="font-size:16px">.</div></div>
     </div>
     <div id="m-karar"></div>
+    </div>
   </div>
 </section>
 
-<section class="section" id="s14">
+<section class="section" data-odak="1" id="s14">
   <div class="section-header"><span class="num">14</span>ADY, Liviatan, GEKKY ve Wallis</div>
   <div class="section-body">
     <div class="eq c s14-eq kwn">Y<sub>t</sub> = a₀ + a₁X<sub>t</sub> + a₂Y<sub>t−1</sub> + v<sub>t</sub> &nbsp;<span class="lbl">genel otoregresiv model</span></div>
@@ -816,10 +911,11 @@
   </div>
 </section>
 
-<section class="section" id="s15">
+<section class="section" data-odak="1" id="s15">
   <div class="section-header"><span class="num">15</span>Otoregresiv Modellerde Otokorelasyon: Durbin h Testi</div>
   <div class="section-body">
     <p class="h-giris">Açıklayıcılar arasında Y<sub>t−1</sub> varken Durbin-Watson d 2'ye doğru sapar ve otokorelasyonu gizler. Durbin'in h testi bu durum için kurulmuştur.</p>
+    <div class="widget">
     <div class="rs-kutu h-kutu" data-adimli>
       <div class="controls"><label>Veri</label><button data-v="hin" class="h-b active">Hindistan para talebi (sunumdaki)</button><button data-v="ders" class="h-b">Ders verisi 1976-1990</button></div>
       <div class="rs-pano h-pano">
@@ -834,23 +930,28 @@
       <div class="chart-wrap-sm rs-grafik" id="h-grafik"><canvas id="c-h"></canvas></div>
       <div class="rs-gez"><button id="h-geri">‹ Önceki adım</button><button id="h-ileri">Sonraki adım ›</button></div>
     </div>
+    </div>
   </div>
 </section>
 
-<section class="section" id="s16">
+<section class="section" data-odak="1" id="s16">
   <div class="section-header"><span class="num">16</span>Uygulama: Liviatan ve EKK, Ders Verisi</div>
   <div class="section-body">
     <p>Y<sub>t</sub> = a₀ + a₁X<sub>t</sub> + a₂Y<sub>t−1</sub> + v<sub>t</sub>, 1976-1990 tüketim ve gelir verisi (Almon örneğiyle aynı). Y<sub>t−1</sub> ve X<sub>t−1</sub> 1976'da olmadığından bütün toplamlar <b>1977-1990, n = 14</b> gözlemle hesaplanır.</p>
+    <div class="widget">
     <div class="tscroll"><table id="l-tablo"></table></div>
+    </div>
+    <div class="widget">
     <h4 class="yeni-slayt" style="margin-top:1rem">Liviatan normal denklemleri ve çözüm</h4>
     <div class="grid2">
       <div><div id="l-denk"></div><div id="l-cozum"></div></div>
       <div><div class="out" id="l-ekk"></div><div id="l-kars"></div></div>
     </div>
+    </div>
   </div>
 </section>
 
-<section class="section" id="s17">
+<section class="section" data-odak="1" id="s17">
   <div class="section-header"><span class="num">17</span>Karşılaştırma</div>
   <div class="section-body">
     <table class="ornek" style="font-size:13.5px">
@@ -865,7 +966,7 @@
   </div>
 </section>
 
-<section class="section" id="s18">
+<section class="section" data-odak="1" id="s18">
   <div class="section-header"><span class="num">✓</span>Kendini Dene</div>
   <div class="section-body">
     <p>1. Y<sub>t</sub> = 5 + 0,4X<sub>t</sub> + 0,3X<sub>t−1</sub> + 0,2X<sub>t−2</sub> + u<sub>t</sub>. Kısa dönem çarpanı, ikinci dönemin ara çarpanı ve uzun dönem çarpanı nedir?</p>
@@ -888,9 +989,12 @@
 </section>
 
 <footer class="alt">
-  Doç. Dr. M. Hanifi VAN · Van Yüzüncü Yıl Üniversitesi, İİBF Ekonometri Bölümü<br>
+  <b>Hazırlayan: Doç. Dr. M. Hanifi VAN</b><br>
+  Van Yüzüncü Yıl Üniversitesi, İİBF Ekonometri Bölümü · Ekonometri II, 14. Bölüm<br>
+  <span class="telif">© 2026 Doç. Dr. M. Hanifi VAN. Tüm hakları saklıdır; izinsiz çoğaltılamaz ve dağıtılamaz.</span><br>
   Kaynaklar: Gujarati, Basic Econometrics; Studenmund, Using Econometrics; R. L. Thomas, Modern Econometrics.<br>
-  Simülasyonlar her çekişte rastgele örnek üretir; uygulama sonuçları ders sunumundaki verilerle hesaplanır.
+  Simülasyonlar her çekişte rastgele örnek üretir; uygulama sonuçları ders sunumundaki verilerle hesaplanır.<br>
+  <a href="../bolum11/">← 11. Bölüm</a> · <a href="ekonometri2_bolum14.pdf" download>Sunum (PDF)</a> · <a href="bolum14_veriler.xlsx" download>Veriler (Excel)</a>
 </footer>
 </main>
 
@@ -1447,6 +1551,93 @@ hIcerik();
     Durbin h = ${f(hH(HV.ders), 2)} (Bölüm 15): otokorelasyon kanıtı yok; bu durumda EKK de tutarlıdır ve iki yöntem yakın sonuç verir.</div>
     <div class="warn-box"><b>Dikkat:</b> Bütün toplamlar aynı 14 gözlemden alınmalıdır. 1976 satırını bazı toplamlara katıp bazılarına katmamak sistemi bozar ve anlamsız (ör. birden büyük a₂) sonuç verir.</div>`;
 })();
+
+// ---------- ODAK: tıklanan blok tam ekran (Veri Analizi 3. bölüm ve Araştırma Yöntemleri 5. bölümdeki düzen, 2026-11-03) ----------
+// → önce kutudaki adımları (Durbin h: ADIMLI) gezer, sonra sonraki kutuya geçer. Sunum modu düğmesi gizli (CSS).
+document.body.insertAdjacentHTML('beforeend', '<div id="odak"><div class="odak-bas"><span class="num"></span><span class="ad"></span></div><div class="odak-ic"></div><div class="odak-alt"><span>→ / boşluk: sonraki adım, 🔍 ek bilgi, sonraki kutu · ← önceki · Esc ya da boş alana tıklama: kapat</span><span><b id="odak-sayac"></b></span></div></div>');
+var ODAK = { el: null, yer: null, liste: [], i: -1 };
+const ODAK_SEC = '.card, .info-box, .warn-box, .formula, .widget, .section-body > p, .section-body > ol, .section-body > table, .section-body > .eq, .grid3, .grid4';
+function odakListe() {
+  const out = [];
+  document.querySelectorAll('[data-odak] .section-body').forEach(b => [...b.children].forEach(c => {
+    if (c.matches('.grid3, .grid4')) { out.push(c); return; }
+    if (c.matches(ODAK_SEC) && !c.classList.contains('odak-surum') && !c.classList.contains('note')) out.push(c);
+  }));
+  return out;
+}
+function grafikYenile(el) { requestAnimationFrame(() => (el || document).querySelectorAll('canvas').forEach(c => { const ch = Chart.getChart(c); if (ch) { ch.resize(); ch.render(); } })); }
+function odakAc(el) {
+  if (ODAK.el) odakKapat(false);
+  ODAK.liste = odakListe(); ODAK.i = ODAK.liste.indexOf(el);
+  if (el.nextElementSibling && el.nextElementSibling.classList.contains('odak-surum')) el = el.nextElementSibling;
+  ODAK.yer = document.createComment('odak-yeri'); el.parentNode.insertBefore(ODAK.yer, el); ODAK.el = el;
+  const hdr = ODAK.yer.parentNode.closest('.section').querySelector('.section-header');
+  $('odak').querySelector('.num').textContent = hdr.querySelector('.num').textContent;
+  $('odak').querySelector('.ad').textContent = hdr.childNodes[1] ? hdr.childNodes[1].textContent.trim() : '';
+  $('odak').querySelector('.odak-ic').appendChild(el);
+  $('odak-sayac').textContent = ODAK.i >= 0 ? `${ODAK.i + 1} / ${ODAK.liste.length}` : '';
+  el.classList.toggle('ek-var', !!el.querySelector('.ek:not(.acik)'));
+  $('odak').classList.add('acik'); document.body.style.overflow = 'hidden';
+  Chart.defaults.font.size = Math.max(13, Math.round(innerWidth * 0.0105)); Object.values(Chart.instances).forEach(c => c.update('none'));
+  grafikYenile(el);
+  const a = $('odak').querySelector('.odak-bas'); let g = a.querySelector('.gb'); if (!g) { g = document.createElement('a'); g.className = 'gb'; g.textContent = '✉ Görüşünüzü yazın'; a.appendChild(g); }
+  g.href = gbBaglanti($('odak').querySelector('.ad').textContent);
+}
+function odakKapat(kaydir = true) {
+  if (!ODAK.el) return;
+  ODAK.yer.parentNode.insertBefore(ODAK.el, ODAK.yer); ODAK.yer.remove();
+  const el = ODAK.el; ODAK.el = null; ODAK.yer = null;
+  el.classList.remove('ek-var'); el.querySelectorAll('.ek.acik').forEach(x => x.classList.remove('acik'));
+  $('odak').classList.remove('acik'); document.body.style.overflow = '';
+  Chart.defaults.font.size = 12; Object.values(Chart.instances).forEach(c => c.update('none'));
+  grafikYenile(); if (kaydir) el.scrollIntoView({ block: 'center' });
+}
+function ekAc() { if (!ODAK.el) return false; const ek = ODAK.el.querySelector('.ek:not(.acik)'); if (!ek) return false; ek.classList.add('acik'); ODAK.el.classList.toggle('ek-var', !!ODAK.el.querySelector('.ek:not(.acik)')); ek.scrollIntoView({ block: 'nearest' }); return true; }
+// odaktaki kutuda adım varsa (çözüm adımları ya da varyans adımları) ok tuşu önce onları gezer
+function adimGez(d) {
+  if (!ODAK.el) return false;
+  for (const cz of ODAK.el.querySelectorAll('[data-cozum]')) { if (d > 0 && cz._ileri()) return true; }
+  if (d < 0) { const L = [...ODAK.el.querySelectorAll('[data-cozum]')].reverse(); for (const cz of L) if (cz._geri()) return true; }
+  // ADIMLI const tanımlı, window'da yok
+  const ad = (typeof ADIMLI !== 'undefined' ? ADIMLI : []).find(x => ODAK.el.contains(x.el)); if (ad) return d > 0 ? ad.ileri() : ad.geri();
+  return false;
+}
+function odakGit(d) { if (!ODAK.el) return; if (adimGez(d)) return; if (d > 0 && ekAc()) return; const j = ODAK.i + d; if (ODAK.i < 0 || j < 0 || j >= ODAK.liste.length) return; odakAc(ODAK.liste[j]); }
+document.addEventListener('click', e => {
+  if (e.target.closest('button, a, input, select, textarea, label, summary, canvas, svg')) return;
+  if (ODAK.el) {
+    if (e.target === $('odak').querySelector('.odak-ic') || e.target.closest('.odak-bas, .odak-alt')) { odakKapat(); return; }
+    if (ODAK.el.classList.contains('widget')) return;   // etkileşimli kutuda tıklama işlem içindir
+    if (!ekAc()) odakKapat(); return;
+  }
+  const sec = e.target.closest('[data-odak]'); if (!sec) return;
+  if (e.target.closest('.section-header')) { const L = odakListe().filter(x => sec.contains(x)); if (L.length) odakAc(L[0]); return; }
+  let el = e.target.closest(ODAK_SEC); if (!el || !sec.contains(el)) return;
+  const w = el.closest('.widget'); if (w && w !== el) el = w;
+  const g = el.closest('.grid3, .grid4'); if (g && g !== el && !el.classList.contains('kd-soru')) el = g;
+  odakAc(el);
+});
+document.addEventListener('keydown', e => {
+  if (!ODAK.el) return;
+  const t = e.target.tagName; if (t === 'INPUT' || t === 'SELECT' || t === 'TEXTAREA') return;
+  if (e.key === 'Escape') { e.preventDefault(); odakKapat(); }
+  else if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); e.stopImmediatePropagation(); odakGit(1); }
+  else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); e.stopImmediatePropagation(); odakGit(-1); }
+}, true);
+addEventListener('resize', () => { if (ODAK.el) grafikYenile(ODAK.el); });
+
+// ---------- GÖRÜŞ: her bölüm başlığında e-posta düğmesi (görüş odaklı; ders notları ortak kararı 2026-11-03) ----------
+const GB_ADRES = 'hanifivan@yyu.edu.tr';
+function gbBaglanti(bolumAd) {
+  const konu = `Ekonometri II 14. bölüm notu, ${bolumAd}`;
+  const govde = `Bölüm: ${bolumAd}\n\nBeğendiğiniz yerler:\n\n\nAnlaşılmayan ya da eksik bulduğunuz yerler:\n\n\nAd soyad (isteğe bağlı):\n`;
+  return `mailto:${GB_ADRES}?subject=${encodeURIComponent(konu)}&body=${encodeURIComponent(govde)}`;
+}
+document.querySelectorAll('#main .section').forEach(sec => {
+  const hdr = sec.querySelector('.section-header'), ad = hdr.childNodes[1] ? hdr.childNodes[1].textContent.trim() : '';
+  hdr.insertAdjacentHTML('beforeend', `<a class="gb" href="${gbBaglanti(ad)}" title="Bu not hakkındaki görüşlerinizi yazabilirsiniz">✉ Görüşünüzü yazın</a>`);
+});
+document.querySelector('footer').insertAdjacentHTML('afterend', `<div class="gb-alt">Bu not hakkındaki görüşlerinizi yazabilirsiniz: <a href="${gbBaglanti('genel')}">${GB_ADRES}</a> (her bölüm başlığındaki ✉ düğmesi bölümün adını hazır getirir)</div>`);
 
 // ---------- sunum modu ----------
 // Her bölüm, ekran yüksekliğine göre ölçülüp birkaç slayda bölünür.
