@@ -525,6 +525,16 @@
   #odak .odak-ic > .card .formula, #odak .odak-ic > .formula { font-size: 1.5em; padding: .3em .6em; }
   #odak .odak-ic > .card .eq { font-size: 1.05em; white-space: normal; padding: .3em .6em; }
   #odak .odak-ic > .card .eq .lbl { font-size: .6em; }
+  /* odak sığdırma: yazı boyutunu odakSigdir() verir; içerik em ölçülü olmalı */
+  #odak .odak-ic { padding: .5em 1em; }
+  #odak .odak-ic > * { width: auto; max-height: none; }
+  #odak .odak-ic > .widget, #odak .odak-ic > .card, #odak .odak-ic > p, #odak .odak-ic > .info-box, #odak .odak-ic > .warn-box, #odak .odak-ic > .formula, #odak .odak-ic > table, #odak .odak-ic > .eq { font-size: inherit; }
+  #odak .widget .chart-wrap { height: 11em; } #odak .widget .chart-wrap-sm { height: 9em; }
+  #odak .widget .rs-grafik { height: 8.5em; }
+  #odak .widget .controls label { font-size: .9em; } #odak .widget button { font-size: .85em; }
+  #odak .widget .stat-card .value { font-size: 1.25em !important; } #odak .widget .stat-card .label { font-size: .7em; }
+  #odak .widget .tscroll { max-height: none; } #odak .widget table, #odak .widget .out { font-size: .8em; }
+  #odak .widget .note { font-size: .75em; }
 </style>
 </head>
 <body>
@@ -1588,12 +1598,14 @@ function odakAc(el) {
   grafikYenile(el);
   const a = $('odak').querySelector('.odak-bas'); let g = a.querySelector('.gb'); if (!g) { g = document.createElement('a'); g.className = 'gb'; g.textContent = '✉ Görüşünüzü yazın'; a.appendChild(g); }
   g.href = gbBaglanti($('odak').querySelector('.ad').textContent);
+  odakSigdir(); odakIzle(el);
 }
 function odakKapat(kaydir = true) {
   if (!ODAK.el) return;
   ODAK.yer.parentNode.insertBefore(ODAK.el, ODAK.yer); ODAK.yer.remove();
   const el = ODAK.el; ODAK.el = null; ODAK.yer = null;
   el.classList.remove('ek-var'); el.querySelectorAll('.ek.acik').forEach(x => x.classList.remove('acik'));
+  if (ODAK_GOZ) ODAK_GOZ.disconnect(); Object.assign(el.style, { width: '', maxHeight: '', fontSize: '' });
   $('odak').classList.remove('acik'); document.body.style.overflow = '';
   Chart.defaults.font.size = 12; Object.values(Chart.instances).forEach(c => c.update('none'));
   grafikYenile(); if (kaydir) el.scrollIntoView({ block: 'center' });
@@ -1629,7 +1641,29 @@ document.addEventListener('keydown', e => {
   else if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); e.stopImmediatePropagation(); odakGit(1); }
   else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); e.stopImmediatePropagation(); odakGit(-1); }
 }, true);
-addEventListener('resize', () => { if (ODAK.el) grafikYenile(ODAK.el); });
+addEventListener('resize', () => { if (ODAK.el) odakSigdir(); });
+// Açılan kutu ekranın tamamını kullanır: genişlik pencere kadar, yazı boyutu kutu yüksekliğe sığana kadar büyütülür (ikili arama).
+// Grafik, formül ve tablolar em ölçülü olduğu için yazıyla birlikte büyür. İçerik değişince (adım, çözüm, düğme) yeniden sığdırılır. (hoca isteği 2026-11-03)
+let ODAK_GOZ = null, odakZaman = 0;
+function odakSigdir(tekrar = false) {
+  const el = ODAK.el; if (!el) return;
+  const ic = $('odak').querySelector('.odak-ic'), cs = getComputedStyle(ic);
+  const W = ic.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight), H = ic.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+  Object.assign(el.style, { width: W + 'px', maxHeight: 'none' });
+  const sigar = px => { el.style.fontSize = px + 'px'; return el.scrollHeight <= H - 8 && el.scrollWidth <= el.clientWidth + 1; };  // 8 px pay: grafik ve MathML sonradan birkaç piksel uzayabiliyor
+  let lo = 11, hi = Math.min(innerHeight * 0.075, innerWidth * 0.04);
+  if (sigar(hi)) lo = hi; else for (let t = 0; t < 14; t++) { const m = (lo + hi) / 2; sigar(m) ? lo = m : hi = m; }
+  sigar(lo); el.style.maxHeight = H + 'px';
+  Chart.defaults.font.size = Math.max(12, Math.round(lo * 0.62)); Object.values(Chart.instances).forEach(c => c.update('none'));
+  grafikYenile(el);
+  if (!tekrar) setTimeout(() => { if (ODAK.el === el && el.scrollHeight > el.clientHeight + 1) odakSigdir(true); }, 250);  // grafikler çizildikten sonra bir kez daha
+}
+function odakIzle(el) {
+  if (ODAK_GOZ) ODAK_GOZ.disconnect();
+  ODAK_GOZ = new MutationObserver(() => { clearTimeout(odakZaman); odakZaman = setTimeout(() => odakSigdir(), 60); });
+  ODAK_GOZ.observe(el, { childList: true, subtree: true, characterData: true });
+  el.querySelectorAll('details').forEach(d => { if (!d.dataset.odakDinle) { d.dataset.odakDinle = '1'; d.addEventListener('toggle', () => { if (ODAK.el && ODAK.el.contains(d)) odakSigdir(); }); } });
+}
 
 // ---------- GÖRÜŞ: her bölüm başlığında e-posta düğmesi (görüş odaklı; ders notları ortak kararı 2026-11-03) ----------
 const GB_ADRES = 'hanifivan@yyu.edu.tr';
