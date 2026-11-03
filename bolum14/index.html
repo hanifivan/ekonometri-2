@@ -535,6 +535,36 @@
   #odak .widget .stat-card .value { font-size: 1.25em !important; } #odak .widget .stat-card .label { font-size: .7em; }
   #odak .widget .tscroll { max-height: none; } #odak .widget table, #odak .widget .out { font-size: .8em; }
   #odak .widget .note { font-size: .75em; }
+
+  /* ---- inceleme düzeltmeleri (2026-11-03) ---- */
+  /* 14. başlık: kartlar alt alta, uzun formül satırı kartın dışına taşmaz, sarılır */
+  .s14-kartlar > .card { margin: .7rem 0; }
+  .eq.sarar { white-space: normal; font-size: 15px; line-height: 1.7; }
+  .not-k { display: block; font-size: 12.5px; color: var(--gray); margin: .2rem 0 .4rem; }
+  /* metin tabloları: hücreler sola yaslı; telefonda satırlar kart gibi alt alta */
+  table.metin-tablo td { text-align: left; }
+  @media (max-width: 640px) {
+    table.metin-tablo, table.metin-tablo tbody, table.metin-tablo tr, table.metin-tablo td { display: block; width: auto; }
+    table.metin-tablo tr:first-child { display: none; }
+    table.metin-tablo tr { border: 1px solid var(--border); border-radius: 8px; margin: .5rem 0; padding: .3rem .2rem; background: #fff; }
+    table.metin-tablo td { border: 0; padding: .2rem .6rem; }
+    table.metin-tablo td[data-th]::before { content: attr(data-th) ": "; font-weight: 600; color: var(--navy); }
+  }
+  /* sarı geri bildirim (kurala uyan ama istenen biçimde olmayan cevap) */
+  .karar.sari { background: #FFF6DB; color: #7a5a00; }
+  .kd-giris { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .2rem; }
+  .kd-giris input { width: 5em; } .kd-giris select { font-size: inherit; padding: 2px 4px; border-radius: 6px; border: 1px solid #b9b2ee; }
+  .kd-gb { flex-basis: 100%; } .kd-gb .karar { margin-top: .3rem; font-weight: 600; }
+  .kd-soru { margin: .4rem 0 .8rem; }
+  #odak .kd-soru details.cevap summary, #odak .kd-soru details.cevap div { font-size: 1em; }
+  #odak .kd-soru .rs-sd-kutu { font-size: 1.05em; }
+  /* odak: Durbin h grafikli adımlarda grafik metnin yanında */
+  #odak .h-kutu.yan { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); column-gap: 1.2em; }
+  #odak .h-kutu.yan > * { grid-column: 1 / -1; }
+  #odak .h-kutu.yan > .rs-icerik { grid-column: 1; }
+  #odak .h-kutu.yan > .rs-grafik { grid-column: 2; height: 15em; align-self: center; overflow: hidden; min-width: 0; }  /* tuval eski genişlikte kalınca sığdırma yanılmasın */
+  .eq.sarar .nw { white-space: nowrap; }
+  body.sunum .s14-kartlar { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .6rem; } body.sunum .s14-kartlar > .card { margin: 0; }  /* sunum modu kapalı; ölçüm testi için */
 </style>
 </head>
 <body>
@@ -724,7 +754,7 @@
 <section class="section" data-odak="1" id="s6">
   <div class="section-header"><span class="num">6</span>Sınırsız EKK mı, Almon mu? (simülasyon)</div>
   <div class="section-body">
-    <p>Bölüm 3'teki tümsek biçimli gerçek katsayılarla (k = 6) 300 örnek üretilir. Her örnekte 7 katsayı iki yolla tahmin edilir: sınırsız EKK ve Almon (r = 2). Gerçek katsayılar tam bir parabol değildir; Almon küçük bir sapma pahasına varyansı düşürür.</p>
+    <p><a href="#s3">3. başlıktaki</a> tümsek biçimli gerçek katsayılarla (k = 6) 300 örnek üretilir. Her örnekte 7 katsayı iki yolla tahmin edilir: sınırsız EKK ve Almon (r = 2). Gerçek katsayılar tam bir parabol değildir; Almon küçük bir sapma pahasına varyansı düşürür.</p>
     <div class="widget">
     <div class="controls">
       <span class="kayd"><label>X'in kalıcılığı φ = <b id="s-phi-l">0,90</b></label><input type="range" id="s-phi" min="0" max="0.98" step="0.02" value="0.9"></span>
@@ -780,7 +810,7 @@
         <b>Uzun dönem çarpanı</b> β₀ / (1 − λ)<br>
         <b>Ortalama gecikme</b> λ / (1 − λ)<br>
         <b>Medyan gecikme</b> −log 2 / log λ: toplam etkinin yarısının gerçekleştiği süre<br>
-        Y<sub>t−1</sub> stokastiktir ve v<sub>t</sub> ile ilişkilidir; v<sub>t</sub> otokorelasyonludur. EKK tutarsızdır, Durbin-Watson d kullanılamaz (Bölüm 13 ve 15).</div>
+        Y<sub>t−1</sub> stokastiktir ve v<sub>t</sub> ile ilişkilidir; v<sub>t</sub> otokorelasyonludur. EKK tutarsızdır, Durbin-Watson d kullanılamaz (<a href="#s13">13.</a> ve <a href="#s15">15. başlık</a>).</div>
     </div>
     <div class="widget">
     <h4 class="yeni-slayt" style="margin-top:1rem">Deneyin: λ'yı değiştirin</h4>
@@ -866,7 +896,7 @@
 <section class="section" data-odak="1" id="s12">
   <div class="section-header"><span class="num">12</span>Aynı Regresyon, İki Yorum</div>
   <div class="section-body">
-    <table class="ornek" style="font-size:13.5px">
+    <table class="ornek metin-tablo" style="font-size:13.5px">
       <tr><th style="text-align:left"></th><th style="text-align:left">Uyumcu beklenti (Cagan)</th><th style="text-align:left">Kısmi iyileştirme (Nerlove)</th></tr>
       <tr><td>Tahmin edilen model</td><td>Y<sub>t</sub> = γβ₀ + γβ₁X<sub>t</sub> + (1 − γ)Y<sub>t−1</sub> + v<sub>t</sub></td><td>Y<sub>t</sub> = δβ₀ + δβ₁X<sub>t</sub> + (1 − δ)Y<sub>t−1</sub> + δu<sub>t</sub></td></tr>
       <tr><td>Davranış</td><td>Geleceğe yönelik beklentiler (beklenen gelir, fiyat)</td><td>Alışkanlık, belirsizlik, uyum maliyeti</td></tr>
@@ -906,21 +936,22 @@
   <div class="section-header"><span class="num">14</span>ADY, Liviatan, GEKKY ve Wallis</div>
   <div class="section-body">
     <div class="eq c s14-eq kwn">Y<sub>t</sub> = a₀ + a₁X<sub>t</sub> + a₂Y<sub>t−1</sub> + v<sub>t</sub> &nbsp;<span class="lbl">genel otoregresiv model</span></div>
-    <div class="grid2">
+    <div class="s14-kartlar">
       <div class="card"><h4>Alet değişken yöntemi (ADY)</h4>Y<sub>t−1</sub> yerine, onunla ilişkili ama v<sub>t</sub> ile ilişkisiz bir <b>alet (vekil) değişken</b> konur.<br>
         <b>Adım 1.</b> Y<sub>t</sub>, X<sub>t</sub>, X<sub>t−1</sub>, X<sub>t−2</sub>, … üzerine regres edilir, Ŷ<sub>t</sub> bulunur.<br>
         <b>Adım 2.</b> Y<sub>t−1</sub> yerine Ŷ<sub>t−1</sub> konur: Y<sub>t</sub> = a₀ + a₁X<sub>t</sub> + a₂Ŷ<sub>t−1</sub> + v<sub>t</sub>.<br>
         Tahminler tutarlıdır ama etkin değildir. v<sub>t</sub> otokorelasyonsuzsa EKK de tutarlıdır ve daha etkindir.</div>
       <div class="card"><h4>Liviatan yaklaşımı</h4>Alet değişken X<sub>t−1</sub>. Normal denklemler:
-        <div class="eq" style="font-size:14px">ΣY<sub>t</sub> = na₀ + a₁ΣX<sub>t</sub> + a₂ΣY<sub>t−1</sub><br>ΣY<sub>t</sub>X<sub>t</sub> = a₀ΣX<sub>t</sub> + a₁ΣX<sub>t</sub>² + a₂ΣY<sub>t−1</sub>X<sub>t</sub><br>ΣY<sub>t</sub>X<sub>t−1</sub> = a₀ΣX<sub>t−1</sub> + a₁ΣX<sub>t</sub>X<sub>t−1</sub> + a₂ΣY<sub>t−1</sub>X<sub>t−1</sub></div>
+        <div class="eq sarar">ΣY<sub>t</sub> = na₀ + a₁ΣX<sub>t</sub> + a₂ΣY<sub>t−1</sub><br>ΣY<sub>t</sub>X<sub>t</sub> = a₀ΣX<sub>t</sub> + a₁ΣX<sub>t</sub>² + a₂ΣY<sub>t−1</sub>X<sub>t</sub><br>ΣY<sub>t</sub>X<sub>t−1</sub> = a₀ΣX<sub>t−1</sub> <span class="nw">+ a₁ΣX<sub>t</sub>X<sub>t−1</sub></span> <span class="nw">+ a₂ΣY<sub>t−1</sub>X<sub>t−1</sub></span></div>
         X<sub>t</sub> ile X<sub>t−1</sub> arasında çoklu doğrusal bağlantı olasılığı yüksektir.</div>
       <div class="card"><h4>GEKKY</h4>v<sub>t</sub> = ρv<sub>t−1</sub> + ε<sub>t</sub> ise model bir dönem geciktirilip ρ ile çarpılır ve çıkarılır:
-        <div class="eq" style="font-size:14px">Y<sub>t</sub> − ρY<sub>t−1</sub> = a₀(1 − ρ) + a₁(X<sub>t</sub> − ρX<sub>t−1</sub>) + a₂(Y<sub>t−1</sub> − ρY<sub>t−2</sub>) + ε<sub>t</sub></div>
+        <div class="eq sarar">Y<sub>t</sub> − ρY<sub>t−1</sub> = a₀(1 − ρ) <span class="nw">+ a₁(X<sub>t</sub> − ρX<sub>t−1</sub>)</span> <span class="nw">+ a₂(Y<sub>t−1</sub> − ρY<sub>t−2</sub>) + ε<sub>t</sub></span></div>
         ρ'nun doğrudan tahmini: Y<sub>t</sub> = c₀ + c₁X<sub>t</sub> + c₂X<sub>t−1</sub> + c₃Y<sub>t−1</sub> + c₄Y<sub>t−2</sub> + ε<sub>t</sub> modelinden ρ̂ = −ĉ₂ / ĉ₁.</div>
       <div class="card"><h4>Wallis yöntemi</h4>
         <b>Adım 1.</b> Model ADY ile (alet X<sub>t−1</sub>) tahmin edilir.<br>
         <b>Adım 2.</b> Kalıntılardan ρ tahmin edilir:
         <div class="eq c" style="font-size:14px">ρ̂ = <span class="frac"><span>Σ v̂<sub>t</sub>v̂<sub>t−1</sub> / (n − 1)</span><span>Σ v̂<sub>t</sub>² / n</span></span> + <span class="frac"><span>k</span><span>n</span></span></div>
+        <span class="not-k">k: tahmin edilen katsayı sayısı (burada sabitle birlikte k = 3); gecikme sayısı k ile karıştırmayın. k/n küçük örneklem sapmasını düzelten terimdir.</span>
         <b>Adım 3.</b> ρ̂ GEKK modelinde yerine konur, EKK uygulanır.</div>
     </div>
   </div>
@@ -969,7 +1000,7 @@
 <section class="section" data-odak="1" id="s17">
   <div class="section-header"><span class="num">17</span>Karşılaştırma</div>
   <div class="section-body">
-    <table class="ornek" style="font-size:13.5px">
+    <table class="ornek metin-tablo" style="font-size:13.5px">
       <tr><th style="text-align:left">Model</th><th style="text-align:left">Varsayım</th><th style="text-align:left">Tahmin</th><th style="text-align:left">Dikkat</th></tr>
       <tr><td>Sonlu dağıtılmış gecikme</td><td>Kısıt yok</td><td>EKK</td><td>Çoklu doğrusal bağlantı, serbestlik derecesi kaybı</td></tr>
       <tr><td>Almon</td><td>β<sub>i</sub>, i'nin r. derece polinomu (r &lt; k)</td><td>Z'ler üzerine EKK</td><td>r ve k seçimi; r = k ise kısıt yok</td></tr>
@@ -977,29 +1008,49 @@
       <tr><td>Uyumcu beklenti</td><td>Beklentiler hatanın γ kadarı düzeltilerek güncellenir</td><td>ADY</td><td>v<sub>t</sub> otokorelasyonlu; EKK tutarsız</td></tr>
       <tr><td>Kısmi iyileştirme</td><td>Açığın δ kadarı her dönem kapanır</td><td>EKK</td><td>u<sub>t</sub> otokorelasyonsuzsa EKK tutarlı</td></tr>
     </table>
-    <div class="info-box" style="margin-top:1rem">Bütün otoregresiv modellerde otokorelasyon Durbin-Watson d ile değil Durbin h ile sınanır. Uzun dönem etki her üç modelde de X<sub>t</sub>'nin katsayısının (1 − Y<sub>t−1</sub>'in katsayısı)'na oranıdır.</div>
+    <div class="info-box" style="margin-top:1rem">Bütün otoregresiv modellerde otokorelasyon Durbin-Watson d ile değil Durbin h ile sınanır. Y<sub>t</sub> = a₀ + a₁X<sub>t</sub> + a₂Y<sub>t−1</sub> + v<sub>t</sub> biçimindeki her üç modelde de uzun dönem etki <b>a₁ / (1 − a₂)</b> oranıdır: Koyck'ta β₀ / (1 − λ), uyumcu beklentide γβ₁ / γ = β₁, kısmi iyileştirmede δβ₁ / δ = β₁.</div>
   </div>
 </section>
 
 <section class="section" data-odak="1" id="s18">
   <div class="section-header"><span class="num">✓</span>Kendini Dene</div>
   <div class="section-body">
+    <div class="widget kd-soru">
     <p>1. Y<sub>t</sub> = 5 + 0,4X<sub>t</sub> + 0,3X<sub>t−1</sub> + 0,2X<sub>t−2</sub> + u<sub>t</sub>. Kısa dönem çarpanı, ikinci dönemin ara çarpanı ve uzun dönem çarpanı nedir?</p>
+    <div class="rs-sd-kutu kd-giris" data-kd="1"><label>Kısa dönem = <input data-c="0" inputmode="decimal"></label><label>Ara çarpan = <input data-c="1" inputmode="decimal"></label><label>Uzun dönem = <input data-c="2" inputmode="decimal"></label><button class="kd-kontrol">Kontrol et</button><div class="kd-gb"></div></div>
     <details class="cevap"><summary>Cevap</summary><div>Kısa dönem 0,4; ara çarpan 0,4 + 0,3 = 0,7; uzun dönem 0,4 + 0,3 + 0,2 = 0,9.</div></details>
+    </div>
+    <div class="widget kd-soru">
     <p>2. k = 5 gecikmeli bir modelde Almon (r = 2) kullanılırsa kaç gecikme katsayısı yerine kaç katsayı tahmin edilir? Kaç serbestlik derecesi kazanılır?</p>
     <details class="cevap"><summary>Cevap</summary><div>Sınırsız modelde 6 gecikme katsayısı (β₀, …, β₅), Almon'da 3 polinom katsayısı (a₀, a₁, a₂) tahmin edilir; 3 serbestlik derecesi kazanılır.</div></details>
+    </div>
+    <div class="widget kd-soru">
     <p>3. Koyck modelinde λ = 0,75 ve β₀ = 2 ise uzun dönem çarpanı, ortalama gecikme ve medyan gecikme nedir?</p>
+    <div class="rs-sd-kutu kd-giris" data-kd="3"><label>Uzun dönem = <input data-c="0" inputmode="decimal"></label><label>Ortalama gecikme = <input data-c="1" inputmode="decimal"></label><label>Medyan gecikme = <input data-c="2" inputmode="decimal"></label><button class="kd-kontrol">Kontrol et</button><div class="kd-gb"></div></div>
     <details class="cevap"><summary>Cevap</summary><div>Uzun dönem 2 / 0,25 = 8; ortalama gecikme 0,75 / 0,25 = 3 dönem; medyan gecikme −log 2 / log 0,75 = 2,41 dönem.</div></details>
+    </div>
+    <div class="widget kd-soru">
     <p>4. Ĉ<sub>t</sub> = 10 + 0,2X<sub>t</sub> + 0,8C<sub>t−1</sub> tahmini uyumcu beklenti modeliyle yorumlanırsa γ ve uzun dönem marjinal tüketim eğilimi nedir? Kısmi iyileştirme modeliyle yorum ne olur?</p>
     <details class="cevap"><summary>Cevap</summary><div>γ = 1 − 0,8 = 0,2; uzun dönem MTE = 0,2 / 0,2 = 1. Kısmi iyileştirme yorumunda δ = 0,2: her dönem istenen ile gerçekleşen tüketim arasındaki açığın %20'si kapanır; uzun dönem MTE yine 1.</div></details>
+    </div>
+    <div class="widget kd-soru">
     <p>5. Kısmi iyileştirme modelinde δ = 0,5 ise 3 dönem sonra açığın ne kadarı hâlâ açıktır?</p>
+    <div class="rs-sd-kutu kd-giris" data-kd="5"><label>Açık kalan pay = % <input data-c="0" inputmode="decimal"></label><button class="kd-kontrol">Kontrol et</button><div class="kd-gb"></div></div>
     <details class="cevap"><summary>Cevap</summary><div>(1 − 0,5)³ = 0,125: açığın %12,5'i. 1/δ = 2 dönemde açık tamamen kapanmaz; 2 dönem sonra %25'i açıktır.</div></details>
+    </div>
+    <div class="widget kd-soru">
     <p>6. EKK, Koyck modelinde tutarsız, kısmi iyileştirme modelinde tutarlıdır. Neden?</p>
     <details class="cevap"><summary>Cevap</summary><div>Koyck'ta v<sub>t</sub> = u<sub>t</sub> − λu<sub>t−1</sub>; Y<sub>t−1</sub> de u<sub>t−1</sub>'i içerir, bu yüzden açıklayıcı ile hata ilişkilidir. Kısmi iyileştirmede hata δu<sub>t</sub>'dir; Y<sub>t−1</sub> yalnız geçmiş u'lara bağlıdır ve u<sub>t</sub> ile ilişkisizdir.</div></details>
+    </div>
+    <div class="widget kd-soru">
     <p>7. Bir otoregresiv modelde d = 1,9, n = 50 ve Var(a₂) = 0,01 bulunmuştur. h istatistiği nedir, karar ne olur?</p>
-    <details class="cevap"><summary>Cevap</summary><div>ρ̂ = 1 − 1,9/2 = 0,05; n·Var(a₂) = 0,5; h = 0,05·√(50 / 0,5) = 0,05·10 = 0,5. |h| &lt; 1,96: otokorelasyon olmadığı H₀ reddedilemez.</div></details>
+    <div class="rs-sd-kutu kd-giris" data-kd="7"><label>h = <input data-c="0" inputmode="decimal"></label><label>Karar <select data-c="1"><option value="">seçin</option><option value="red">H₀ reddedilir</option><option value="kabul">H₀ reddedilemez</option></select></label><button class="kd-kontrol">Kontrol et</button><div class="kd-gb"></div></div>
+    <details class="cevap"><summary>Cevap</summary><div>ρ̂ = 1 − 1,9/2 = 0,05; n·Var(a₂) = 50 × 0,01 = 0,5 (1'den küçük, h hesaplanabilir); 1 − n·Var(a₂) = 1 − 0,5 = 0,5; h = 0,05·√(50 / 0,5) = 0,05·√100 = 0,05·10 = 0,5. |h| &lt; 1,96: otokorelasyon olmadığı H₀ reddedilemez.</div></details>
+    </div>
+    <div class="widget kd-soru">
     <p>8. n·Var(a₂) = 1,2 çıkarsa ne yapılır?</p>
     <details class="cevap"><summary>Cevap</summary><div>Karekök içi negatif olur, h hesaplanamaz. Kalıntılar kendi gecikmesi ve modelin açıklayıcıları (Y<sub>t−1</sub> dahil) üzerine regres edilir; kalıntının gecikmesinin katsayısı t testiyle sınanır (Durbin'in alternatif testi, Breusch-Godfrey testinin özel hali).</div></details>
+    </div>
   </div>
 </section>
 
@@ -1205,6 +1256,9 @@ Chart.defaults.locale = 'tr-TR';
 const vt = (x, d = 4) => { const s = (+x.toFixed(d)).toString(); return (s.startsWith('-') ? '−' + s.slice(1) : s).replace('.', ','); };
 const ALT = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉'];
 const alt = n => String(n).split('').map(c => ALT[+c]).join('');
+// yüzde ve Türkçe ek: sayının okunuşuna göre (%30'unu, %32'sini, %70,5'i). 'ini' = iyelik + belirtme.
+const ekle = (s, tur) => tur === 'ini' ? (x => x + 'n' + x.slice(-1))(sayiEk(s, 'i')) : sayiEk(s, tur);
+const yzd = (x, d, tur) => { const s = f(x, d); return '%' + s + ekle(s, tur); };
 function nrmR(r) { let u = 0; while (u === 0) u = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * r()); }
 function korr(a, b) { const ma = ort(a), mb = ort(b); let s = 0, sa = 0, sb = 0; for (let i = 0; i < a.length; i++) { s += (a[i] - ma) * (b[i] - mb); sa += (a[i] - ma) ** 2; sb += (b[i] - mb) ** 2; } return s / Math.sqrt(sa * sb); }
 // Alet değişken tahmini: sabitli; X açıklayıcılar, Z aletler (aynı sayıda). b = (Z'W)⁻¹ Z'y
@@ -1315,7 +1369,7 @@ function almonGoster(k) {
     YIL.map((yl, t) => `<tr><td>${yl}</td><td>${YT[t]}</td><td>${XT[t]}</td>${A.Z.map(z => `<td>${t < k ? '-' : z[t - k]}</td>`).join('')}</tr>`).join('');
   $('a-cikti').textContent = cikti(`Y = f(Z0, Z1, Z2), r = 2, k = ${k}, ${YIL[k]}-1990`, ['Sabit', 'Z0', 'Z1', 'Z2'], A.alm);
   const [a0, a1, a2] = A.alm.b.slice(1);
-  $('a-b').innerHTML = `<div class="rs-yaz">${A.b.map((v, i) => `β${alt(i)} = a₀${i ? ` + ${i}a₁ + ${i * i}a₂` : ''} = <b>${f(v, 4)}</b>`).join('<br>')}<br>Uzun dönem çarpanı Σβ = <b>${f(A.b.reduce((s, v) => s + v, 0), 3)}</b></div>`;
+  $('a-b').innerHTML = `<div class="rs-yaz">${A.b.map((v, i) => `β${alt(i)} = a₀${i ? ` + ${i > 1 ? i : ''}a₁ + ${i > 1 ? i * i : ''}a₂` : ''} = <b>${f(v, 4)}</b>`).join('<br>')}<br>Uzun dönem çarpanı Σβ = <b>${f(A.b.reduce((s, v) => s + v, 0), 3)}</b></div>`;
   ciz('c-almon', { type: 'bar', data: { labels: A.b.map((_, i) => 'β' + alt(i)), datasets: [
     { label: 'Almon (r = 2)', data: A.b, backgroundColor: C.green + 'CC' }, { label: 'Sınırsız EKK', data: A.bs, backgroundColor: C.red + '99' }] },
     options: { maintainAspectRatio: false, scales: { y: { title: { display: true, text: 'β̂ᵢ' } } } } });
@@ -1350,7 +1404,9 @@ function koyck() {
       y2: { position: 'right', min: 0, max: 100, grid: { drawOnChartArea: false }, title: { display: true, text: '%' } } } },
     plugins: [{ id: 'medyan', afterDraw: c => { const X = c.scales.x, Yy = c.scales.y2, g = c.ctx, px = X.getPixelForValue(0) + (X.getPixelForValue(1) - X.getPixelForValue(0)) * (med - 0.5);
       const py = Yy.getPixelForValue(50); g.save(); g.strokeStyle = C.red; g.setLineDash([5, 4]); g.lineWidth = 2; g.beginPath(); g.moveTo(X.left, py); g.lineTo(X.right, py); g.stroke();
-      g.fillStyle = C.red; g.font = 'bold 13px sans-serif'; g.fillText('%50: medyan gecikme ' + f(med, 2), X.left + 6, py - 6); g.restore(); } }] });
+      const yaz = '%50: medyan gecikme ' + f(med, 2), fs = Math.round(Chart.defaults.font.size * 1.1); g.font = `bold ${fs}px sans-serif`; g.setLineDash([]);
+      const w = g.measureText(yaz).width, tx = X.right - w - 10, ty = py - fs * 0.6; g.fillStyle = 'rgba(255,255,255,.92)'; g.fillRect(tx - 5, ty - fs, w + 10, fs * 1.35);
+      g.fillStyle = C.red; g.fillText(yaz, tx, ty); g.restore(); } }] });
   $('k-ud').textContent = f(ud); $('k-og').textContent = f(l / (1 - l)); $('k-mg').textContent = f(med); $('k-ilk').textContent = '%' + f(100 * (1 - l), 1);
 }
 $('k-l').oninput = koyck; $('k-b').oninput = koyck; koyck();
@@ -1377,9 +1433,9 @@ function koyckUyg(u) {
         <div class="eq">λ = 0,2954 &nbsp;⇒&nbsp; uyum hızı 1 − λ = ${f(1 - l, 4)}</div>
         <div class="eq">Ortalama gecikme = λ / (1 − λ) = 0,2954 / ${f(1 - l, 4)} = <b>${f(og, 4)} yıl</b> ≈ ${f(og * 12, 1)} ay</div>
         <div class="eq">Medyan gecikme = −log 2 / log 0,2954 = ${f(md, 2)} yıl ≈ ${f(md * 12, 1)} ay &nbsp;&nbsp; Uzun dönem etki = 0,71 / ${f(1 - l, 4)} = ${f(b0 / (1 - l), 3)}</div>
-        <p>Gelirdeki değişmenin tüketime etkisinin <b>%${f(100 * (1 - l), 1)}</b>'i (1 − λ) aynı yıl içinde ortaya çıkar; ortalama gecikme yaklaşık 5 aydır.</p>
+        <p>Gelirdeki değişmenin tüketime etkisinin <b>${yzd(100 * (1 - l), 1, 'i')}</b> (1 − λ) aynı yıl içinde ortaya çıkar; ortalama gecikme yaklaşık 5 aydır.</p>
         <div class="warn-box">"Değişmenin %30'u 5 ay içinde gerçekleşir" yorumu yanlıştır: 0,2954 aynı dönemde kalan değil, bir sonraki döneme taşınan paydır; 5 ay ise ortalama gecikmedir.</div>
-        <p class="note">d = 1,014 burada otokorelasyon için kullanılamaz: modelde PPCE<sub>t−1</sub> var (Bölüm 15).</p></div></details>`;
+        <p class="note">d = 1,014 burada otokorelasyon için kullanılamaz: modelde PPCE<sub>t−1</sub> var (<a href="#s15">15. başlık</a>).</p></div></details>`;
   }
   sunumdaSigdir($('ku-icerik'));
 }
@@ -1397,7 +1453,7 @@ function cagan() {
     { label: 'Beklenen X* (γ = ' + f(g, 2) + ')', data: XS, borderColor: C.orange, borderWidth: 3, pointRadius: 2 }] },
     options: { maintainAspectRatio: false, scales: { x: { title: { display: true, text: 'dönem' } }, y: { title: { display: true, text: 'X, X*' } } } } });
   const yar = g >= 1 ? 0 : Math.log(0.5) / Math.log(1 - g);
-  $('g-not').innerHTML = gSen === 'kalici' ? `X kalıcı olarak 10'dan 20'ye çıkınca beklenti her dönem kalan hatanın %${f(100 * g, 0)}'ini kapatır; hatanın yarısı ${g >= 1 ? 'hemen' : f(yar, 1) + ' dönemde'} kapanır. γ = 1'de beklenti hemen gerçekleşen değere eşitlenir.`
+  $('g-not').innerHTML = gSen === 'kalici' ? `X kalıcı olarak 10'dan 20'ye çıkınca beklenti her dönem kalan hatanın ${yzd(100 * g, 0, 'ini')} kapatır; hatanın yarısı ${g >= 1 ? 'hemen' : f(yar, 1) + ' dönemde'} kapanır. γ = 1'de beklenti hemen gerçekleşen değere eşitlenir.`
     : gSen === 'gecici' ? `Bir dönemlik sıçrama beklentiyi yalnız γ·10 = ${f(10 * g, 1)} birim yükseltir ve etkisi geometrik olarak söner: geçici değişmeler beklentiye az yansır (Friedman'ın sürekli gelir fikri).`
     : `Dalgalı seride X* gerçekleşen değerin düzleştirilmiş halidir: γ küçüldükçe beklenti geçmişe daha çok ağırlık verir, dalgalanmayı daha az izler.`;
 }
@@ -1415,7 +1471,7 @@ function nerlove() {
     options: { maintainAspectRatio: false, scales: { y: { min: 55, max: 102, title: { display: true, text: 'stok' } }, x: { title: { display: true, text: 'dönem' } } } },
     plugins: [{ id: 'kdon', afterDraw: c => { if (k >= T) return; const X = c.scales.x, Yy = c.scales.y, g = c.ctx, px = X.getPixelForValue(k);
       g.save(); g.strokeStyle = C.red; g.setLineDash([4, 4]); g.lineWidth = 2; g.beginPath(); g.moveTo(px, Yy.top); g.lineTo(px, Yy.bottom); g.stroke();
-      g.fillStyle = C.red; g.font = 'bold 13px sans-serif'; g.textAlign = px > X.right - 160 ? 'right' : 'left'; g.fillText(` 1/δ = ${k}: açığın %${f(100 * kal, 0)}'i açık `, px, Yy.bottom - 10); g.restore(); } }] });
+      g.fillStyle = C.red; g.font = `bold ${Math.round(Chart.defaults.font.size * 1.1)}px sans-serif`; g.textAlign = px > X.right - 160 ? 'right' : 'left'; g.fillText(` 1/δ = ${k}: açığın ${yzd(100 * kal, 0, 'i')} açık `, px, Yy.bottom - 10); g.restore(); } }] });
   $('n-ilk').textContent = '%' + f(100 * d, 0); $('n-kal-l').textContent = `1/δ = ${k} dönem sonra kalan açık`; $('n-kal').textContent = '%' + f(100 * kal, 1);
   $('n-og').textContent = f((1 - d) / d, 2) + ' dönem'; $('n-yar').textContent = d >= 1 ? 'hemen' : f(Math.log(0.5) / Math.log(1 - d), 2) + ' dönem';
 }
@@ -1429,8 +1485,8 @@ function ikiYorum(u) {
       <div id="u-sonuc"></div>`;
     const hesap = () => { const a1 = +$('u-a1').value, a2 = +$('u-a2').value, a3 = +$('u-a3').value, g = 1 - a3;
       $('u-sonuc').innerHTML = g <= 0 || g > 1 ? `<div class="warn-box">C<sub>t−1</sub>'in katsayısı 0 ile 1 arasında olmalı.</div>` : `<div class="eq c">1 − γ = 1 − δ = ${f(a3, 4)} &nbsp;⇒&nbsp; γ = δ = <b>${f(g, 4)}</b> &nbsp;&nbsp; b₂ = ${f(a2, 4)} / ${f(g, 4)} = <b>${f(a2 / g, 2)}</b> &nbsp;&nbsp; b₁ = ${f(a1, 3)} / ${f(g, 4)} = ${f(a1 / g, 2)}</div>
-        <div class="grid2"><div class="card"><h4>Uyumcu beklenti yorumu</h4>Uzun dönem modeli Ĉ<sub>t</sub> = ${f(a1 / g, 2)} + ${f(a2 / g, 2)}X<sub>t</sub>*. Cari gelirdeki bir birimlik artış tüketimi aynı dönemde ${f(a2, 2)} birim artırır; artış kalıcı olup beklentiler tam uyum sağlayınca ${f(a2 / g, 2)} birim. Her çeyrekte beklenti hatasının %${f(100 * g, 0)}'i düzeltilir.</div>
-        <div class="card"><h4>Kısmi iyileştirme yorumu</h4>Kısa dönem marjinal tüketim eğilimi ${f(a2, 2)}, uzun dönem ${f(a2 / g, 2)}. Tüketiciler her çeyrekte istenen tüketim ile gerçekleşen tüketim arasındaki <b>açığın</b> %${f(100 * g, 0)}'ini kapatır.</div></div>`; sunumdaSigdir($('u-sonuc')); };
+        <div class="grid2"><div class="card"><h4>Uyumcu beklenti yorumu</h4>Uzun dönem modeli Ĉ<sub>t</sub> = ${f(a1 / g, 2)} + ${f(a2 / g, 2)}X<sub>t</sub>*. Cari gelirdeki bir birimlik artış tüketimi aynı dönemde ${f(a2, 2)} birim artırır; artış kalıcı olup beklentiler tam uyum sağlayınca ${f(a2 / g, 2)} birim. Her çeyrekte beklenti hatasının ${yzd(100 * g, 0, 'i')} düzeltilir.</div>
+        <div class="card"><h4>Kısmi iyileştirme yorumu</h4>Kısa dönem marjinal tüketim eğilimi ${f(a2, 2)}, uzun dönem ${f(a2 / g, 2)}. Tüketiciler her çeyrekte istenen tüketim ile gerçekleşen tüketim arasındaki <b>açığın</b> ${yzd(100 * g, 0, 'ini')} kapatır.</div></div>`; sunumdaSigdir($('u-sonuc')); };
     ['u-a1', 'u-a2', 'u-a3'].forEach(id => $(id).oninput = hesap); hesap();
   } else {
     const d = 1 - 0.478323, b = [4.337799, 0.141664, -0.197040].map(v => v / d);
@@ -1442,7 +1498,7 @@ function ikiYorum(u) {
       <details class="cevap"><summary>Uzun dönem modeli ve yorum</summary><div>
         <div class="eq c">δ = 1 − 0,478323 = ${f(d, 4)} &nbsp;&nbsp; β₀ = ${f(b[0], 3)}, β₁ = ${f(b[1], 4)}, β₂ = ${f(b[2], 4)}</div>
         <div class="eq c"><b>ln Q̂<sub>t</sub>* = ${f(b[0], 3)} + ${f(b[1], 4)} ln(X/G)<sub>t</sub> − ${f(-b[2], 4)} ln(P/G)<sub>t</sub></b></div>
-        <p>Model log-log olduğundan katsayılar <b>esnekliktir</b>. Reel toplam harcamadaki %1'lik artış gıda harcamasını kısa dönemde %${f(0.141664, 2)}, uzun dönemde %${f(b[1], 2)} artırır. Göreli gıda fiyatındaki %1'lik artış kısa dönemde %${f(0.19704, 2)}, uzun dönemde %${f(-b[2], 2)} azaltır. Her yıl istenen ile gerçekleşen gıda harcaması arasındaki açığın %${f(100 * d, 0)}'si kapanır.</p></div></details>`;
+        <p>Model log-log olduğundan katsayılar <b>esnekliktir</b>. Reel toplam harcamadaki %1'lik artış gıda harcamasını kısa dönemde %${f(0.141664, 2)}, uzun dönemde %${f(b[1], 2)} artırır. Göreli gıda fiyatındaki %1'lik artış kısa dönemde %${f(0.19704, 2)}, uzun dönemde %${f(-b[2], 2)} azaltır. Her yıl istenen ile gerçekleşen gıda harcaması arasındaki açığın ${yzd(100 * d, 0, 'i')} kapanır.</p></div></details>`;
   }
 }
 grupla([...document.querySelectorAll('.u-b')], b => { ikiYorum(b.dataset.u); sunumdaSigdir($('u-icerik')); }); ikiYorum('abd');
@@ -1535,6 +1591,7 @@ function hIcerik() {
       : v === 13 ? 'n = 13: bu kadar gözlem kaybetmeyiz; yalnız bir gecikme var, yalnız 1976 düşer.' : `n = ${v} değil: 1977'den 1990'a kadar yılları sayın.` }],
     () => 'Doğru. 1976 düşer (Y<sub>t−1</sub> yok), 1977-1990: n = 14 → panoya.', hSdAcik.ders, () => { hSdAcik.ders = true; hPano(); });
   $('h-grafik').style.display = hA === 2 || hA === 6 ? '' : 'none';
+  $('h-icerik').closest('.h-kutu').classList.toggle('yan', hA === 2 || hA === 6);  // odakta grafik metnin yanında (CSS)
   if (hA === 2) { const S = hSim(), H = hist([S.st, S.ar], 0.3, 2.5, 44), cfg = histCfg(H.lab.map(v => (+v).toFixed(1).replace('.', ',')), [{ l: 'Statik model: d', d: H.h[0], c: C.green }, { l: 'Yₜ₋₁ içeren model: d', d: H.h[1], c: C.red }], 'd (gerçek ρ = 0,5)');
     cfg.plugins = [histCizgi(0.3, 2.5, 44, [[2, C.navy, 'd = 2: otokorelasyon yok', true]])]; ciz('c-h', cfg); }
   if (hA === 6) kararGrafigi('c-h', x => Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI), 1.959964, h, { iki: true, xmin: -4, xmax: 4, adim: 1, xBaslik: 'h', kritikEtiket: 'kritik 1,96', kritikSolEtiket: 'kritik −1,96', hesapEtiket: 'h = ' + f(h, 2), hesapAlt: true, yogEtiket: 'Standart normal (H₀ doğruysa)' });
@@ -1562,8 +1619,8 @@ hIcerik();
   $('l-cozum').innerHTML = `<div class="eq c">a₀ = ${f(a[0], 4)} &nbsp; a₁ = ${f(a[1], 4)} &nbsp; a₂ = ${f(a[2], 4)}</div><div class="eq c"><b>Liviatan: Ŷ<sub>t</sub> = ${f(a[0], 4)} + ${f(a[1], 4)}X<sub>t</sub> + ${f(a[2], 4)}Y<sub>t−1</sub></b></div>`;
   const o = DERS_C.r; $('l-ekk').textContent = cikti('EKK: Y = f(X, Y(-1)), 1977-1990', ['Sabit', 'X', 'Y(-1)'], o);
   const udE = o.b[1] / (1 - o.b[2]), udL = a[1] / (1 - a[2]);
-  $('l-kars').innerHTML = `<div class="rs-yaz">Uzun dönem etki a₁ / (1 − a₂): EKK ${f(o.b[1], 4)} / (1 − ${f(o.b[2], 4)}) = <b>${f(udE, 3)}</b>; Liviatan <b>${f(udL, 3)}</b>. Almon örneğinde (Bölüm 5) aynı veriyle uzun dönem çarpanı 0,597 bulunmuştu.
-    Durbin h = ${f(hH(HV.ders), 2)} (Bölüm 15): otokorelasyon kanıtı yok; bu durumda EKK de tutarlıdır ve iki yöntem yakın sonuç verir.</div>
+  $('l-kars').innerHTML = `<div class="rs-yaz">Uzun dönem etki a₁ / (1 − a₂): EKK ${f(o.b[1], 4)} / (1 − ${f(o.b[2], 4)}) = <b>${f(udE, 3)}</b>; Liviatan <b>${f(udL, 3)}</b>. Almon örneğinde (<a href="#s5">5. başlık</a>) aynı veriyle uzun dönem çarpanı 0,597 bulunmuştu.
+    Durbin h = ${f(hH(HV.ders), 2)} (<a href="#s15">15. başlık</a>): otokorelasyon kanıtı yok; bu durumda EKK de tutarlıdır ve iki yöntem yakın sonuç verir.</div>
     <div class="warn-box"><b>Dikkat:</b> Bütün toplamlar aynı 14 gözlemden alınmalıdır. 1976 satırını bazı toplamlara katıp bazılarına katmamak sistemi bozar ve anlamsız (ör. birden büyük a₂) sonuç verir.</div>`;
 })();
 
@@ -1576,7 +1633,7 @@ function odakListe() {
   const out = [];
   document.querySelectorAll('[data-odak] .section-body').forEach(b => [...b.children].forEach(c => {
     // yan yana kartlar odakta tek tek açılır (birlikte açılınca yeterince büyümüyordu, hoca 2026-11-03)
-    if (c.matches('.grid2, .grid3, .grid4')) { out.push(...[...c.children].filter(k => k.matches('.card, .info-box, .warn-box'))); return; }
+    if (c.matches('.grid2, .grid3, .grid4, .s14-kartlar')) { out.push(...[...c.children].filter(k => k.matches('.card, .info-box, .warn-box'))); return; }
     if (c.matches(ODAK_SEC) && !c.classList.contains('odak-surum') && !c.classList.contains('note')) out.push(c);
   }));
   return out;
@@ -1622,6 +1679,7 @@ function adimGez(d) {
 }
 function odakGit(d) { if (!ODAK.el) return; if (adimGez(d)) return; if (d > 0 && ekAc()) return; const j = ODAK.i + d; if (ODAK.i < 0 || j < 0 || j >= ODAK.liste.length) return; odakAc(ODAK.liste[j]); }
 document.addEventListener('click', e => {
+  if (ODAK.el && e.target.closest('a[href^="#"]')) { odakKapat(false); return; }
   if (e.target.closest('button, a, input, select, textarea, label, summary, canvas, svg')) return;
   if (ODAK.el) {
     if (e.target === $('odak').querySelector('.odak-ic') || e.target.closest('.odak-bas, .odak-alt')) { odakKapat(); return; }
@@ -1677,6 +1735,41 @@ document.querySelectorAll('#main .section').forEach(sec => {
   hdr.insertAdjacentHTML('beforeend', `<a class="gb" href="${gbBaglanti(ad)}" title="Bu not hakkındaki görüşlerinizi yazabilirsiniz">✉ Görüşünüzü yazın</a>`);
 });
 document.querySelector('footer').insertAdjacentHTML('afterend', `<div class="gb-alt">Bu not hakkındaki görüşlerinizi yazabilirsiniz: <a href="${gbBaglanti('genel')}">${GB_ADRES}</a> (her bölüm başlığındaki ✉ düğmesi bölümün adını hazır getirir)</div>`);
+
+// ---------- 5: metin tabloları: telefonda satırlar kart gibi alt alta, her hücrenin önünde sütun adı (CSS data-th) ----------
+document.querySelectorAll('table.metin-tablo').forEach(t => { const th = [...t.rows[0].cells].map(c => c.textContent.trim());
+  [...t.rows].slice(1).forEach(r => [...r.cells].forEach((c, j) => { if (j && th[j]) c.dataset.th = th[j]; })); });
+
+// ---------- KENDİNİ DENE: sayısal cevap kontrolü, üç renk (doğru yeşil, yanlış kırmızı, kurala uyan ama istenen biçimde olmayan sarı) ----------
+const sayiOku = v => { const t = String(v).trim().replace('%', '').replace('−', '-').replace(',', '.'); return t === '' || isNaN(+t) ? null : +t; };
+const yakin = (v, d, e = 0.006) => Math.abs(v - d) <= e;
+const KD = {
+  1: [{ ad: 'Kısa dönem çarpanı', d: 0.4, h: v => yakin(v, 5) ? 'Sabit terim çarpan değildir; kısa dönem çarpanı X<sub>t</sub>\'nin katsayısı β₀.' : yakin(v, 0.9) ? '0,9 uzun dönem çarpanı; kısa dönem yalnız β₀.' : '' },
+      { ad: 'Ara çarpan', d: 0.7, h: v => yakin(v, 0.3) ? '0,3 yalnız β₁; ara çarpan birikimlidir: β₀ + β₁.' : yakin(v, 0.9) ? '0,9 uzun dönem çarpanı; ikinci dönemin ara çarpanı β₀ + β₁.' : '' },
+      { ad: 'Uzun dönem çarpanı', d: 0.9, h: v => yakin(v, 5.9) ? 'Sabit terim toplama girmez; yalnız gecikme katsayıları toplanır.' : yakin(v, 0.2) ? '0,2 son gecikme katsayısı; uzun dönem çarpanı hepsinin toplamı.' : '' }],
+  3: [{ ad: 'Uzun dönem çarpanı', d: 8, h: v => yakin(v, 2 / 0.75, 0.01) ? 'Payda λ değil 1 − λ: β₀ / (1 − λ) = 2 / 0,25.' : yakin(v, 0.5) ? 'Ters bölünmüş: β₀ / (1 − λ).' : '' },
+      { ad: 'Ortalama gecikme', d: 3, h: v => yakin(v, 1 / 3, 0.01) ? 'Ters çevrilmiş: λ / (1 − λ) = 0,75 / 0,25.' : yakin(v, 4) ? '1 / (1 − λ) değil λ / (1 − λ).' : yakin(v, 2.41, 0.01) ? 'Bu medyan gecikme; ortalama gecikme λ / (1 − λ).' : '' },
+      { ad: 'Medyan gecikme', d: 2.409, s: v => yakin(v, 2.409, 0.03) ? 'olur; iki ondalıkla 2,41.' : '', h: v => yakin(v, 3) ? '3 ortalama gecikme; medyan −log 2 / log λ.' : yakin(v, 0.5) ? 'Medyan bir oran değil, süredir: −log 2 / log 0,75.' : '' }],
+  5: [{ ad: 'Açık kalan pay', d: 12.5, s: v => yakin(v, 0.125) ? 'olur, oran olarak 0,125; soru yüzde istiyor: %12,5.' : '', h: v => yakin(v, 87.5) ? '%87,5 kapanan kısım; soru hâlâ açık kalanı soruyor.' : yakin(v, 25) ? '%25, 2 dönem sonra kalan açık: (1 − δ)².' : yakin(v, 50) ? '%50, 1 dönem sonra kalan açık.' : yakin(v, 0) ? 'Açık geometrik kapanır, hiçbir sonlu dönemde tamamen kapanmaz.' : '' }],
+  7: [{ ad: 'h', d: 0.5, h: v => yakin(v, 0.05 * Math.sqrt(50), 0.01) ? 'Kök içinde n / (1 − n·Var(a₂)) var; payda unutulmuş.' : yakin(v, 0.05) ? '0,05 ρ̂; kökle çarpmak gerekir.' : yakin(v, 0.95 * 10, 0.05) || yakin(v, 0.95) ? 'ρ̂ = 1 − d/2 = 0,05; d/2 değil.' : '' },
+      { ad: 'Karar', d: 'kabul', h: v => v === 'red' ? '|h| = 0,5 < 1,96: H₀ reddedilemez.' : '' }],
+};
+document.querySelectorAll('.kd-giris').forEach(k => {
+  const L = KD[k.dataset.kd], gb = k.querySelector('.kd-gb');
+  const kontrol = () => {
+    const satir = L.map((x, i) => {
+      const el = k.querySelector(`[data-c="${i}"]`), ham = el.value, v = typeof x.d === 'string' ? (ham || null) : sayiOku(ham);
+      if (v === null) return ['sari', `${x.ad}: boş.`];
+      if (typeof x.d === 'string') return v === x.d ? ['kabul', `${x.ad}: doğru.`] : ['red', `${x.ad}: ${x.h(v) || 'yanlış.'}`];
+      if (yakin(v, x.d)) return ['kabul', `${x.ad}: doğru.`];
+      const sr = x.s && x.s(v); if (sr) return ['sari', `${x.ad}: ${sr}`];
+      return ['red', `${x.ad}: ${x.h(v) || `${vt(v, 4)} değil.`}`];
+    });
+    gb.innerHTML = satir.map(([r, m]) => `<div class="karar ${r}">${m}</div>`).join('');
+  };
+  k.querySelector('.kd-kontrol').onclick = kontrol;
+  k.querySelectorAll('input').forEach(i => i.addEventListener('keydown', e => { if (e.key === 'Enter') kontrol(); }));
+});
 
 // ---------- sunum modu ----------
 // Her bölüm, ekran yüksekliğine göre ölçülüp birkaç slayda bölünür.
