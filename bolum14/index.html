@@ -520,6 +520,11 @@
   #odak .widget .card, #odak .widget .warn-box, #odak .widget p, #odak .widget table.ornek { font-size: 1.1em; } #odak .widget h4 { font-size: 1.2em; }
   #odak .widget .tscroll { max-height: 70vh; } #odak .widget .rs-gez { display: none; }
   #odak .odak-ic > table { width: min(96vw, 62em); background: #fff; font-size: .7em; } #odak .odak-ic > .eq { font-size: 1.1em; }
+  /* odakta tek kart: yazı ve formül büyük (sayfadaki .formula 15 px, .eq 16 px sabitti) */
+  #odak .odak-ic > .card, #odak .odak-ic > .info-box, #odak .odak-ic > .warn-box { font-size: 1.15em; line-height: 1.5; }
+  #odak .odak-ic > .card .formula, #odak .odak-ic > .formula { font-size: 1.5em; padding: .3em .6em; }
+  #odak .odak-ic > .card .eq { font-size: 1.05em; white-space: normal; padding: .3em .6em; }
+  #odak .odak-ic > .card .eq .lbl { font-size: .6em; }
 </style>
 </head>
 <body>
@@ -1560,7 +1565,8 @@ const ODAK_SEC = '.card, .info-box, .warn-box, .formula, .widget, .section-body 
 function odakListe() {
   const out = [];
   document.querySelectorAll('[data-odak] .section-body').forEach(b => [...b.children].forEach(c => {
-    if (c.matches('.grid3, .grid4')) { out.push(c); return; }
+    // yan yana kartlar odakta tek tek açılır (birlikte açılınca yeterince büyümüyordu, hoca 2026-11-03)
+    if (c.matches('.grid2, .grid3, .grid4')) { out.push(...[...c.children].filter(k => k.matches('.card, .info-box, .warn-box'))); return; }
     if (c.matches(ODAK_SEC) && !c.classList.contains('odak-surum') && !c.classList.contains('note')) out.push(c);
   }));
   return out;
@@ -1614,7 +1620,6 @@ document.addEventListener('click', e => {
   if (e.target.closest('.section-header')) { const L = odakListe().filter(x => sec.contains(x)); if (L.length) odakAc(L[0]); return; }
   let el = e.target.closest(ODAK_SEC); if (!el || !sec.contains(el)) return;
   const w = el.closest('.widget'); if (w && w !== el) el = w;
-  const g = el.closest('.grid3, .grid4'); if (g && g !== el && !el.classList.contains('kd-soru')) el = g;
   odakAc(el);
 });
 document.addEventListener('keydown', e => {
